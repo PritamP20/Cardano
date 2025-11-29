@@ -20,7 +20,7 @@ function ForgotPassword() {
 
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email) {
       setError("Please enter a valid email address");
       return;
@@ -32,7 +32,7 @@ function ForgotPassword() {
     }
 
     setIsLoading(true);
-    
+
     apiInstance
       .get(`user/password-reset/${email}/`)
       .then(() => {
@@ -68,16 +68,13 @@ function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
-        className="w-full max-w-md bg-white/90 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden border border-white/20"
+        className="w-full max-w-md bg-card backdrop-blur-sm rounded-xl shadow-lg overflow-hidden border border-border"
       >
-        {/* Gradient Header */}
-        <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-        
         <div className="p-8">
           {/* Icon and Title */}
           <motion.div
@@ -86,13 +83,13 @@ function ForgotPassword() {
             transition={{ delay: 0.1 }}
             className="text-center mb-8"
           >
-            <div className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-buttonsCustom-50 mb-4">
-              <KeyRound className="h-10 w-10 text-buttonsCustom-600" />
+            <div className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-secondary/10 mb-4">
+              <KeyRound className="h-10 w-10 text-secondary" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl font-bold text-foreground mb-2">
               Forgot Password?
             </h2>
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               No worries! Enter your email to reset your password.
             </p>
           </motion.div>
@@ -104,7 +101,7 @@ function ForgotPassword() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="bg-red-50 text-red-700 p-3 rounded-lg text-sm mb-4"
+                className="bg-destructive/10 text-destructive p-3 rounded-lg text-sm mb-4"
               >
                 {error}
               </motion.div>
@@ -118,7 +115,7 @@ function ForgotPassword() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">
+              <label className="block text-sm font-medium text-foreground mb-2" htmlFor="email">
                 Email Address
               </label>
               <div className="relative">
@@ -127,10 +124,10 @@ function ForgotPassword() {
                   type="email"
                   value={email}
                   onChange={handleEmailChange}
-                  className="block w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-buttonsCustom-100 focus:border-buttonsCustom-300 transition-all"
+                  className="block w-full pl-10 pr-4 py-3 border border-input rounded-lg bg-background text-foreground focus:ring-2 focus:ring-secondary focus:border-transparent transition-all placeholder-muted-foreground"
                   placeholder="Enter your email"
                 />
-                <Mail className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                <Mail className="absolute left-3 top-3.5 h-5 w-5 text-muted-foreground" />
               </div>
             </motion.div>
 
@@ -142,15 +139,15 @@ function ForgotPassword() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full flex items-center justify-center py-3 px-4 rounded-lg shadow-sm text-white font-medium
+                className={`w-full flex items-center justify-center py-3 px-4 rounded-lg shadow-sm font-medium
                   ${isLoading
-                    ? "bg-buttonsCustom-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-buttonsCustom-700 to-buttonsCustom-800 hover:from-buttonsCustom-800 hover:to-buttonsCustom-900"
+                    ? "bg-muted text-muted-foreground cursor-not-allowed"
+                    : "bg-secondary text-secondary-foreground hover:bg-secondary/90"
                   } transition-all`}
               >
                 {isLoading ? (
                   <>
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
@@ -168,12 +165,12 @@ function ForgotPassword() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="mt-6 text-center text-sm text-gray-600"
+            className="mt-6 text-center text-sm text-muted-foreground"
           >
             Remember your password?{" "}
             <button
               onClick={() => router.push("/login")}
-              className="font-medium text-buttonsCustom-600 hover:text-buttonsCustom-700 hover:underline focus:outline-none"
+              className="font-medium text-secondary hover:text-secondary/80 hover:underline focus:outline-none"
             >
               Sign in here
             </button>

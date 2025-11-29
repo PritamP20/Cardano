@@ -1,5 +1,5 @@
-// export const API_BASE_URL: string = `https://web3lms-rnma.onrender.com/api/v1/`;
-export const API_BASE_URL: string = `http://127.0.0.1:8000/api/v1/`;
+export const API_BASE_URL: string = `https://web3lms-rnma.onrender.com/api/v1/`;
+// export const API_BASE_URL: string = `http://127.0.0.1:8000/api/v1/`;
 export const MINT_API_BASE_URL: string = `https://vinitmint.vercel.app/`;
 export const PAYPAL_CLIENT_ID: string = "test";
 

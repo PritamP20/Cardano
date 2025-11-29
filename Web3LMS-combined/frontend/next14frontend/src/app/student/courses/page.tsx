@@ -109,7 +109,7 @@ export default function Courses() {
             if (res.data.asset_id) {
               return [course.enrollment_id, 'minted'] as const;
             }
-          } catch {}
+          } catch { }
           return [course.enrollment_id, 'not_minted'] as const;
         })
       );
@@ -154,7 +154,7 @@ export default function Courses() {
     try {
       const courseDetailsResponse = await apiInstance.get(
         `student/course-detail/${UserData()?.user_id}/${course.enrollment_id}/`
-      ); 
+      );
 
       const mintRequestData = {
 
@@ -166,7 +166,7 @@ export default function Courses() {
         prefix: courseDetailsResponse.data.course.slug
       };
 
-      
+
       const mintResponse = await axios.post(`${MINT_API_BASE_URL}api/mint`, JSON.stringify(mintRequestData), {
         headers: {
           'Content-Type': 'application/json',
@@ -218,7 +218,7 @@ export default function Courses() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
         <StudentHeader />
 
@@ -228,47 +228,47 @@ export default function Courses() {
           </div>
 
           <div className="lg:col-span-3 space-y-5 sm:space-y-7">
-            <motion.div 
+            <motion.div
               initial="hidden"
               animate="visible"
               variants={fadeInUp}
               transition={{ duration: 0.3 }}
               className="flex items-center gap-2 mb-2"
             >
-              <div className="h-10 w-10 rounded-full bg-buttonsCustom-100 flex items-center justify-center">
-                <BookOpen className="h-5 w-5 text-buttonsCustom-600" />
+              <div className="h-10 w-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                <BookOpen className="h-5 w-5 text-secondary" />
               </div>
               <div>
-                <h4 className="text-xl font-bold text-gray-900">Courses</h4>
-                <p className="text-sm text-gray-500">Track your enrolled courses</p>
+                <h4 className="text-xl font-bold text-foreground">Courses</h4>
+                <p className="text-sm text-muted-foreground">Track your enrolled courses</p>
               </div>
             </motion.div>
 
             <motion.div
               initial="hidden"
-              animate="visible" 
+              animate="visible"
               variants={fadeInUp}
               transition={{ duration: 0.3, delay: 0.1 }}
             >
-              <Card className="border-buttonsCustom-200 overflow-hidden bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl">
+              <Card className="border-border overflow-hidden bg-card backdrop-blur-sm border shadow-xl">
                 {/* Gradient Header */}
-                <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-                <CardHeader className="p-5 sm:p-6 bg-gradient-to-r from-buttonsCustom-50/50 to-transparent border-b border-buttonsCustom-100">
+                <div className="h-2 bg-secondary" />
+                <CardHeader className="p-5 sm:p-6 bg-muted/30 border-b border-border">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                      <CardTitle className="text-lg sm:text-xl text-buttonsCustom-900">My Courses</CardTitle>
-                      <CardDescription className="text-buttonsCustom-500 mt-1">
+                      <CardTitle className="text-lg sm:text-xl text-foreground">My Courses</CardTitle>
+                      <CardDescription className="text-muted-foreground mt-1">
                         Start watching courses now from your dashboard page
                       </CardDescription>
                     </div>
                     <div className="relative w-full sm:w-64">
-                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-buttonsCustom-400" />
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
                         type="search"
                         placeholder="Search Your Courses"
                         value={searchQuery}
                         onChange={handleSearch}
-                        className="pl-10 border-buttonsCustom-200 focus:border-buttonsCustom-500"
+                        className="pl-10 border-input bg-background text-foreground focus-visible:ring-secondary"
                       />
                     </div>
                   </div>
@@ -276,44 +276,44 @@ export default function Courses() {
                 <CardContent className="p-0">
                   {isLoading ? (
                     <div className="flex items-center justify-center py-8">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-buttonsCustom-600" />
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
                     </div>
                   ) : (
                     <div className="overflow-x-auto">
                       <Table>
-                        <TableHeader className="bg-gray-50">
-                          <TableRow>
-                            <TableHead className="px-6 py-3 text-left">Course Details</TableHead>
-                            <TableHead className="px-6 py-3 text-left">Enrollment Date</TableHead>
-                            <TableHead className="px-6 py-3 text-left">Progress</TableHead>
-                            <TableHead className="px-6 py-3 text-left">Status</TableHead>
-                            <TableHead className="px-6 py-3 text-left">Action</TableHead>
+                        <TableHeader className="bg-muted/50">
+                          <TableRow className="border-border hover:bg-transparent">
+                            <TableHead className="px-6 py-3 text-left text-muted-foreground">Course Details</TableHead>
+                            <TableHead className="px-6 py-3 text-left text-muted-foreground">Enrollment Date</TableHead>
+                            <TableHead className="px-6 py-3 text-left text-muted-foreground">Progress</TableHead>
+                            <TableHead className="px-6 py-3 text-left text-muted-foreground">Status</TableHead>
+                            <TableHead className="px-6 py-3 text-left text-muted-foreground">Action</TableHead>
                           </TableRow>
                         </TableHeader>
-                        <TableBody className="divide-y divide-gray-200">
+                        <TableBody className="divide-y divide-border">
                           {filteredCourses.length === 0 ? (
                             <TableRow>
                               <TableCell
                                 colSpan={5}
-                                className="text-center py-12 bg-white/80 backdrop-blur-sm rounded-lg border border-white/20 shadow-md"
+                                className="text-center py-12 bg-card backdrop-blur-sm"
                               >
-                                <BookOpen className="h-12 w-12 mx-auto text-gray-300" />
-                                <h3 className="mt-4 text-lg font-medium text-gray-900">
+                                <BookOpen className="h-12 w-12 mx-auto text-muted-foreground" />
+                                <h3 className="mt-4 text-lg font-medium text-foreground">
                                   No courses found
                                 </h3>
-                                <p className="mt-2 text-sm text-gray-500">
+                                <p className="mt-2 text-sm text-muted-foreground">
                                   Enroll in a course to get started
                                 </p>
                               </TableCell>
                             </TableRow>
                           ) : (
                             filteredCourses.map((course, index) => (
-                              <motion.tr 
+                              <motion.tr
                                 key={index}
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: index * 0.05 }}
-                                className="bg-white hover:bg-gray-50"
+                                className="bg-card hover:bg-muted/50 border-border"
                               >
                                 <TableCell className="px-6 py-4">
                                   <div className="flex items-center gap-4">
@@ -327,16 +327,16 @@ export default function Courses() {
                                       />
                                     </div>
                                     <div className="space-y-1">
-                                      <h4 className="font-medium text-buttonsCustom-900">
+                                      <h4 className="font-medium text-foreground">
                                         {course.course.title}
                                       </h4>
-                                      <div className="flex flex-wrap gap-3 text-sm text-gray-500">
+                                      <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
                                         <span className="flex items-center gap-1.5">
-                                          <Languages className="h-4 w-4 text-buttonsCustom-600" />
+                                          <Languages className="h-4 w-4 text-secondary" />
                                           {course.course.language}
                                         </span>
                                         <span className="flex items-center gap-1.5">
-                                          <BarChart3 className="h-4 w-4 text-buttonsCustom-600" />
+                                          <BarChart3 className="h-4 w-4 text-secondary" />
                                           {course.course.level}
                                         </span>
                                         <span className="flex items-center gap-1.5">
@@ -347,15 +347,15 @@ export default function Courses() {
                                     </div>
                                   </div>
                                 </TableCell>
-                                <TableCell className="px-6 py-4 text-sm text-gray-700">
-                                  <div className="flex items-center gap-1.5 text-gray-600">
-                                    <Calendar className="h-4 w-4 text-buttonsCustom-600" />
+                                <TableCell className="px-6 py-4 text-sm text-foreground">
+                                  <div className="flex items-center gap-1.5 text-muted-foreground">
+                                    <Calendar className="h-4 w-4 text-secondary" />
                                     {moment(course.date).format("D MMM, YYYY")}
                                   </div>
                                 </TableCell>
-                                <TableCell className="px-6 py-4 text-sm text-gray-700">
-                                  <div className="flex items-center gap-1.5 text-gray-600">
-                                    <BookOpen className="h-4 w-4 text-buttonsCustom-600" />
+                                <TableCell className="px-6 py-4 text-sm text-foreground">
+                                  <div className="flex items-center gap-1.5 text-muted-foreground">
+                                    <BookOpen className="h-4 w-4 text-secondary" />
                                     {course.curriculum.reduce(
                                       (total, section) =>
                                         total + section.variant_items.length,
@@ -363,21 +363,21 @@ export default function Courses() {
                                     )} Lectures
                                   </div>
                                 </TableCell>
-                                <TableCell className="px-6 py-4 text-sm text-gray-700">
-                                  <div className="flex items-center gap-1.5 text-gray-600">
+                                <TableCell className="px-6 py-4 text-sm text-foreground">
+                                  <div className="flex items-center gap-1.5 text-muted-foreground">
                                     {nftStatus[course.enrollment_id] === 'minted' ? (
                                       <>
-                                    <BookOpenCheck className="h-4 w-4 text-green-500" />
+                                        <BookOpenCheck className="h-4 w-4 text-green-500" />
                                         Minted
                                       </>
                                     ) : nftStatus[course.enrollment_id] === 'minting' ? (
                                       <>
-                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-buttonsCustom-600 mr-2" />
+                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-secondary mr-2" />
                                         Minting...
                                       </>
                                     ) : (
                                       <>
-                                        <BookOpenCheck className="h-4 w-4 text-gray-400" />
+                                        <BookOpenCheck className="h-4 w-4 text-muted-foreground" />
                                         Not Minted
                                       </>
                                     )}
@@ -385,38 +385,38 @@ export default function Courses() {
                                 </TableCell>
                                 <TableCell className="px-6 py-4">
                                   <div className="flex gap-2">
-                                  <Button
-                                    variant={
-                                      course.completed_lesson.length > 0
-                                        ? "default"
-                                        : "secondary"
-                                    }
-                                    size="sm"
-                                    className="flex items-center gap-2"
-                                    onClick={() =>
-                                      router.push(
-                                        `/student/course/${course.enrollment_id}`
-                                      )
-                                    }
-                                  >
-                                    {course.completed_lesson.length > 0
-                                      ? "Continue"
+                                    <Button
+                                      variant={
+                                        course.completed_lesson.length > 0
+                                          ? "default"
+                                          : "secondary"
+                                      }
+                                      size="sm"
+                                      className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
+                                      onClick={() =>
+                                        router.push(
+                                          `/student/course/${course.enrollment_id}`
+                                        )
+                                      }
+                                    >
+                                      {course.completed_lesson.length > 0
+                                        ? "Continue"
                                         : "Start"} {" "}
-                                    Course
-                                    <ArrowRight className="h-4 w-4" />
-                                  </Button>
+                                      Course
+                                      <ArrowRight className="h-4 w-4" />
+                                    </Button>
                                     <Button
                                       variant="outline"
                                       size="sm"
-                                      className="flex items-center gap-2"
+                                      className="flex items-center gap-2 border-input bg-background hover:bg-muted hover:text-foreground"
                                       disabled={nftStatus[course.enrollment_id] === 'minted' || nftStatus[course.enrollment_id] === 'minting' || mintAttempted[course.enrollment_id]}
                                       onClick={() => handleMintNFT(course)}
                                     >
                                       {nftStatus[course.enrollment_id] === 'minted'
                                         ? 'NFT Minted'
                                         : nftStatus[course.enrollment_id] === 'minting'
-                                        ? 'Minting...'
-                                        : 'Mint NFT'}
+                                          ? 'Minting...'
+                                          : 'Mint NFT'}
                                     </Button>
                                   </div>
                                 </TableCell>

@@ -7,12 +7,12 @@ import { useAuthStore } from "@/store/auth";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, CheckCircle2, XCircle as XCircleLucide } from "lucide-react";
-import { 
-  LockClosedIcon, 
-  ArrowPathIcon, 
-  UserIcon, 
+import {
+  LockClosedIcon,
+  ArrowPathIcon,
+  UserIcon,
   AtSymbolIcon,
- 
+
   FingerPrintIcon
 } from "@heroicons/react/24/outline";
 import { jwtDecode } from "jwt-decode";
@@ -146,7 +146,7 @@ function Register() {
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
-    
+
     const errors = validatePassword(newPassword);
     if (errors.length > 0) {
       setValidationErrors(prev => ({ ...prev, password: errors.join(", ") }));
@@ -174,7 +174,7 @@ function Register() {
   const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const confirmPass = e.target.value;
     setPassword2(confirmPass);
-    
+
     if (confirmPass !== password) {
       setValidationErrors(prev => ({ ...prev, password2: "Passwords do not match" }));
     } else {
@@ -189,7 +189,7 @@ function Register() {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
-    
+
     const errors = validateEmail(newEmail);
     if (errors.length > 0) {
       setValidationErrors(prev => ({ ...prev, email: errors.join(", ") }));
@@ -205,7 +205,7 @@ function Register() {
   const handleFullnameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newFullname = e.target.value;
     setFullname(newFullname);
-    
+
     if (!newFullname.trim()) {
       setValidationErrors(prev => ({ ...prev, fullname: "Full name is required" }));
     } else {
@@ -220,7 +220,7 @@ function Register() {
   // const handleWalletAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const newWalletAddress = e.target.value;
   //   setWallet_Address(newWalletAddress);
-    
+
   //   if (!newWalletAddress.trim()) {
   //     setValidationErrors(prev => ({ ...prev, wallet_address: "Wallet address is required" }));
   //   } else {
@@ -272,7 +272,7 @@ function Register() {
         password2,
         wallet_address
       );
-      
+
       if (error) {
         setError(typeof error === 'string' ? error : JSON.stringify(error));
       } else {
@@ -304,7 +304,7 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -312,25 +312,22 @@ function Register() {
         className="w-full max-w-md"
       >
         {/* Card Container */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden border border-white/20">
-          {/* Gradient Header */}
-          <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-
+        <div className="bg-card rounded-xl shadow-lg overflow-hidden border border-border">
           <div className="p-8 space-y-6">
             {/* Header Section */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
               className="text-center space-y-3"
             >
-              <div className="mx-auto flex items-center justify-center h-14 w-14 rounded-full bg-buttonsCustom-50">
-                <FingerPrintIcon className="h-6 w-6 text-buttonsCustom-700" />
+              <div className="mx-auto flex items-center justify-center h-14 w-14 rounded-full bg-secondary/10">
+                <FingerPrintIcon className="h-6 w-6 text-secondary" />
               </div>
-              <h1 className="text-2xl font-bold text-gray-900">
+              <h1 className="text-2xl font-bold text-foreground">
                 Create Your Decentralized Identity
               </h1>
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 Register to access blockchain learning resources
               </p>
             </motion.div>
@@ -342,7 +339,7 @@ function Register() {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="bg-red-50 text-red-700 p-3 rounded-lg text-sm"
+                  className="bg-destructive/10 text-destructive p-3 rounded-lg text-sm"
                 >
                   {error}
                 </motion.div>
@@ -357,25 +354,25 @@ function Register() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-foreground mb-2">
                   Full Name
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <UserIcon className="h-5 w-5 text-gray-400" />
+                    <UserIcon className="h-5 w-5 text-muted-foreground" />
                   </div>
                   <input
                     type="text"
                     value={fullname}
                     onChange={handleFullnameChange}
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg bg-white/70 
-                            placeholder-gray-400 focus:ring-2 focus:ring-buttonsCustom-300 focus:border-transparent"
+                    className="block w-full pl-10 pr-3 py-3 border border-input rounded-lg bg-background 
+                            placeholder-muted-foreground focus:ring-2 focus:ring-secondary focus:border-transparent text-foreground"
                     placeholder="John Doe"
                     required
                   />
                 </div>
                 {validationErrors.fullname && (
-                  <p className="mt-1 text-sm text-red-600">{validationErrors.fullname}</p>
+                  <p className="mt-1 text-sm text-destructive">{validationErrors.fullname}</p>
                 )}
               </motion.div>
 
@@ -385,25 +382,25 @@ function Register() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-foreground mb-2">
                   Email Address
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <AtSymbolIcon className="h-5 w-5 text-gray-400" />
+                    <AtSymbolIcon className="h-5 w-5 text-muted-foreground" />
                   </div>
                   <input
                     type="email"
                     value={email}
                     onChange={handleEmailChange}
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg bg-white/70 
-                            placeholder-gray-400 focus:ring-2 focus:ring-buttonsCustom-300 focus:border-transparent"
+                    className="block w-full pl-10 pr-3 py-3 border border-input rounded-lg bg-background 
+                            placeholder-muted-foreground focus:ring-2 focus:ring-secondary focus:border-transparent text-foreground"
                     placeholder="your@email.com"
                     required
                   />
                 </div>
                 {validationErrors.email && (
-                  <p className="mt-1 text-sm text-red-600">{validationErrors.email}</p>
+                  <p className="mt-1 text-sm text-destructive">{validationErrors.email}</p>
                 )}
               </motion.div>
 
@@ -413,11 +410,11 @@ function Register() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-foreground mb-2">
                   Connect Your Cardano Wallet
                 </label>
                 <div className="relative">
-                  <CardanoWallet 
+                  <CardanoWallet
                     label="Connect Wallet"
                     isDark={false}
                     onConnected={() => {
@@ -430,12 +427,12 @@ function Register() {
                   />
                 </div>
                 {wallet_address && (
-                  <p className="mt-2 text-sm text-gray-600">
+                  <p className="mt-2 text-sm text-muted-foreground">
                     Connected Address: {wallet_address.slice(0, 20)}...{wallet_address.slice(-8)}
                   </p>
                 )}
                 {validationErrors.wallet_address && (
-                  <p className="mt-1 text-sm text-red-600">{validationErrors.wallet_address}</p>
+                  <p className="mt-1 text-sm text-destructive">{validationErrors.wallet_address}</p>
                 )}
               </motion.div>
 
@@ -446,19 +443,19 @@ function Register() {
                 transition={{ delay: 0.5 }}
                 className="space-y-2"
               >
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-foreground mb-2">
                   Password
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <LockClosedIcon className="h-5 w-5 text-gray-400" />
+                    <LockClosedIcon className="h-5 w-5 text-muted-foreground" />
                   </div>
                   <input
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={handlePasswordChange}
-                    className="block w-full pl-10 pr-10 py-3 border border-gray-200 rounded-lg bg-white/70 
-                            placeholder-gray-400 focus:ring-2 focus:ring-buttonsCustom-300 focus:border-transparent"
+                    className="block w-full pl-10 pr-10 py-3 border border-input rounded-lg bg-background 
+                            placeholder-muted-foreground focus:ring-2 focus:ring-secondary focus:border-transparent text-foreground"
                     placeholder="••••••••"
                     required
                   />
@@ -468,9 +465,9 @@ function Register() {
                     className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   >
                     {showPassword ? (
-                      <EyeOff className="h-5 w-5 text-gray-400" />
+                      <EyeOff className="h-5 w-5 text-muted-foreground" />
                     ) : (
-                      <Eye className="h-5 w-5 text-gray-400" />
+                      <Eye className="h-5 w-5 text-muted-foreground" />
                     )}
                   </button>
                 </div>
@@ -478,7 +475,7 @@ function Register() {
                 {/* Password Requirements */}
                 <div className="mt-2 space-y-2 text-sm">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    <div className={`flex items-center gap-2 ${passwordValidation.minLength ? 'text-green-600' : 'text-gray-600'}`}>
+                    <div className={`flex items-center gap-2 ${passwordValidation.minLength ? 'text-green-600' : 'text-muted-foreground'}`}>
                       {passwordValidation.minLength ? (
                         <CheckCircle2 className="h-4 w-4" />
                       ) : (
@@ -486,7 +483,7 @@ function Register() {
                       )}
                       <span>8+ characters</span>
                     </div>
-                    <div className={`flex items-center gap-2 ${passwordValidation.hasUppercase ? 'text-green-600' : 'text-gray-600'}`}>
+                    <div className={`flex items-center gap-2 ${passwordValidation.hasUppercase ? 'text-green-600' : 'text-muted-foreground'}`}>
                       {passwordValidation.hasUppercase ? (
                         <CheckCircle2 className="h-4 w-4" />
                       ) : (
@@ -494,7 +491,7 @@ function Register() {
                       )}
                       <span>Uppercase letter</span>
                     </div>
-                    <div className={`flex items-center gap-2 ${passwordValidation.hasLowercase ? 'text-green-600' : 'text-gray-600'}`}>
+                    <div className={`flex items-center gap-2 ${passwordValidation.hasLowercase ? 'text-green-600' : 'text-muted-foreground'}`}>
                       {passwordValidation.hasLowercase ? (
                         <CheckCircle2 className="h-4 w-4" />
                       ) : (
@@ -502,7 +499,7 @@ function Register() {
                       )}
                       <span>Lowercase letter</span>
                     </div>
-                    <div className={`flex items-center gap-2 ${passwordValidation.hasNumber ? 'text-green-600' : 'text-gray-600'}`}>
+                    <div className={`flex items-center gap-2 ${passwordValidation.hasNumber ? 'text-green-600' : 'text-muted-foreground'}`}>
                       {passwordValidation.hasNumber ? (
                         <CheckCircle2 className="h-4 w-4" />
                       ) : (
@@ -510,7 +507,7 @@ function Register() {
                       )}
                       <span>Number</span>
                     </div>
-                    <div className={`flex items-center gap-2 ${passwordValidation.hasSpecial ? 'text-green-600' : 'text-gray-600'}`}>
+                    <div className={`flex items-center gap-2 ${passwordValidation.hasSpecial ? 'text-green-600' : 'text-muted-foreground'}`}>
                       {passwordValidation.hasSpecial ? (
                         <CheckCircle2 className="h-4 w-4" />
                       ) : (
@@ -528,19 +525,19 @@ function Register() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
               >
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-foreground mb-2">
                   Confirm Password
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <LockClosedIcon className="h-5 w-5 text-gray-400" />
+                    <LockClosedIcon className="h-5 w-5 text-muted-foreground" />
                   </div>
                   <input
                     type={showConfirmPassword ? "text" : "password"}
                     value={password2}
                     onChange={handleConfirmPasswordChange}
-                    className="block w-full pl-10 pr-10 py-3 border border-gray-200 rounded-lg bg-white/70 
-                            placeholder-gray-400 focus:ring-2 focus:ring-buttonsCustom-300 focus:border-transparent"
+                    className="block w-full pl-10 pr-10 py-3 border border-input rounded-lg bg-background 
+                            placeholder-muted-foreground focus:ring-2 focus:ring-secondary focus:border-transparent text-foreground"
                     placeholder="••••••••"
                     required
                   />
@@ -550,14 +547,14 @@ function Register() {
                     className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   >
                     {showConfirmPassword ? (
-                      <EyeOff className="h-5 w-5 text-gray-400" />
+                      <EyeOff className="h-5 w-5 text-muted-foreground" />
                     ) : (
-                      <Eye className="h-5 w-5 text-gray-400" />
+                      <Eye className="h-5 w-5 text-muted-foreground" />
                     )}
                   </button>
                 </div>
                 {validationErrors.password2 && (
-                  <p className="mt-1 text-sm text-red-600">{validationErrors.password2}</p>
+                  <p className="mt-1 text-sm text-destructive">{validationErrors.password2}</p>
                 )}
               </motion.div>
 
@@ -572,14 +569,14 @@ function Register() {
                   disabled={isLoading || !fullname.trim() || !email.trim() || !password.trim() || !password2.trim() || !wallet_address.trim() || Object.keys(validationErrors).length > 0}
                   className={`w-full flex items-center justify-center py-3 px-4 rounded-lg shadow-md transition-all
                           ${isLoading || !fullname.trim() || !email.trim() || !password.trim() || !password2.trim() || !wallet_address.trim() || Object.keys(validationErrors).length > 0
-                            ? 'bg-buttonsCustom-400 cursor-not-allowed' 
-                            : 'bg-gradient-to-r from-buttonsCustom-700 to-buttonsCustom-600 hover:from-buttonsCustom-800 hover:to-buttonsCustom-700'
-                          }`}
+                      ? 'bg-muted cursor-not-allowed text-muted-foreground'
+                      : 'bg-secondary text-secondary-foreground hover:bg-secondary/90'
+                    }`}
                 >
                   {isLoading ? (
-                    <ArrowPathIcon className="h-5 w-5 animate-spin text-white" />
+                    <ArrowPathIcon className="h-5 w-5 animate-spin" />
                   ) : (
-                    <span className="text-white font-medium flex items-center gap-2">
+                    <span className="font-medium flex items-center gap-2">
                       <FingerPrintIcon className="h-5 w-5" />
                       Register Identity
                     </span>
@@ -589,19 +586,19 @@ function Register() {
             </form>
 
             {/* Divider */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
               className="relative"
             >
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200" />
+                <div className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">
+                <span className="px-2 bg-card text-muted-foreground">
                   Already have an account?{" "}
-                  <Link href="/login" className="text-buttonsCustom-600 hover:text-buttonsCustom-700 font-medium">
+                  <Link href="/login" className="text-secondary hover:text-secondary/80 font-medium">
                     Sign in
                   </Link>
                 </span>

@@ -82,9 +82,9 @@ function StudentSidebar() {
 
   return (
     <div className="w-full lg:w-64">
-      <nav className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+      <nav className="bg-card rounded-lg shadow-sm border border-border p-4">
         <div className="flex items-center justify-between lg:hidden mb-4">
-          <span className="font-semibold text-gray-900">Menu</span>
+          <span className="font-semibold text-foreground">Menu</span>
           <Button variant="ghost" size="icon" className="lg:hidden">
             <Menu className="h-5 w-5" />
           </Button>
@@ -101,8 +101,8 @@ function StudentSidebar() {
                     className={cn(
                       "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
                       pathname === item.href
-                        ? "bg-buttonsCustom-50 text-buttonsCustom-600"
-                        : "text-gray-700 hover:bg-buttonsCustom-50/50 hover:text-buttonsCustom-600"
+                        ? "bg-secondary/10 text-secondary"
+                        : "text-muted-foreground hover:bg-secondary/5 hover:text-secondary"
                     )}
                   >
                     <item.icon className="h-4 w-4" />
@@ -115,7 +115,7 @@ function StudentSidebar() {
 
           {/* Certificates Navigation */}
           <div>
-            <h3 className="px-3 text-sm font-semibold text-gray-900 mb-2">
+            <h3 className="px-3 text-sm font-semibold text-foreground mb-2">
               Certificates
             </h3>
             <ul className="space-y-1">
@@ -126,8 +126,8 @@ function StudentSidebar() {
                     className={cn(
                       "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
                       pathname === item.href
-                        ? "bg-buttonsCustom-50 text-buttonsCustom-600"
-                        : "text-gray-700 hover:bg-buttonsCustom-50/50 hover:text-buttonsCustom-600"
+                        ? "bg-secondary/10 text-secondary"
+                        : "text-muted-foreground hover:bg-secondary/5 hover:text-secondary"
                     )}
                   >
                     <item.icon className="h-4 w-4" />
@@ -140,7 +140,7 @@ function StudentSidebar() {
 
           {/* Account Settings */}
           <div>
-            <h3 className="px-3 text-sm font-semibold text-gray-900 mb-2">
+            <h3 className="px-3 text-sm font-semibold text-foreground mb-2">
               Account Settings
             </h3>
             <ul className="space-y-1">
@@ -151,8 +151,8 @@ function StudentSidebar() {
                     className={cn(
                       "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
                       pathname === item.href
-                        ? "bg-buttonsCustom-50 text-buttonsCustom-600"
-                        : "text-gray-700 hover:bg-buttonsCustom-50/50 hover:text-buttonsCustom-600"
+                        ? "bg-secondary/10 text-secondary"
+                        : "text-muted-foreground hover:bg-secondary/5 hover:text-secondary"
                     )}
                   >
                     <item.icon className="h-4 w-4" />

@@ -148,7 +148,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
         <InstructorHeader />
 
@@ -159,12 +159,12 @@ export default function Dashboard() {
 
           <div className="lg:col-span-3 space-y-4 sm:space-y-6">
             <motion.div className="flex items-center gap-2 mb-2">
-              <div className="h-10 w-10 rounded-full bg-buttonsCustom-100 flex items-center justify-center">
-                <LayoutDashboard className="h-5 w-5 text-buttonsCustom-600" />
+              <div className="h-10 w-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                <LayoutDashboard className="h-5 w-5 text-secondary" />
               </div>
               <div>
-                <h4 className="text-xl font-bold text-gray-900">Dashboard</h4>
-                <p className="text-sm text-gray-500">
+                <h4 className="text-xl font-bold text-foreground">Dashboard</h4>
+                <p className="text-sm text-muted-foreground">
                   Manage your courses and view insights
                 </p>
               </div>
@@ -172,17 +172,17 @@ export default function Dashboard() {
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <Card className="bg-gradient-to-br from-amber-50 to-amber-100 border-amber-200 backdrop-blur-sm border border-white/20 shadow-lg">
+              <Card className="bg-card border-border hover:border-secondary/50 transition-colors shadow-sm">
                 <CardContent className="p-4 sm:p-6">
                   <div className="flex items-center gap-3 sm:gap-4">
-                    <div className="p-2 sm:p-3 bg-amber-100 rounded-lg">
-                      <LayoutDashboard className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600" />
+                    <div className="p-2 sm:p-3 bg-primary/5 rounded-lg">
+                      <LayoutDashboard className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-amber-600">
+                      <p className="text-sm font-medium text-muted-foreground">
                         Total Courses
                       </p>
-                      <h3 className="text-xl sm:text-2xl font-bold text-amber-700">
+                      <h3 className="text-xl sm:text-2xl font-bold text-foreground">
                         {stats.total_courses}
                       </h3>
                     </div>
@@ -190,17 +190,17 @@ export default function Dashboard() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-gradient-to-br from-rose-50 to-rose-100 border-rose-200 backdrop-blur-sm border border-white/20 shadow-lg">
+              <Card className="bg-card border-border hover:border-secondary/50 transition-colors shadow-sm">
                 <CardContent className="p-4 sm:p-6">
                   <div className="flex items-center gap-3 sm:gap-4">
-                    <div className="p-2 sm:p-3 bg-rose-100 rounded-lg">
-                      <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6 text-rose-600" />
+                    <div className="p-2 sm:p-3 bg-secondary/10 rounded-lg">
+                      <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6 text-secondary" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-rose-600">
+                      <p className="text-sm font-medium text-muted-foreground">
                         Total Students
                       </p>
-                      <h3 className="text-xl sm:text-2xl font-bold text-rose-700">
+                      <h3 className="text-xl sm:text-2xl font-bold text-foreground">
                         {stats.total_students}
                       </h3>
                     </div>
@@ -208,17 +208,17 @@ export default function Dashboard() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 backdrop-blur-sm border border-white/20 shadow-lg">
+              <Card className="bg-card border-border hover:border-secondary/50 transition-colors shadow-sm">
                 <CardContent className="p-4 sm:p-6">
                   <div className="flex items-center gap-3 sm:gap-4">
-                    <div className="p-2 sm:p-3 bg-green-100 rounded-lg">
+                    <div className="p-2 sm:p-3 bg-green-500/10 rounded-lg">
                       <IndianRupee className="h-5 w-5 sm:h-6 sm:w-6 text-green-600" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-green-600">
+                      <p className="text-sm font-medium text-muted-foreground">
                         Total Revenue
                       </p>
-                      <h3 className="text-xl sm:text-2xl font-bold text-green-700">
+                      <h3 className="text-xl sm:text-2xl font-bold text-foreground">
                         ₹{stats.total_revenue?.toFixed(2)}
                       </h3>
                     </div>
@@ -228,28 +228,26 @@ export default function Dashboard() {
             </div>
 
             {/* Courses Table */}
-            <Card className="border-buttonsCustom-200 overflow-hidden bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl">
-              {/* Gradient Header */}
-              <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-              <CardHeader className="p-4 sm:p-6 bg-gradient-to-r from-buttonsCustom-50/50 to-transparent border-b border-buttonsCustom-100">
+            <Card className="border-border overflow-hidden bg-card shadow-sm">
+              <CardHeader className="p-4 sm:p-6 border-b border-border">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <CardTitle className="text-lg sm:text-xl text-buttonsCustom-900">
+                    <CardTitle className="text-lg sm:text-xl text-foreground">
                       Courses
                     </CardTitle>
-                    <p className="text-sm text-buttonsCustom-500 mt-1">
+                    <p className="text-sm text-muted-foreground mt-1">
                       Manage your courses from here, search, view, edit or
                       delete courses.
                     </p>
                   </div>
                   <div className="relative w-full sm:w-64">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-buttonsCustom-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                       type="search"
                       placeholder="Search your courses..."
                       value={searchQuery}
                       onChange={handleSearch}
-                      className="pl-10 border-buttonsCustom-200 focus:border-buttonsCustom-500"
+                      className="pl-10 border-input focus:border-secondary"
                     />
                   </div>
                 </div>
@@ -257,14 +255,14 @@ export default function Dashboard() {
               <CardContent className="p-0">
                 {isLoading ? (
                   <div className="flex items-center justify-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-buttonsCustom-600" />
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-secondary" />
                   </div>
                 ) : courses.length > 0 ? (
                   <div>
                     {/* Desktop and Tablet View */}
                     <div className="hidden sm:block overflow-x-auto">
                       <table className="w-full">
-                        <thead className="bg-gray-50 text-xs uppercase text-gray-700">
+                        <thead className="bg-muted/50 text-xs uppercase text-muted-foreground">
                           <tr>
                             <th className="px-6 py-3 text-left">Courses</th>
                             <th className="px-6 py-3 text-left">Enrolled</th>
@@ -281,17 +279,17 @@ export default function Dashboard() {
                             <th className="px-6 py-3 text-left">Action</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-200">
+                        <tbody className="divide-y divide-border">
                           {courses.map((course) => (
                             <motion.tr
                               key={course.id}
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
-                              className="bg-white hover:bg-gray-50"
+                              className="bg-card hover:bg-muted/50 transition-colors"
                             >
                               <td className="px-6 py-4">
                                 <div className="flex items-center space-x-3">
-                                  <div className="h-16 w-24 flex-shrink-0 overflow-hidden rounded-md">
+                                  <div className="h-16 w-24 flex-shrink-0 overflow-hidden rounded-md border border-border">
                                     <Image
                                       src={course.image}
                                       alt={course.title}
@@ -301,10 +299,10 @@ export default function Dashboard() {
                                     />
                                   </div>
                                   <div>
-                                    <div className="font-medium text-gray-900">
+                                    <div className="font-medium text-foreground">
                                       {course.title}
                                     </div>
-                                    <div className="flex flex-wrap gap-2 mt-1 text-xs text-gray-500">
+                                    <div className="flex flex-wrap gap-2 mt-1 text-xs text-muted-foreground">
                                       <span>{course.language}</span>
                                       <span>•</span>
                                       <span>{course.level}</span>
@@ -314,13 +312,13 @@ export default function Dashboard() {
                                   </div>
                                 </div>
                               </td>
-                              <td className="px-6 py-4 text-sm text-gray-700">
+                              <td className="px-6 py-4 text-sm text-foreground">
                                 {course.students?.length || 0}
                               </td>
                               <td className="px-6 py-4">
                                 <Badge
                                   variant="outline"
-                                  className="bg-green-100 text-green-800 border-green-200"
+                                  className="bg-secondary/10 text-secondary border-secondary/20"
                                 >
                                   {course.level}
                                 </Badge>
@@ -328,17 +326,16 @@ export default function Dashboard() {
                               <td className="px-6 py-4">
                                 <Badge
                                   variant="outline"
-                                  className={`${
-                                    course.platform_status === "Published"
-                                      ? "bg-green-100 text-green-800 border-green-200"
+                                  className={`${course.platform_status === "Published"
+                                      ? "bg-green-500/10 text-green-600 border-green-500/20"
                                       : course.platform_status === "Review"
-                                      ? "bg-blue-100 text-blue-800 border-blue-200"
-                                      : course.platform_status === "Draft"
-                                      ? "bg-gray-100 text-gray-800 border-gray-200"
-                                      : course.platform_status === "Reject"
-                                      ? "bg-red-100 text-red-800 border-red-200"
-                                      : "bg-amber-100 text-amber-800 border-amber-200"
-                                  }`}
+                                        ? "bg-blue-500/10 text-blue-600 border-blue-500/20"
+                                        : course.platform_status === "Draft"
+                                          ? "bg-gray-500/10 text-gray-600 border-gray-500/20"
+                                          : course.platform_status === "Reject"
+                                            ? "bg-red-500/10 text-red-600 border-red-500/20"
+                                            : "bg-amber-500/10 text-amber-600 border-amber-500/20"
+                                    }`}
                                 >
                                   {course.platform_status || "Unknown"}
                                 </Badge>
@@ -346,41 +343,40 @@ export default function Dashboard() {
                               <td className="px-6 py-4">
                                 <Badge
                                   variant="outline"
-                                  className={`${
-                                    course.teacher_course_status === "Published"
-                                      ? "bg-green-100 text-green-800 border-green-200"
+                                  className={`${course.teacher_course_status === "Published"
+                                      ? "bg-green-500/10 text-green-600 border-green-500/20"
                                       : course.teacher_course_status === "Draft"
-                                      ? "bg-gray-100 text-gray-800 border-gray-200"
-                                      : "bg-amber-100 text-amber-800 border-amber-200"
-                                  }`}
+                                        ? "bg-gray-500/10 text-gray-600 border-gray-500/20"
+                                        : "bg-amber-500/10 text-amber-600 border-amber-500/20"
+                                    }`}
                                 >
                                   {course.teacher_course_status || "Unknown"}
                                 </Badge>
                               </td>
-                              <td className="px-6 py-4 text-sm text-gray-700">
+                              <td className="px-6 py-4 text-sm text-muted-foreground">
                                 {format(new Date(course.date), "dd MMM, yyyy")}
                               </td>
                               <td className="px-6 py-4">
-                                <div className="flex space-x-2 pt-2 border-t border-gray-100">
+                                <div className="flex space-x-2 pt-2">
                                   <Button
-                                    variant="outline"
+                                    variant="ghost"
                                     size="sm"
-                                    className="flex-1 h-8 text-buttonsCustom-600"
+                                    className="h-8 w-8 p-0 text-muted-foreground hover:text-secondary"
                                     asChild
                                   >
                                     <Link
                                       href={`/instructor/edit-course/${course.course_id}/`}
                                     >
-                                      <Edit className="h-3.5 w-3.5 mr-1" />
+                                      <Edit className="h-4 w-4" />
                                     </Link>
                                   </Button>
                                   <Button
-                                    variant="outline"
+                                    variant="ghost"
                                     size="sm"
-                                    className="flex-1 h-8 text-red-600"
+                                    className="h-8 w-8 p-0 text-muted-foreground hover:text-red-600"
                                     onClick={() => handleDeleteClick(course)}
                                   >
-                                    <Trash className="h-3.5 w-3.5 mr-1" />
+                                    <Trash className="h-4 w-4" />
                                   </Button>
                                 </div>
                               </td>
@@ -391,16 +387,16 @@ export default function Dashboard() {
                     </div>
 
                     {/* Mobile View */}
-                    <div className="sm:hidden">
+                    <div className="sm:hidden p-4">
                       {courses.map((course) => (
                         <motion.div
                           key={course.id}
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="bg-white/90 backdrop-blur-sm border border-white/20 shadow-lg p-4 mb-3 rounded-lg"
+                          className="bg-card border border-border shadow-sm p-4 mb-3 rounded-lg"
                         >
                           <div className="flex items-start space-x-3 mb-3">
-                            <div className="h-16 w-24 flex-shrink-0 overflow-hidden rounded-md">
+                            <div className="h-16 w-24 flex-shrink-0 overflow-hidden rounded-md border border-border">
                               <Image
                                 src={course.image}
                                 alt={course.title}
@@ -410,10 +406,10 @@ export default function Dashboard() {
                               />
                             </div>
                             <div className="flex-grow">
-                              <div className="font-medium text-gray-900">
+                              <div className="font-medium text-foreground">
                                 {course.title}
                               </div>
-                              <div className="flex flex-wrap gap-2 mt-1 text-xs text-gray-500">
+                              <div className="flex flex-wrap gap-2 mt-1 text-xs text-muted-foreground">
                                 <span>{course.language}</span>
                                 <span>•</span>
                                 <span>{course.level}</span>
@@ -425,16 +421,16 @@ export default function Dashboard() {
 
                           <div className="grid grid-cols-2 gap-2 text-xs mb-3">
                             <div>
-                              <span className="text-gray-500 block">
+                              <span className="text-muted-foreground block">
                                 Enrolled:
                               </span>
-                              <span className="font-medium">
+                              <span className="font-medium text-foreground">
                                 {course.students?.length || 0}
                               </span>
                             </div>
                             <div>
-                              <span className="text-gray-500 block">Date:</span>
-                              <span className="font-medium">
+                              <span className="text-muted-foreground block">Date:</span>
+                              <span className="font-medium text-foreground">
                                 {format(new Date(course.date), "dd MMM, yyyy")}
                               </span>
                             </div>
@@ -442,50 +438,48 @@ export default function Dashboard() {
 
                           <div className="flex flex-wrap gap-2 mb-3">
                             <div>
-                              <span className="text-gray-500 text-xs block mb-1">
+                              <span className="text-muted-foreground text-xs block mb-1">
                                 Platform:
                               </span>
                               <Badge
                                 variant="outline"
-                                className={`${
-                                  course.platform_status === "Published"
-                                    ? "bg-green-100 text-green-800 border-green-200"
+                                className={`${course.platform_status === "Published"
+                                    ? "bg-green-500/10 text-green-600 border-green-500/20"
                                     : course.platform_status === "Review"
-                                    ? "bg-blue-100 text-blue-800 border-blue-200"
-                                    : course.platform_status === "Draft"
-                                    ? "bg-gray-100 text-gray-800 border-gray-200"
-                                    : course.platform_status === "Reject"
-                                    ? "bg-red-100 text-red-800 border-red-200"
-                                    : "bg-amber-100 text-amber-800 border-amber-200"
-                                }`}
+                                      ? "bg-blue-500/10 text-blue-600 border-blue-500/20"
+                                      : course.platform_status === "Draft"
+                                        ? "bg-gray-500/10 text-gray-600 border-gray-500/20"
+                                        : course.platform_status === "Reject"
+                                          ? "bg-red-500/10 text-red-600 border-red-500/20"
+                                          : "bg-amber-500/10 text-amber-600 border-amber-500/20"
+                                  }`}
                               >
                                 {course.platform_status || "Unknown"}
                               </Badge>
                             </div>
                             <div>
-                              <span className="text-gray-500 text-xs block mb-1">
+                              <span className="text-muted-foreground text-xs block mb-1">
                                 Status:
                               </span>
                               <Badge
                                 variant="outline"
-                                className={`${
-                                  course.teacher_course_status === "Published"
-                                    ? "bg-green-100 text-green-800 border-green-200"
+                                className={`${course.teacher_course_status === "Published"
+                                    ? "bg-green-500/10 text-green-600 border-green-500/20"
                                     : course.teacher_course_status === "Draft"
-                                    ? "bg-gray-100 text-gray-800 border-gray-200"
-                                    : "bg-amber-100 text-amber-800 border-amber-200"
-                                }`}
+                                      ? "bg-gray-500/10 text-gray-600 border-gray-500/20"
+                                      : "bg-amber-500/10 text-amber-600 border-amber-500/20"
+                                  }`}
                               >
                                 {course.teacher_course_status || "Unknown"}
                               </Badge>
                             </div>
                           </div>
 
-                          <div className="flex space-x-2 pt-2 border-t border-gray-100">
+                          <div className="flex space-x-2 pt-2 border-t border-border">
                             <Button
                               variant="outline"
                               size="sm"
-                              className="flex-1 h-8 text-buttonsCustom-600"
+                              className="flex-1 h-8 text-foreground hover:text-secondary"
                             >
                               <Edit className="h-3.5 w-3.5 mr-1" />
                               Edit
@@ -493,7 +487,7 @@ export default function Dashboard() {
                             <Button
                               variant="outline"
                               size="sm"
-                              className="flex-1 h-8 text-red-600"
+                              className="flex-1 h-8 text-red-600 hover:bg-red-50"
                             >
                               <Trash className="h-3.5 w-3.5 mr-1" />
                               Delete
@@ -504,12 +498,12 @@ export default function Dashboard() {
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center py-12 bg-white/80 backdrop-blur-sm rounded-lg border border-white/20 shadow-md">
-                    <BookOpen className="h-12 w-12 mx-auto text-gray-300" />
-                    <h3 className="mt-4 text-lg font-medium text-gray-900">
+                  <div className="text-center py-12 bg-card rounded-lg">
+                    <BookOpen className="h-12 w-12 mx-auto text-muted-foreground" />
+                    <h3 className="mt-4 text-lg font-medium text-foreground">
                       No courses found
                     </h3>
-                    <p className="mt-2 text-sm text-gray-500">
+                    <p className="mt-2 text-sm text-muted-foreground">
                       Create your first course to get started
                     </p>
                   </div>
@@ -523,27 +517,27 @@ export default function Dashboard() {
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
       >
-        <AlertDialogContent className="bg-white">
+        <AlertDialogContent className="bg-card border-border">
           <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center gap-2 text-red-600">
+            <AlertDialogTitle className="flex items-center gap-2 text-destructive">
               <AlertTriangle className="h-5 w-5" />
               Delete Course
             </AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogDescription className="text-muted-foreground">
               Are you sure you want to delete{" "}
-              <span className="font-medium">{deletingCourse?.title}</span>?
-              <p className="mt-2 text-red-500">
+              <span className="font-medium text-foreground">{deletingCourse?.title}</span>?
+              <p className="mt-2 text-destructive">
                 This action cannot be undone. All course content, lectures, and
                 materials will be permanently removed.
               </p>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isDeleting} className="border-border text-foreground hover:bg-muted">Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeleteConfirm}
               disabled={isDeleting}
-              className="bg-red-600 text-white hover:bg-red-700 focus:ring-red-500"
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               {isDeleting ? (
                 <>

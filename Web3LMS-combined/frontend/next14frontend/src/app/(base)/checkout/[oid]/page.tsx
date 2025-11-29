@@ -26,7 +26,7 @@ interface RazorpayOptions {
 }
 
 interface RazorpayClass {
-  new (options: RazorpayOptions): { open: () => void };
+  new(options: RazorpayOptions): { open: () => void };
 }
 
 declare global {
@@ -252,10 +252,10 @@ export default function Checkout() {
           try {
             await apiInstance.post(`/payment/payment-success/`, verifyData);
             Toast().fire({ icon: "success", title: "Payment Successful!" });
-            
+
             // Redirect to payment success page
 
-            
+
             router.push(`/payment-success?order_id=${order.oid}`);
           } catch (err) {
             console.error("Verification failed", err);
@@ -280,13 +280,13 @@ export default function Checkout() {
 
   if (!order) {
     return (
-      <div className="min-h-screen bg-primaryCustom-100">
+      <div className="min-h-screen bg-background">
         <div className="container mx-auto py-8">
-          <div className="animate-pulse bg-primaryCustom-200 rounded-3 p-8">
-            <div className="h-8 bg-primaryCustom-300 rounded w-1/4 mb-4"></div>
+          <div className="animate-pulse bg-card rounded-3 p-8 border border-border">
+            <div className="h-8 bg-muted rounded w-1/4 mb-4"></div>
             <div className="space-y-4">
-              <div className="h-4 bg-primaryCustom-300 rounded w-3/4"></div>
-              <div className="h-4 bg-primaryCustom-300 rounded w-1/2"></div>
+              <div className="h-4 bg-muted rounded w-3/4"></div>
+              <div className="h-4 bg-muted rounded w-1/2"></div>
             </div>
           </div>
         </div>
@@ -295,13 +295,13 @@ export default function Checkout() {
   }
 
   return (
-    <div className="min-h-screen bg-primaryCustom-100">
+    <div className="min-h-screen bg-background">
       <section className="py-0">
         <div className="container mx-auto px-4">
           <div className="row">
             <div className="col-12">
-              <div className="bg-primaryCustom-200 p-6 text-center rounded-3 shadow-sm">
-                <h1 className="m-0 text-2xl font-bold text-gray-800">
+              <div className="bg-card p-6 text-center rounded-3 shadow-sm border border-border">
+                <h1 className="m-0 text-2xl font-bold text-foreground">
                   Checkout
                 </h1>
                 <div className="flex justify-center mt-2">
@@ -310,31 +310,31 @@ export default function Checkout() {
                       <li>
                         <Link
                           href="/"
-                          className="text-gray-600 hover:text-buttonsCustom-700 transition-colors"
+                          className="text-muted-foreground hover:text-secondary transition-colors"
                         >
                           Home
                         </Link>
                       </li>
-                      <li className="text-gray-400">/</li>
+                      <li className="text-muted-foreground">/</li>
                       <li>
                         <Link
                           href="/courses"
-                          className="text-gray-600 hover:text-buttonsCustom-700 transition-colors"
+                          className="text-muted-foreground hover:text-secondary transition-colors"
                         >
                           Courses
                         </Link>
                       </li>
-                      <li className="text-gray-400">/</li>
+                      <li className="text-muted-foreground">/</li>
                       <li>
                         <Link
                           href="/cart"
-                          className="text-gray-600 hover:text-buttonsCustom-700 transition-colors"
+                          className="text-muted-foreground hover:text-secondary transition-colors"
                         >
                           Cart
                         </Link>
                       </li>
-                      <li className="text-gray-400">/</li>
-                      <li className="text-buttonsCustom-700 font-medium">
+                      <li className="text-muted-foreground">/</li>
+                      <li className="text-secondary font-medium">
                         Checkout
                       </li>
                     </ol>
@@ -350,11 +350,11 @@ export default function Checkout() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-6">
-              <div className="flex items-center justify-between bg-buttonsCustom-100 text-buttonsCustom-900 p-4 rounded-lg shadow-sm">
+              <div className="flex items-center justify-between bg-muted/30 text-foreground p-4 rounded-lg shadow-sm border border-border">
                 <div className="flex items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 mr-2"
+                    className="h-5 w-5 mr-2 text-muted-foreground"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
@@ -366,7 +366,7 @@ export default function Checkout() {
                   </svg>
                   <span>Review your courses before payment</span>
                 </div>
-                <button className="text-buttonsCustom-700 hover:text-buttonsCustom-900">
+                <button className="text-muted-foreground hover:text-foreground">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"
@@ -382,11 +382,11 @@ export default function Checkout() {
                 </button>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h5 className="text-lg font-semibold mb-4">Courses</h5>
+              <div className="bg-card p-6 rounded-lg shadow-sm border border-border">
+                <h5 className="text-lg font-semibold mb-4 text-foreground">Courses</h5>
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <tbody className="divide-y divide-gray-200">
+                  <table className="min-w-full divide-y divide-border">
+                    <tbody className="divide-y divide-border">
                       {order.order_items?.map((item, index) => (
                         <tr key={index}>
                           <td className="py-4">
@@ -402,10 +402,10 @@ export default function Checkout() {
                                 />
                               </div>
                               <div>
-                                <h6 className="text-md font-medium text-gray-800">
+                                <h6 className="text-md font-medium text-foreground">
                                   {item.course.title}
                                 </h6>
-                                <p className="text-sm text-gray-500 mt-1">
+                                <p className="text-sm text-muted-foreground mt-1">
                                   Instructor: {item.teacher.full_name}
                                 </p>
                               </div>
@@ -430,7 +430,7 @@ export default function Checkout() {
                 </div>
                 <Link
                   href="/cart"
-                  className="mt-4 inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-buttonsCustom-500"
+                  className="mt-4 inline-flex items-center px-4 py-2 border border-input rounded-md shadow-sm text-sm font-medium text-foreground bg-background hover:bg-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary"
                 >
                   Edit Cart
                   <svg
@@ -444,20 +444,20 @@ export default function Checkout() {
                 </Link>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h5 className="text-lg font-semibold mb-4">Personal Details</h5>
+              <div className="bg-card p-6 rounded-lg shadow-sm border border-border">
+                <h5 className="text-lg font-semibold mb-4 text-foreground">Personal Details</h5>
                 <form className="grid grid-cols-1 gap-4">
                   <div>
                     <label
                       htmlFor="yourName"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-foreground mb-1"
                     >
                       Your name *
                     </label>
                     <input
                       type="text"
                       id="yourName"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-buttonsCustom-500 focus:border-buttonsCustom-500"
+                      className="w-full px-3 py-2 border border-input rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary bg-background text-foreground"
                       readOnly
                       value={order.full_name || order.student.full_name || ""}
                     />
@@ -465,14 +465,14 @@ export default function Checkout() {
                   <div>
                     <label
                       htmlFor="emailInput"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-foreground mb-1"
                     >
                       Email address *
                     </label>
                     <input
                       type="email"
                       id="emailInput"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-buttonsCustom-500 focus:border-buttonsCustom-500"
+                      className="w-full px-3 py-2 border border-input rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary bg-background text-foreground"
                       readOnly
                       value={order.email || order.student.email || ""}
                     />
@@ -480,14 +480,14 @@ export default function Checkout() {
                   <div>
                     <label
                       htmlFor="countryInput"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-foreground mb-1"
                     >
                       Select country *
                     </label>
                     <input
                       type="text"
                       id="countryInput"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-buttonsCustom-500 focus:border-buttonsCustom-500"
+                      className="w-full px-3 py-2 border border-input rounded-md shadow-sm focus:outline-none focus:ring-secondary focus:border-secondary bg-background text-foreground"
                       readOnly
                       value={order.country || ""}
                     />
@@ -497,25 +497,24 @@ export default function Checkout() {
             </div>
 
             <div className="space-y-6">
-              <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="bg-card p-6 rounded-lg shadow-sm border border-border">
                 <div className="flex justify-between items-center mb-4">
-                  <h4 className="text-xl font-bold">Order Summary</h4>
-                  <span className="text-sm text-gray-500">
+                  <h4 className="text-xl font-bold text-foreground">Order Summary</h4>
+                  <span className="text-sm text-muted-foreground">
                     Order #: {order.oid}
                   </span>
                 </div>
 
                 <div className="mb-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-600">Payment Status</span>
+                    <span className="text-muted-foreground">Payment Status</span>
                     <span
-                      className={`px-2 py-1 rounded text-xs font-medium ${
-                        order.payment_status === "completed"
+                      className={`px-2 py-1 rounded text-xs font-medium ${order.payment_status === "completed"
                           ? "bg-green-100 text-green-800"
                           : order.payment_status === "failed"
-                          ? "bg-red-100 text-red-800"
-                          : "bg-yellow-100 text-yellow-800"
-                      }`}
+                            ? "bg-destructive/10 text-destructive"
+                            : "bg-yellow-100 text-yellow-800"
+                        }`}
                     >
                       {order.payment_status}
                     </span>
@@ -524,7 +523,7 @@ export default function Checkout() {
 
                 <div className="flex mt-1">
                   <input
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-buttonsCustom-500 focus:border-buttonsCustom-500"
+                    className="flex-1 px-3 py-2 border border-input rounded-l-md focus:outline-none focus:ring-secondary focus:border-secondary bg-background text-foreground"
                     placeholder="COUPON CODE"
                     onChange={(e) => setCoupon(e.target.value)}
                     value={coupon}
@@ -532,7 +531,7 @@ export default function Checkout() {
                   <button
                     onClick={applyCoupon}
                     type="button"
-                    className="px-4 py-2 bg-buttonsCustom-500 text-white rounded-r-md hover:bg-buttonsCustom-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-buttonsCustom-500"
+                    className="px-4 py-2 bg-secondary text-secondary-foreground rounded-r-md hover:bg-secondary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary"
                   >
                     Apply
                   </button>
@@ -540,14 +539,14 @@ export default function Checkout() {
 
                 {order.coupons.length > 0 && (
                   <div className="mt-3">
-                    <h5 className="text-sm font-medium text-gray-700 mb-1">
+                    <h5 className="text-sm font-medium text-foreground mb-1">
                       Applied Coupons
                     </h5>
                     <div className="space-y-2">
                       {order.coupons.map((coupon) => (
                         <div
                           key={coupon.id}
-                          className="flex justify-between items-center bg-green-50 p-2 rounded"
+                          className="flex justify-between items-center bg-green-500/10 p-2 rounded"
                         >
                           <span className="text-sm font-medium text-green-800">
                             {coupon.code}
@@ -561,30 +560,30 @@ export default function Checkout() {
                   </div>
                 )}
 
-                <div className="bg-primaryCustom-50 p-4 rounded-lg shadow-sm mt-4">
-                  <h4 className="text-lg font-bold mb-3">Cart Total</h4>
+                <div className="bg-muted/30 p-4 rounded-lg shadow-sm mt-4 border border-border">
+                  <h4 className="text-lg font-bold mb-3 text-foreground">Cart Total</h4>
                   <ul className="space-y-2 mb-4">
                     <li className="flex justify-between items-center">
-                      <span className="text-gray-600">Sub Total</span>
-                      <span className="text-gray-800">
+                      <span className="text-muted-foreground">Sub Total</span>
+                      <span className="text-foreground">
                         ₹ {parseFloat(order.sub_total).toFixed(2)}
                       </span>
                     </li>
                     <li className="flex justify-between items-center">
-                      <span className="text-gray-600">Discount</span>
+                      <span className="text-muted-foreground">Discount</span>
                       <span className="text-green-600">
                         -₹ {parseFloat(order.saved).toFixed(2)}
                       </span>
                     </li>
                     <li className="flex justify-between items-center">
-                      <span className="text-gray-600">Tax</span>
-                      <span className="text-gray-800">
+                      <span className="text-muted-foreground">Tax</span>
+                      <span className="text-foreground">
                         ₹ {parseFloat(order.tax_fee).toFixed(2)}
                       </span>
                     </li>
-                    <li className="flex justify-between items-center font-bold pt-2 border-t border-gray-200">
-                      <span className="text-gray-800">Total</span>
-                      <span className="text-lg text-buttonsCustom-700">
+                    <li className="flex justify-between items-center font-bold pt-2 border-t border-border">
+                      <span className="text-foreground">Total</span>
+                      <span className="text-lg text-secondary">
                         ₹ {parseFloat(order.total).toFixed(2)}
                       </span>
                     </li>
@@ -631,7 +630,7 @@ export default function Checkout() {
                         <button
                           onClick={initiateRazorpay}
                           disabled={paymentLoading}
-                          className="mt-6 px-6 py-3 bg-buttonsCustom-700 text-white rounded hover:bg-buttonsCustom-800 transition duration-200"
+                          className="w-full mt-6 px-6 py-3 bg-primary text-primary-foreground rounded hover:bg-primary/90 transition duration-200"
                         >
                           {paymentLoading
                             ? "Processing..."
@@ -640,18 +639,18 @@ export default function Checkout() {
                       )}
                     </form>
                   </div>
-                  <p className="text-xs text-center text-gray-500 mt-3">
+                  <p className="text-xs text-center text-muted-foreground mt-3">
                     By proceeding to payment, you agree to our{" "}
                     <Link
                       href="/terms"
-                      className="text-buttonsCustom-600 hover:underline"
+                      className="text-secondary hover:underline"
                     >
                       Terms of Service
                     </Link>{" "}
                     and{" "}
                     <Link
                       href="/privacy"
-                      className="text-buttonsCustom-600 hover:underline"
+                      className="text-secondary hover:underline"
                     >
                       Privacy Policy
                     </Link>

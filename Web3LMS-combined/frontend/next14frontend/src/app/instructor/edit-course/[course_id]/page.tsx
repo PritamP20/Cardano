@@ -92,14 +92,14 @@ export default function CourseEdit() {
   const [imagePreview, setImagePreview] = useState("");
   const [editorContent, setEditorContent] = useState("");
   const [variants, setVariants] = useState<Variant[]>([
-        {
-            title: "",
-            items: [{ title: "", description: "", file: "", preview: false }],
-        },
-    ]);
+    {
+      title: "",
+      items: [{ title: "", description: "", file: "", preview: false }],
+    },
+  ]);
   const [isSaving, setIsSaving] = useState(false);
 
-    useEffect(() => {
+  useEffect(() => {
     const courseImageUrl = Cookie.get("course_image_url");
     if (courseImageUrl) {
       setCourse((prev) => ({
@@ -107,8 +107,8 @@ export default function CourseEdit() {
         image: courseImageUrl,
       }));
       setImagePreview(courseImageUrl);
-        }
-    }, []);
+    }
+  }, []);
 
   useEffect(() => {
     console.log("Image preview URL:", imagePreview);
@@ -123,11 +123,11 @@ export default function CourseEdit() {
       ]);
 
       setCategories(categoriesRes.data);
-      
+
       const courseData = courseRes.data;
       setCourse(courseData);
       setEditorContent(courseData.description);
-      
+
       if (courseData.curriculum && Array.isArray(courseData.curriculum)) {
         setVariants(courseData.curriculum);
       }
@@ -145,11 +145,11 @@ export default function CourseEdit() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    
+
     setCourse((prev) => ({
       ...prev,
-      [name]: (e.target as HTMLInputElement).type === "checkbox" 
-        ? (e.target as HTMLInputElement).checked 
+      [name]: (e.target as HTMLInputElement).type === "checkbox"
+        ? (e.target as HTMLInputElement).checked
         : value,
     }));
   };
@@ -167,21 +167,21 @@ export default function CourseEdit() {
 
   const handleCourseImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files || event.target.files.length === 0) return;
-    
-        const file = event.target.files[0];
+
+    const file = event.target.files[0];
     setLoading(true);
 
-        try {
-            const formData = new FormData();
-            formData.append("file", file);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
 
-            const response = await useAxios.post("/file-upload/", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            });
+      const response = await useAxios.post("/file-upload/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-            if (response?.data?.url) {
+      if (response?.data?.url) {
         Cookie.set("course_image_url", response.data.url);
         setImagePreview(response.data.url);
         setCourse((prev) => ({
@@ -189,18 +189,18 @@ export default function CourseEdit() {
           image: response.data.url,
         }));
         toast.success("Image uploaded successfully");
-            }
-        } catch (error) {
-            console.error("Error uploading image:", error);
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
       toast.error("Failed to upload image");
-        } finally {
-            setLoading(false);
-        }
-    };
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCourseIntroVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files || event.target.files.length === 0) return;
-    
+
     setCourse((prev) => ({
       ...prev,
       file: event.target.files![0],
@@ -208,7 +208,7 @@ export default function CourseEdit() {
   };
 
   const handleVariantChange = (index: number, name: string, value: string) => {
-        const updatedVariants = [...variants];
+    const updatedVariants = [...variants];
     updatedVariants[index] = {
       ...updatedVariants[index],
       [name]: value,
@@ -217,28 +217,28 @@ export default function CourseEdit() {
   };
 
   const handleItemChange = (
-    variantIndex: number, 
-    itemIndex: number, 
-    name: string, 
+    variantIndex: number,
+    itemIndex: number,
+    name: string,
     value: string | boolean | File
   ) => {
-        const updatedVariants = [...variants];
+    const updatedVariants = [...variants];
     updatedVariants[variantIndex].items[itemIndex] = {
       ...updatedVariants[variantIndex].items[itemIndex],
       [name]: value,
     };
-        setVariants(updatedVariants);
-    };
+    setVariants(updatedVariants);
+  };
 
-    const addVariant = () => {
-        setVariants([
-            ...variants,
-            {
-                title: "",
-                items: [{ title: "", description: "", file: "", preview: false }],
-            },
-        ]);
-    };
+  const addVariant = () => {
+    setVariants([
+      ...variants,
+      {
+        title: "",
+        items: [{ title: "", description: "", file: "", preview: false }],
+      },
+    ]);
+  };
 
   const removeVariant = async (index: number, variantId?: number) => {
     if (variantId) {
@@ -253,27 +253,27 @@ export default function CourseEdit() {
         toast.error("Failed to delete section");
       }
     } else {
-        const updatedVariants = [...variants];
-        updatedVariants.splice(index, 1);
-        setVariants(updatedVariants);
+      const updatedVariants = [...variants];
+      updatedVariants.splice(index, 1);
+      setVariants(updatedVariants);
     }
   };
 
   const addItem = (variantIndex: number) => {
-        const updatedVariants = [...variants];
-        updatedVariants[variantIndex].items.push({
-            title: "",
-            description: "",
-            file: "",
-            preview: false,
-        });
-        setVariants(updatedVariants);
-    };
+    const updatedVariants = [...variants];
+    updatedVariants[variantIndex].items.push({
+      title: "",
+      description: "",
+      file: "",
+      preview: false,
+    });
+    setVariants(updatedVariants);
+  };
 
   const removeItem = async (
-    variantIndex: number, 
-    itemIndex: number, 
-    variantId?: number, 
+    variantIndex: number,
+    itemIndex: number,
+    variantId?: number,
     itemId?: number
   ) => {
     if (variantId && itemId) {
@@ -288,43 +288,43 @@ export default function CourseEdit() {
         toast.error("Failed to delete lesson");
       }
     } else {
-        const updatedVariants = [...variants];
-        updatedVariants[variantIndex].items.splice(itemIndex, 1);
-        setVariants(updatedVariants);
+      const updatedVariants = [...variants];
+      updatedVariants[variantIndex].items.splice(itemIndex, 1);
+      setVariants(updatedVariants);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    e.preventDefault();
     setIsSaving(true);
 
     try {
       const formData = new FormData();
-      
+
       formData.append("title", course.title);
       formData.append("description", editorContent);
-      
-      const categoryId = typeof course.category === 'object' 
-        ? course.category.id 
+
+      const categoryId = typeof course.category === 'object'
+        ? course.category.id
         : course.category;
       formData.append("category", categoryId.toString());
-      
+
       formData.append("price", course.price);
       formData.append("level", course.level);
       formData.append("language", course.language);
-      
+
       const teacherId = UserData()?.teacher_id;
       if (teacherId !== undefined) {
         formData.append("teacher", teacherId.toString());
-        
+
         if (course.file && typeof course.file !== "string") {
           formData.append("file", course.file);
         }
-        
+
         if (variants && Array.isArray(variants) && variants.length > 0) {
-        variants.forEach((variant, variantIndex) => {
+          variants.forEach((variant, variantIndex) => {
             if (!variant.title.trim()) return;
-            
+
             Object.entries(variant).forEach(([key, value]) => {
               if (key !== 'items') {
                 formData.append(`variants[${variantIndex}][variant_${key}]`, String(value));
@@ -333,19 +333,19 @@ export default function CourseEdit() {
 
             variant.items.forEach((item, itemIndex) => {
               if (!item.title.trim()) return;
-              
-                Object.entries(item).forEach(([itemKey, itemValue]) => {
+
+              Object.entries(item).forEach(([itemKey, itemValue]) => {
                 if (itemKey === 'file' && typeof itemValue === 'object' && itemValue instanceof File) {
                   formData.append(`variants[${variantIndex}][items][${itemIndex}][${itemKey}]`, itemValue);
                 } else {
                   formData.append(
-                    `variants[${variantIndex}][items][${itemIndex}][${itemKey}]`, 
+                    `variants[${variantIndex}][items][${itemIndex}][${itemKey}]`,
                     String(itemValue)
                   );
                 }
-                });
+              });
             });
-        });
+          });
         }
 
         console.log("Form data being sent:");
@@ -354,7 +354,7 @@ export default function CourseEdit() {
         });
 
         await useAxios.patch(
-          `teacher/course-update/${teacherId}/${courseId}/`, 
+          `teacher/course-update/${teacherId}/${courseId}/`,
           formData,
           {
             headers: {
@@ -363,7 +363,7 @@ export default function CourseEdit() {
             timeout: 30000
           }
         );
-        
+
         toast.success("Course updated successfully");
         router.push("/instructor/courses");
       } else {
@@ -371,11 +371,11 @@ export default function CourseEdit() {
       }
     } catch (error) {
       console.error("Error updating course:", error);
-      
+
       const err = error as AxiosError;
       if (err.response && err.response.data) {
         console.error("Error details:", err.response.data);
-        
+
         if (typeof err.response.data === 'object') {
           try {
             const errorMessage = Object.entries(err.response.data as Record<string, unknown>)
@@ -397,60 +397,60 @@ export default function CourseEdit() {
     }
   };
 
-    return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+  return (
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
         <InstructorHeader />
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8 mt-4 sm:mt-8">
           <div className="lg:sticky lg:top-4 lg:self-start">
             <InstructorSidebar />
           </div>
-          
+
           <div className="lg:col-span-3 space-y-4 sm:space-y-6">
             <motion.div className="flex items-center gap-2 mb-2">
-              <div className="h-10 w-10 rounded-full bg-buttonsCustom-100 flex items-center justify-center">
-                <BookOpen className="h-5 w-5 text-buttonsCustom-600" />
-                                                    </div>
-                                                    <div>
-                <h4 className="text-xl font-bold text-gray-900">Edit Course</h4>
-                <p className="text-sm text-gray-500">Update your course details and curriculum</p>
+              <div className="h-10 w-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                <BookOpen className="h-5 w-5 text-secondary" />
+              </div>
+              <div>
+                <h4 className="text-xl font-bold text-foreground">Edit Course</h4>
+                <p className="text-sm text-muted-foreground">Update your course details and curriculum</p>
               </div>
             </motion.div>
-            
+
             <form onSubmit={handleSubmit}>
               {/* Card for course details */}
-              <Card className="border-buttonsCustom-200 overflow-hidden bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl mb-6">
+              <Card className="border-border overflow-hidden bg-card backdrop-blur-sm border shadow-xl mb-6">
                 {/* Gradient Header */}
-                <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-                <CardHeader className="p-4 sm:p-6 bg-gradient-to-r from-buttonsCustom-50/50 to-transparent border-b border-buttonsCustom-100">
+                <div className="h-2 bg-secondary" />
+                <CardHeader className="p-4 sm:p-6 bg-muted/30 border-b border-border">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                      <CardTitle className="text-lg sm:text-xl text-buttonsCustom-900">Course Details</CardTitle>
-                      <p className="text-sm text-buttonsCustom-500 mt-1">
+                      <CardTitle className="text-lg sm:text-xl text-foreground">Course Details</CardTitle>
+                      <p className="text-sm text-muted-foreground mt-1">
                         Update your course information and curriculum
                       </p>
                     </div>
                     <Button
                       asChild
                       variant="outline"
-                      className="border-buttonsCustom-200 text-buttonsCustom-600 hover:bg-buttonsCustom-50 gap-2"
+                      className="border-input text-secondary hover:bg-secondary/10 gap-2"
                     >
                       <Link href="/instructor/courses/">
                         <ArrowLeft className="h-4 w-4" />
                         Back to Courses
-                                                        </Link>
+                      </Link>
                     </Button>
                   </div>
                 </CardHeader>
-                
+
                 <CardContent className="p-4 sm:p-6 space-y-6">
                   {/* Thumbnail */}
                   <div className="space-y-4">
-                    <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground">
                       Course Thumbnail
                     </label>
-                    <div className="relative aspect-video w-full overflow-hidden rounded-lg border bg-white/50 shadow-sm border-buttonsCustom-200/30 group">
+                    <div className="relative aspect-video w-full overflow-hidden rounded-lg border bg-muted/10 shadow-sm border-border group">
                       {course.image ? (
                         <Image
                           src={course.image.startsWith('http') ? course.image : `/media/${imagePreview}`}
@@ -464,18 +464,18 @@ export default function CourseEdit() {
                           }}
                         />
                       ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-slate-50">
+                        <div className="flex h-full w-full items-center justify-center bg-muted/20">
                           <div className="text-center">
-                            <BookOpen className="mx-auto h-12 w-12 text-buttonsCustom-200" />
-                            <p className="mt-2 text-sm text-buttonsCustom-400">Thumbnail Preview</p>
+                            <BookOpen className="mx-auto h-12 w-12 text-muted" />
+                            <p className="mt-2 text-sm text-muted-foreground">Thumbnail Preview</p>
                           </div>
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground">
                           Upload Thumbnail
                         </label>
                         <div className="mt-1">
@@ -484,16 +484,16 @@ export default function CourseEdit() {
                             accept="image/*"
                             onChange={handleCourseImageChange}
                             disabled={loading}
-                            className="cursor-pointer file:cursor-pointer file:text-buttonsCustom-600 file:bg-buttonsCustom-50 file:border-buttonsCustom-200 file:rounded-md file:px-3 file:py-1.5 file:mr-3 file:border file:transition-colors file:hover:bg-buttonsCustom-100"
+                            className="cursor-pointer file:cursor-pointer file:text-secondary file:bg-secondary/10 file:border-input file:rounded-md file:px-3 file:py-1.5 file:mr-3 file:border file:transition-colors file:hover:bg-secondary/20 bg-background text-foreground border-input"
                           />
                           <p className="text-sm text-muted-foreground mt-1">
                             Use a 16:9 ratio image for best results
                           </p>
                         </div>
                       </div>
-                      
+
                       <div>
-                        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground">
                           Intro Video
                         </label>
                         <div className="mt-1">
@@ -502,69 +502,69 @@ export default function CourseEdit() {
                             accept="video/*"
                             name="file"
                             onChange={handleCourseIntroVideoChange}
-                            className="cursor-pointer file:cursor-pointer file:text-buttonsCustom-600 file:bg-buttonsCustom-50 file:border-buttonsCustom-200 file:rounded-md file:px-3 file:py-1.5 file:mr-3 file:border file:transition-colors file:hover:bg-buttonsCustom-100"
+                            className="cursor-pointer file:cursor-pointer file:text-secondary file:bg-secondary/10 file:border-input file:rounded-md file:px-3 file:py-1.5 file:mr-3 file:border file:transition-colors file:hover:bg-secondary/20 bg-background text-foreground border-input"
                           />
                           {typeof course.file === 'string' && course.file && (
-                            <div className="mt-2 flex items-center gap-2 text-sm text-buttonsCustom-600">
+                            <div className="mt-2 flex items-center gap-2 text-sm text-secondary">
                               <div className="flex items-center space-x-2">
                                 <FileVideo className="h-4 w-4" />
                                 <a
                                   href={course.file.startsWith('http') ? course.file : `/media/${course.file}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="text-buttonsCustom-600 hover:underline"
+                                  className="text-secondary hover:underline"
                                 >
                                   View uploaded intro video
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                </a>
+                              </div>
+                            </div>
                           )}
                           <p className="text-sm text-muted-foreground mt-1">
                             Upload a short introduction video for your course
                           </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                        </div>
-                  
-                  <Separator className="bg-buttonsCustom-100" />
-                  
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Separator className="bg-border" />
+
                   {/* Title */}
                   <div>
-                    <label htmlFor="courseTitle" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    <label htmlFor="courseTitle" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground">
                       Course Title
-                                            </label>
+                    </label>
                     <Input
                       id="courseTitle"
                       name="title"
                       value={course.title}
                       onChange={handleCourseInputChange}
                       placeholder="Enter course title"
-                      className="mt-1 border-buttonsCustom-200 focus:border-buttonsCustom-600 focus:ring-buttonsCustom-600/10"
+                      className="mt-1 border-input bg-background text-foreground focus:border-secondary focus:ring-secondary"
                     />
                     <p className="text-sm text-muted-foreground mt-1">
                       Write a clear, descriptive title for your course (60 characters max)
                     </p>
                   </div>
-                  
+
                   {/* Category, Level, Language */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                      <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground">
                         Category
-                                                </label>
+                      </label>
                       <Select
                         value={
-                          typeof course.category === 'object' 
-                            ? course.category.id.toString() 
+                          typeof course.category === 'object'
+                            ? course.category.id.toString()
                             : course.category.toString()
                         }
                         onValueChange={(value) => handleSelectChange("category", value)}
                       >
-                        <SelectTrigger className="mt-1 border-buttonsCustom-200 focus:ring-buttonsCustom-600/10">
+                        <SelectTrigger className="mt-1 border-input bg-background text-foreground focus:ring-secondary">
                           <SelectValue placeholder="Select category" />
                         </SelectTrigger>
-                        <SelectContent className="border-buttonsCustom-100">
+                        <SelectContent className="border-border bg-card">
                           {categories.map((category) => (
                             <SelectItem key={category.id} value={category.id.toString()}>
                               {category.title}
@@ -575,20 +575,20 @@ export default function CourseEdit() {
                       <p className="text-sm text-muted-foreground mt-1">
                         Choose a category that best fits your course
                       </p>
-                                            </div>
-                    
+                    </div>
+
                     <div>
-                      <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground">
                         Level
-                                                </label>
+                      </label>
                       <Select
                         value={course.level}
                         onValueChange={(value) => handleSelectChange("level", value)}
                       >
-                        <SelectTrigger className="mt-1 border-buttonsCustom-200 focus:ring-buttonsCustom-600/10">
+                        <SelectTrigger className="mt-1 border-input bg-background text-foreground focus:ring-secondary">
                           <SelectValue placeholder="Select level" />
                         </SelectTrigger>
-                        <SelectContent className="border-buttonsCustom-100">
+                        <SelectContent className="border-border bg-card">
                           <SelectItem value="Beginner">Beginner</SelectItem>
                           <SelectItem value="Intemediate">Intermediate</SelectItem>
                           <SelectItem value="Advanced">Advanced</SelectItem>
@@ -597,20 +597,20 @@ export default function CourseEdit() {
                       <p className="text-sm text-muted-foreground mt-1">
                         Set the difficulty level of your course
                       </p>
-                                            </div>
-                    
+                    </div>
+
                     <div>
-                      <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground">
                         Language
-                                                </label>
+                      </label>
                       <Select
                         value={course.language}
                         onValueChange={(value) => handleSelectChange("language", value)}
                       >
-                        <SelectTrigger className="mt-1 border-buttonsCustom-200 focus:ring-buttonsCustom-600/10">
+                        <SelectTrigger className="mt-1 border-input bg-background text-foreground focus:ring-secondary">
                           <SelectValue placeholder="Select language" />
                         </SelectTrigger>
-                        <SelectContent className="border-buttonsCustom-100">
+                        <SelectContent className="border-border bg-card">
                           <SelectItem value="English">English</SelectItem>
                           <SelectItem value="Spanish">Spanish</SelectItem>
                           <SelectItem value="French">French</SelectItem>
@@ -620,31 +620,31 @@ export default function CourseEdit() {
                         Choose the language your course is taught in
                       </p>
                     </div>
-                                            </div>
-                  
+                  </div>
+
                   {/* Description */}
                   <div>
-                    <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground">
                       Course Description
                     </label>
-                    <div className="mt-1 border rounded-md overflow-hidden border-buttonsCustom-200 hover:border-buttonsCustom-500 focus-within:border-buttonsCustom-600 focus-within:ring-2 focus-within:ring-buttonsCustom-600/20 transition-all duration-200">
+                    <div className="mt-1 border rounded-md overflow-hidden border-input hover:border-secondary focus-within:border-secondary focus-within:ring-2 focus-within:ring-secondary/20 transition-all duration-200">
                       <CKEditorWrapper
                         initialData={editorContent}
                         onChange={handleEditorChange}
                       />
-                                            </div>
+                    </div>
                     <p className="text-sm text-muted-foreground mt-1">
                       Provide a detailed description of what students will learn
                     </p>
-                                            </div>
+                  </div>
 
                   {/* Price */}
                   <div className="max-w-xs">
-                    <label htmlFor="coursePrice" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    <label htmlFor="coursePrice" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground">
                       Price (₹)
                     </label>
                     <div className="relative mt-1">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-buttonsCustom-400">₹</span>
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">₹</span>
                       <Input
                         id="coursePrice"
                         type="number"
@@ -652,43 +652,43 @@ export default function CourseEdit() {
                         value={course.price}
                         onChange={handleCourseInputChange}
                         placeholder="e.g. 1999"
-                        className="pl-8 border-buttonsCustom-200 focus:border-buttonsCustom-600 focus:ring-buttonsCustom-600/10"
+                        className="pl-8 border-input bg-background text-foreground focus:border-secondary focus:ring-secondary"
                       />
-                                            </div>
+                    </div>
                     <p className="text-sm text-muted-foreground mt-1">
                       Set a competitive price for your course
                     </p>
-                                            </div>
+                  </div>
                 </CardContent>
               </Card>
 
               {/* Curriculum */}
-              <Card className="border-buttonsCustom-200 overflow-hidden bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl mb-6">
-                <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-                <CardHeader className="p-4 sm:p-6 bg-gradient-to-r from-buttonsCustom-50/50 to-transparent border-b border-buttonsCustom-100">
-                  <CardTitle className="text-lg sm:text-xl text-buttonsCustom-900">Curriculum</CardTitle>
-                  <p className="text-sm text-buttonsCustom-500 mt-1">
+              <Card className="border-border overflow-hidden bg-card backdrop-blur-sm border shadow-xl mb-6">
+                <div className="h-2 bg-secondary" />
+                <CardHeader className="p-4 sm:p-6 bg-muted/30 border-b border-border">
+                  <CardTitle className="text-lg sm:text-xl text-foreground">Curriculum</CardTitle>
+                  <p className="text-sm text-muted-foreground mt-1">
                     Organize your course content into sections and lessons
                   </p>
                 </CardHeader>
-                
+
                 <CardContent className="p-4 sm:p-6 space-y-4">
                   <div className="space-y-4">
                     {variants.map((variant, variantIndex) => (
-                      <div 
+                      <div
                         key={variantIndex}
-                        className="border rounded-lg overflow-hidden bg-gray-50 border-buttonsCustom-200/50"
+                        className="border rounded-lg overflow-hidden bg-muted/50 border-border"
                       >
-                        <div className="p-4 bg-buttonsCustom-50 flex items-center justify-between gap-4 border-b border-buttonsCustom-100">
+                        <div className="p-4 bg-muted/30 flex items-center justify-between gap-4 border-b border-border">
                           <Input
                             placeholder="Section Title"
                             value={variant.title}
                             onChange={(e) => handleVariantChange(
-                              variantIndex, 
-                              "title", 
+                              variantIndex,
+                              "title",
                               e.target.value
                             )}
-                            className="flex-1 border-buttonsCustom-200 focus:border-buttonsCustom-600 focus:ring-buttonsCustom-600/10"
+                            className="flex-1 border-input bg-background text-foreground focus:border-secondary focus:ring-secondary"
                           />
                           <Button
                             type="button"
@@ -698,13 +698,13 @@ export default function CourseEdit() {
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
-                                        </div>
+                        </div>
 
                         <div className="p-4 space-y-3">
                           {variant.items.map((item, itemIndex) => (
-                            <div 
+                            <div
                               key={itemIndex}
-                              className="border rounded-lg p-4 bg-white shadow-sm border-buttonsCustom-200/50 hover:border-buttonsCustom-300/70 transition-colors"
+                              className="border rounded-lg p-4 bg-card shadow-sm border-border hover:border-secondary transition-colors"
                             >
                               <div className="space-y-4">
                                 <Input
@@ -716,9 +716,9 @@ export default function CourseEdit() {
                                     "title",
                                     e.target.value
                                   )}
-                                  className="w-full border-buttonsCustom-200 focus:border-buttonsCustom-600 focus:ring-buttonsCustom-600/10"
+                                  className="w-full border-input bg-background text-foreground focus:border-secondary focus:ring-secondary"
                                 />
-                                
+
                                 <Textarea
                                   placeholder="Lesson Description"
                                   value={item.description}
@@ -729,9 +729,9 @@ export default function CourseEdit() {
                                     e.target.value
                                   )}
                                   rows={3}
-                                  className="w-full border-buttonsCustom-200 focus:border-buttonsCustom-600 focus:ring-buttonsCustom-600/10"
+                                  className="w-full border-input bg-background text-foreground focus:border-secondary focus:ring-secondary"
                                 />
-                                
+
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
                                   <div>
                                     <Input
@@ -746,23 +746,23 @@ export default function CourseEdit() {
                                           );
                                         }
                                       }}
-                                      className="cursor-pointer file:cursor-pointer file:text-buttonsCustom-600 file:bg-buttonsCustom-50 file:border-buttonsCustom-200 file:rounded-md file:px-3 file:py-1.5 file:mr-3 file:border file:transition-colors file:hover:bg-buttonsCustom-100"
+                                      className="cursor-pointer file:cursor-pointer file:text-secondary file:bg-secondary/10 file:border-input file:rounded-md file:px-3 file:py-1.5 file:mr-3 file:border file:transition-colors file:hover:bg-secondary/20 bg-background text-foreground border-input"
                                     />
                                     {typeof item.file === 'string' && item.file && (
-                                      <div className="mt-2 flex items-center gap-2 text-xs text-buttonsCustom-600">
+                                      <div className="mt-2 flex items-center gap-2 text-xs text-secondary">
                                         <FileVideo className="h-3 w-3" />
                                         <a
                                           href={item.file.startsWith('http') ? item.file : `/media/${item.file}`}
                                           target="_blank"
-                                          rel="noopener noreferrer" 
+                                          rel="noopener noreferrer"
                                           className="hover:underline"
                                         >
                                           View uploaded file
                                         </a>
                                       </div>
                                     )}
-                                        </div>
-                                  
+                                  </div>
+
                                   <div className="flex items-center justify-end gap-2">
                                     <div className="flex items-center space-x-2">
                                       <Checkbox
@@ -777,70 +777,70 @@ export default function CourseEdit() {
                                       />
                                       <label
                                         htmlFor={`preview-${variantIndex}-${itemIndex}`}
-                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground"
                                       >
                                         Preview Lesson
                                       </label>
-                                                    </div>
-                                    
+                                    </div>
+
                                     <Button
                                       type="button"
                                       variant="destructive"
                                       size="sm"
                                       onClick={() => removeItem(
-                                        variantIndex, 
-                                        itemIndex, 
-                                        variant.variant_id, 
+                                        variantIndex,
+                                        itemIndex,
+                                        variant.variant_id,
                                         item.variant_item_id
                                       )}
                                     >
                                       <Trash2 className="h-4 w-4" />
                                     </Button>
-                                                                </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
 
                           <Button
                             type="button"
                             variant="outline"
                             size="sm"
                             onClick={() => addItem(variantIndex)}
-                            className="w-full mt-2 border-buttonsCustom-200 text-buttonsCustom-700 hover:bg-buttonsCustom-50 hover:text-buttonsCustom-800"
+                            className="w-full mt-2 border-input text-secondary hover:bg-secondary/10 hover:text-secondary"
                           >
                             <Plus className="h-4 w-4 mr-2" />
                             Add Lesson
                           </Button>
                         </div>
-                                                </div>
-                                            ))}
+                      </div>
+                    ))}
 
                     <Button
                       type="button"
                       variant="secondary"
                       onClick={addVariant}
-                      className="w-full bg-buttonsCustom-100 hover:bg-buttonsCustom-200 text-buttonsCustom-800"
+                      className="w-full bg-secondary/10 hover:bg-secondary/20 text-secondary"
                     >
                       <PlusCircle className="h-4 w-4 mr-2" />
                       Add New Section
                     </Button>
-                                        </div>
+                  </div>
                 </CardContent>
-                
-                <CardFooter className="border-t p-4 sm:p-6 bg-buttonsCustom-50 flex justify-between">
-                  <div className="flex items-center text-sm text-gray-500">
-                    <Info className="h-4 w-4 mr-2 text-buttonsCustom-500" />
+
+                <CardFooter className="border-t p-4 sm:p-6 bg-muted/30 flex justify-between">
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Info className="h-4 w-4 mr-2 text-secondary" />
                     Organize your course into logical sections and lessons
-                                    </div>
+                  </div>
                 </CardFooter>
               </Card>
-              
+
               {/* Submit Button */}
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 size="lg"
-                className="w-full sm:w-auto float-right gap-2 bg-gradient-to-r from-buttonsCustom-600 to-buttonsCustom-800 hover:from-buttonsCustom-700 hover:to-buttonsCustom-900 shadow-md hover:shadow-lg transition-all duration-200 text-white py-6"
+                className="w-full sm:w-auto float-right gap-2 bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all duration-200 text-primary-foreground py-6"
                 disabled={isSaving}
               >
                 {isSaving ? (
@@ -855,9 +855,9 @@ export default function CourseEdit() {
                   </>
                 )}
               </Button>
-                        </form>
-                    </div>
-                </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -13,28 +13,28 @@ const config: Config = {
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
                 primaryCustom: {
-                    50: "#FEFCFA", // Lightest (almost white with warm tint)
-                    100: "#FBF7F4", // Your existing light
-                    200: "#F8F0EA",
-                    300: "#F5E9E0",
-                    400: "#F2E2D6", // Midpoint between your existing colors
-                    500: "#F0DBCD",
-                    600: "#EED5C5",
-                    700: "#EFD9C9", // Slightly warmer transition
-                    800: "#EFDBCE",
-                    900: "#EFDED2", // Your existing dark
+                    50: "#f8fafc", // Soft White (Main Background)
+                    100: "#f1f5f9",
+                    200: "#e2e8f0",
+                    300: "#cbd5e1",
+                    400: "#94a3b8",
+                    500: "#64748b",
+                    600: "#475569",
+                    700: "#334155",
+                    800: "#1e293b",
+                    900: "#0f172a", // Dark Slate (Contrast)
                 },
                 buttonsCustom: {
-                    50: "#FFE5E5",
-                    100: "#FFCCCC",
-                    200: "#FFB3B3",
-                    300: "#FF9999",
-                    400: "#FF8080",
-                    500: "#E68080",
-                    600: "#CC6666",
-                    700: "#B34D4D",
-                    800: "#993333",
-                    900: "#800000",
+                    50: "#fff7ed", // Orange-50
+                    100: "#ffedd5", // Orange-100
+                    200: "#fed7aa", // Orange-200
+                    300: "#fdba74", // Orange-300
+                    400: "#fb923c", // Orange-400
+                    500: "#ff8c42", // Vibrant Orange (Main Secondary)
+                    600: "#ea580c", // Orange-600 (Hover)
+                    700: "#c2410c", // Orange-700
+                    800: "#9a3412", // Orange-800
+                    900: "#1f2937", // Dark Charcoal (Primary) - for strong contrast elements
                 },
                 card: {
                     DEFAULT: "hsl(var(--card))",

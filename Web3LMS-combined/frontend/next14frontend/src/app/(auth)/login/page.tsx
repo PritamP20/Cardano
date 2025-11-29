@@ -32,7 +32,7 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-    
+
     try {
       const { error } = await login(email, password);
       if (error) {
@@ -66,7 +66,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -74,25 +74,22 @@ const Login = () => {
         className="w-full max-w-md"
       >
         {/* Card Container */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden border border-white/20">
-          {/* Gradient Header */}
-          <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-
+        <div className="bg-card rounded-xl shadow-lg overflow-hidden border border-border">
           <div className="p-8 space-y-6">
             {/* Header Section */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
               className="text-center space-y-3"
             >
-              <div className="mx-auto flex items-center justify-center h-14 w-14 rounded-full bg-buttonsCustom-50">
-                <FingerPrintIcon className="h-6 w-6 text-buttonsCustom-700" />
+              <div className="mx-auto flex items-center justify-center h-14 w-14 rounded-full bg-secondary/10">
+                <FingerPrintIcon className="h-6 w-6 text-secondary" />
               </div>
-              <h1 className="text-2xl font-bold text-gray-900">
+              <h1 className="text-2xl font-bold text-foreground">
                 Decentralized Identity Portal
               </h1>
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 Securely access your blockchain learning resources
               </p>
             </motion.div>
@@ -104,7 +101,7 @@ const Login = () => {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="bg-red-50 text-red-700 p-3 rounded-lg text-sm"
+                  className="bg-destructive/10 text-destructive p-3 rounded-lg text-sm"
                 >
                   {error}
                 </motion.div>
@@ -118,19 +115,19 @@ const Login = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-foreground mb-2">
                   Email Address
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <EnvelopeIcon className="h-5 w-5 text-gray-400" />
+                    <EnvelopeIcon className="h-5 w-5 text-muted-foreground" />
                   </div>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg bg-white/70 
-                            placeholder-gray-400 focus:ring-2 focus:ring-buttonsCustom-300 focus:border-transparent"
+                    className="block w-full pl-10 pr-3 py-3 border border-input rounded-lg bg-background 
+                            placeholder-muted-foreground focus:ring-2 focus:ring-secondary focus:border-transparent text-foreground"
                     placeholder="your@email.com"
                     required
                   />
@@ -142,19 +139,19 @@ const Login = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-foreground mb-2">
                   Password
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <LockClosedIcon className="h-5 w-5 text-gray-400" />
+                    <LockClosedIcon className="h-5 w-5 text-muted-foreground" />
                   </div>
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg bg-white/70 
-                            placeholder-gray-400 focus:ring-2 focus:ring-buttonsCustom-300 focus:border-transparent"
+                    className="block w-full pl-10 pr-3 py-3 border border-input rounded-lg bg-background 
+                            placeholder-muted-foreground focus:ring-2 focus:ring-secondary focus:border-transparent text-foreground"
                     placeholder="••••••••"
                     required
                   />
@@ -170,15 +167,15 @@ const Login = () => {
                   type="submit"
                   disabled={isLoading}
                   className={`w-full flex items-center justify-center py-3 px-4 rounded-lg shadow-md transition-all
-                          ${isLoading 
-                            ? 'bg-buttonsCustom-400 cursor-not-allowed' 
-                            : 'bg-gradient-to-r from-buttonsCustom-700 to-buttonsCustom-600 hover:from-buttonsCustom-800 hover:to-buttonsCustom-700'
-                          }`}
+                          ${isLoading
+                      ? 'bg-muted cursor-not-allowed text-muted-foreground'
+                      : 'bg-secondary text-secondary-foreground hover:bg-secondary/90'
+                    }`}
                 >
                   {isLoading ? (
-                    <ArrowPathIcon className="h-5 w-5 animate-spin text-white" />
+                    <ArrowPathIcon className="h-5 w-5 animate-spin" />
                   ) : (
-                    <span className="text-white font-medium flex items-center gap-2">
+                    <span className="font-medium flex items-center gap-2">
                       <LockClosedIcon className="h-5 w-5" />
                       Authenticate with DID
                     </span>
@@ -196,24 +193,24 @@ const Login = () => {
             >
               <Link
                 href="/forgotpassword"
-                className="text-sm text-buttonsCustom-700 hover:text-buttonsCustom-900 transition-colors"
+                className="text-sm text-secondary hover:text-secondary/80 transition-colors"
               >
                 Forgot your decentralized identity?
               </Link>
             </motion.div>
 
             {/* Divider */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
               className="relative"
             >
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200" />
+                <div className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center">
-                <span className="px-2 bg-white text-sm text-gray-500">
+                <span className="px-2 bg-card text-sm text-muted-foreground">
                   Or continue with
                 </span>
               </div>
@@ -227,8 +224,8 @@ const Login = () => {
               className="space-y-3"
             >
               <button
-                className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 
-                        text-gray-700 rounded-lg p-3 hover:bg-gray-50 transition-colors shadow-sm"
+                className="w-full flex items-center justify-center gap-3 bg-card border border-border 
+                        text-foreground rounded-lg p-3 hover:bg-muted/50 transition-colors shadow-sm"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path
@@ -247,12 +244,12 @@ const Login = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
-          className="mt-6 text-center text-sm text-buttonsCustom-800"
+          className="mt-6 text-center text-sm text-muted-foreground"
         >
           <span className="opacity-80">New to decentralized learning? </span>
           <Link
             href="/register"
-            className="font-medium text-buttonsCustom-900 hover:underline"
+            className="font-medium text-secondary hover:underline"
           >
             Create an identity
           </Link>

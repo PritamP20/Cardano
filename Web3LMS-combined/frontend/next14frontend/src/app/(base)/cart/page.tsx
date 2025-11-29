@@ -147,18 +147,18 @@ const Cart = () => {
   }, [fetchCartItems]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+    <div className="min-h-screen bg-background">
       <div className="container max-w-7xl mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="mb-8 space-y-2">
-          <h1 className="text-3xl font-bold text-white">Your Shopping Cart</h1>
-          <nav className="flex items-center space-x-2 text-sm text-buttonsCustom-200">
-            <Link href="/" className="hover:text-white flex items-center">
+          <h1 className="text-3xl font-bold text-foreground">Your Shopping Cart</h1>
+          <nav className="flex items-center space-x-2 text-sm text-muted-foreground">
+            <Link href="/" className="hover:text-foreground flex items-center transition-colors">
               <Home className="h-4 w-4 mr-1" />
               Home
             </Link>
             <span>/</span>
-            <span className="text-white">Cart</span>
+            <span className="text-foreground">Cart</span>
           </nav>
         </div>
 
@@ -167,9 +167,9 @@ const Cart = () => {
             {/* Left Column */}
             <div className="lg:col-span-2 space-y-6">
               {/* Profile Section */}
-              <Card className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/20">
-                <CardHeader className="text-lg font-semibold border-b border-buttonsCustom-200">
-                  <div className="flex items-center space-x-2 text-buttonsCustom-900">
+              <Card className="bg-card backdrop-blur-sm rounded-xl shadow-lg border border-border">
+                <CardHeader className="text-lg font-semibold border-b border-border">
+                  <div className="flex items-center space-x-2 text-foreground">
                     <User className="h-5 w-5" />
                     <span>Personal Information</span>
                   </div>
@@ -177,20 +177,20 @@ const Cart = () => {
                 <CardContent className="pt-6 space-y-4">
                   <div className="space-y-4">
                     <div>
-                      <Label className="text-buttonsCustom-800" htmlFor="full_name">Full Name *</Label>
+                      <Label className="text-foreground" htmlFor="full_name">Full Name *</Label>
                       <Input
                         id="full_name"
                         name="full_name"
                         value={bioData.full_name}
                         onChange={handleBioDataChange}
                         placeholder="Enter your full name"
-                        className="border-buttonsCustom-300 focus:ring-buttonsCustom-500"
+                        className="border-input bg-background focus:ring-secondary"
                         required
                       />
                     </div>
 
                     <div>
-                      <Label className="text-buttonsCustom-800" htmlFor="email">Email Address *</Label>
+                      <Label className="text-foreground" htmlFor="email">Email Address *</Label>
                       <Input
                         id="email"
                         type="email"
@@ -198,20 +198,20 @@ const Cart = () => {
                         value={bioData.email}
                         onChange={handleBioDataChange}
                         placeholder="your.email@example.com"
-                        className="border-buttonsCustom-300 focus:ring-buttonsCustom-500"
+                        className="border-input bg-background focus:ring-secondary"
                         required
                       />
                     </div>
 
                     <div>
-                      <Label className="text-buttonsCustom-800" htmlFor="country">Country *</Label>
+                      <Label className="text-foreground" htmlFor="country">Country *</Label>
                       <Input
                         id="country"
                         name="country"
                         value={bioData.country}
                         onChange={handleBioDataChange}
                         placeholder="Enter your country"
-                        className="border-buttonsCustom-300 focus:ring-buttonsCustom-500"
+                        className="border-input bg-background focus:ring-secondary"
                         required
                       />
                     </div>
@@ -220,8 +220,8 @@ const Cart = () => {
               </Card>
 
               {/* Cart Items */}
-              <Card className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/20">
-                <CardHeader className="text-lg font-semibold border-b border-buttonsCustom-200 text-buttonsCustom-900">
+              <Card className="bg-card backdrop-blur-sm rounded-xl shadow-lg border border-border">
+                <CardHeader className="text-lg font-semibold border-b border-border text-foreground">
                   Your Courses ({cart.length})
                 </CardHeader>
                 <CardContent className="pt-6 space-y-4">
@@ -233,21 +233,21 @@ const Cart = () => {
                           key={i}
                           className="flex items-center space-x-4 p-4"
                         >
-                          <Skeleton className="h-20 w-28 rounded-lg bg-buttonsCustom-100" />
+                          <Skeleton className="h-20 w-28 rounded-lg bg-muted" />
                           <div className="space-y-2 flex-1">
-                            <Skeleton className="h-4 w-[200px] bg-buttonsCustom-100" />
-                            <Skeleton className="h-4 w-[100px] bg-buttonsCustom-100" />
+                            <Skeleton className="h-4 w-[200px] bg-muted" />
+                            <Skeleton className="h-4 w-[100px] bg-muted" />
                           </div>
-                          <Skeleton className="h-10 w-10 rounded-full bg-buttonsCustom-100" />
+                          <Skeleton className="h-10 w-10 rounded-full bg-muted" />
                         </div>
                       ))
                   ) : cart.length === 0 ? (
-                    <Alert className="bg-buttonsCustom-50 border-buttonsCustom-200">
+                    <Alert className="bg-muted/30 border-border">
                       <AlertDescription className="text-center py-8">
                         <div className="space-y-4">
-                          <ShoppingCart className="h-12 w-12 mx-auto text-buttonsCustom-400" />
-                          <p className="text-buttonsCustom-700">Your cart is empty</p>
-                          <Button asChild variant="outline" className="border-buttonsCustom-600 text-buttonsCustom-600 hover:bg-buttonsCustom-50">
+                          <ShoppingCart className="h-12 w-12 mx-auto text-muted-foreground" />
+                          <p className="text-muted-foreground">Your cart is empty</p>
+                          <Button asChild variant="outline" className="border-secondary text-secondary hover:bg-secondary/10">
                             <Link href="/courses" className="space-x-2">
                               <span>Browse Courses</span>
                               <ArrowRight className="h-4 w-4" />
@@ -260,10 +260,10 @@ const Cart = () => {
                     cart.map((item) => (
                       <div
                         key={item.id}
-                        className="group flex items-center justify-between p-4 hover:bg-buttonsCustom-50 rounded-lg transition-colors"
+                        className="group flex items-center justify-between p-4 hover:bg-muted/30 rounded-lg transition-colors"
                       >
                         <div className="flex items-center space-x-4">
-                          <div className="relative h-20 w-28 rounded-lg overflow-hidden border border-buttonsCustom-200">
+                          <div className="relative h-20 w-28 rounded-lg overflow-hidden border border-border">
                             <Image
                               src={item.course.image}
                               alt={item.course.title}
@@ -274,10 +274,10 @@ const Cart = () => {
                             />
                           </div>
                           <div>
-                            <h3 className="font-medium text-buttonsCustom-900 hover:text-buttonsCustom-700">
+                            <h3 className="font-medium text-foreground hover:text-secondary transition-colors">
                               {item.course.title}
                             </h3>
-                            <Badge variant="outline" className="mt-2 border-buttonsCustom-300 text-buttonsCustom-700">
+                            <Badge variant="outline" className="mt-2 border-secondary/50 text-secondary">
                               ₹ {item.price}
                             </Badge>
                           </div>
@@ -285,7 +285,7 @@ const Cart = () => {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="text-buttonsCustom-700 hover:bg-buttonsCustom-100 hover:text-buttonsCustom-900"
+                          className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
                           onClick={() => handleRemoveItem(item.id)}
                           type="button"
                         >
@@ -300,39 +300,39 @@ const Cart = () => {
 
             {/* Right Column - Order Summary */}
             <div className="space-y-6">
-              <Card className="sticky top-6 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/20">
-                <CardHeader className="text-lg font-semibold border-b border-buttonsCustom-200 text-buttonsCustom-900">
+              <Card className="sticky top-6 bg-card backdrop-blur-sm rounded-xl shadow-lg border border-border">
+                <CardHeader className="text-lg font-semibold border-b border-border text-foreground">
                   Order Summary
                 </CardHeader>
                 <CardContent className="p-6 space-y-4">
-                  <div className="flex justify-between text-buttonsCustom-800">
+                  <div className="flex justify-between text-muted-foreground">
                     <span>Subtotal:</span>
-                    <span className="font-medium">
+                    <span className="font-medium text-foreground">
                       ₹ {cartStats.price?.toFixed(2)}
                     </span>
                   </div>
-                  <div className="flex justify-between text-buttonsCustom-800">
+                  <div className="flex justify-between text-muted-foreground">
                     <span>Tax:</span>
-                    <span className="font-medium">
-                    ₹ {cartStats.tax?.toFixed(2)}
+                    <span className="font-medium text-foreground">
+                      ₹ {cartStats.tax?.toFixed(2)}
                     </span>
                   </div>
-                  <Separator className="my-4 bg-buttonsCustom-200" />
-                  <div className="flex justify-between font-semibold text-buttonsCustom-900">
+                  <Separator className="my-4 bg-border" />
+                  <div className="flex justify-between font-semibold text-foreground">
                     <span>Total:</span>
-                    <span className="text-buttonsCustom-700">
-                    ₹ {cartStats.total?.toFixed(2)}
+                    <span className="text-secondary text-xl">
+                      ₹ {cartStats.total?.toFixed(2)}
                     </span>
                   </div>
                 </CardContent>
                 <CardFooter className="flex flex-col space-y-4">
-                  <Button 
-                    type="submit" 
-                    className="w-full h-12 text-lg bg-gradient-to-r from-buttonsCustom-600 to-buttonsCustom-700 hover:from-buttonsCustom-700 hover:to-buttonsCustom-800"
+                  <Button
+                    type="submit"
+                    className="w-full h-12 text-lg bg-primary text-primary-foreground hover:bg-primary/90 shadow-md transition-all"
                   >
                     Complete Checkout
                   </Button>
-                  <p className="text-sm text-center text-buttonsCustom-600">
+                  <p className="text-sm text-center text-muted-foreground">
                     Secure payment processing powered by blockchain technology
                   </p>
                 </CardFooter>

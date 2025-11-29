@@ -247,3 +247,6 @@ GEMINI.media
 knowledge_ledger_video_script.md
 video_script.md
 .misc/
+
+# Unignore frontend lib
+!frontend/next14frontend/src/lib/

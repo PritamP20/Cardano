@@ -11,12 +11,12 @@ import Toast from "@/views/plugins/Toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue 
+  SelectValue
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -29,10 +29,10 @@ import InstructorHeader from "@/components/instructor/Header";
 import DynamicCKEditorWrapper from "@/components/DynamicCKEditorWrapper";
 
 // Icons
-import { 
-  ArrowLeft, 
-  CheckCircle2, 
-  FileVideo, 
+import {
+  ArrowLeft,
+  CheckCircle2,
+  FileVideo,
   GraduationCap,
   Languages,
   DollarSign,
@@ -60,15 +60,15 @@ interface Category {
 }
 
 export default function CourseCreate() {
-  const [courseData, setCourseData] = useState<CourseData>({ 
-    title: "", 
-    description: "", 
-    image: "", 
-    file: "", 
-    level: "", 
-    language: "", 
-    price: "", 
-    category: "" 
+  const [courseData, setCourseData] = useState<CourseData>({
+    title: "",
+    description: "",
+    image: "",
+    file: "",
+    level: "",
+    language: "",
+    price: "",
+    category: ""
   });
   const [imagePreview, setImagePreview] = useState<string>("");
   const [category, setCategory] = useState<Category[]>([]);
@@ -105,10 +105,10 @@ export default function CourseCreate() {
         // Store the full URL for preview
         const fullUrl = response.data.url;
         setImagePreview(fullUrl);
-        
+
         // Extract just the filename part for the API
         const extractedFilename = extractFilenameFromUrl(fullUrl);
-        
+
         setIsUploading(false);
         setCourseData({
           ...courseData,
@@ -127,7 +127,7 @@ export default function CourseCreate() {
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files || event.target.files.length === 0) return;
-    
+
     setIsFileUploading(true);
 
     const file = event.target.files[0];
@@ -146,10 +146,10 @@ export default function CourseCreate() {
       if (response?.data?.url) {
         // Store the full URL for preview/player
         const fullUrl = response.data.url;
-        
+
         // Extract just the filename part for the API
         const extractedFilename = extractFilenameFromUrl(fullUrl);
-        
+
         setIsFileUploading(false);
         setCourseData({
           ...courseData,
@@ -194,12 +194,12 @@ export default function CourseCreate() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     try {
       // Validate required fields
       const requiredFields = ['title', 'description', 'category', 'level', 'language', 'price'];
       const missingFields = requiredFields.filter(field => !courseData[field as keyof CourseData]);
-      
+
       if (missingFields.length > 0) {
         Toast().fire({
           icon: "warning",
@@ -207,38 +207,38 @@ export default function CourseCreate() {
         });
         return;
       }
-      
+
       // Log the request data to debug
       console.log("Submitting course data:", courseData);
-      
+
       // Try using URLSearchParams to properly format form data
       const formData = new URLSearchParams();
       formData.append('title', courseData.title);
-      
+
       // For description field, ensure HTML is properly formatted
       // The description from CKEditor contains HTML markup
       const description = courseData.description.trim();
       formData.append('description', description);
-      
+
       if (courseData.image) formData.append('image', courseData.image);
       if (courseData.file) formData.append('file', courseData.file);
       formData.append('level', courseData.level);
       formData.append('language', courseData.language);
       formData.append('price', courseData.price);
       formData.append('category', courseData.category);
-      
+
       // Always set the statuses for new courses
       formData.append('teacher_course_status', 'Published');
       formData.append('platform_status', 'Review');
-      
+
       console.log("Sending form data as URLSearchParams");
-      
+
       const response = await useAxios.post("teacher/course-create/", formData, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
-      
+
       if (response?.data?.course_id) {
         router.push(`/instructor/edit-course/${response.data.course_id}/`);
         Toast().fire({
@@ -254,20 +254,20 @@ export default function CourseCreate() {
       }
     } catch (error: unknown) {
       console.error("Error creating course:", error);
-      
+
       // Enhanced error handling to show more specific error messages
       let errorMessage = "Please check your inputs and try again";
-      
+
       // Type guard for Axios error objects
       if (error && typeof error === 'object' && 'response' in error) {
         const errorResponse = error.response as { data?: unknown };
         console.log("Error response data:", errorResponse.data);
-        
+
         // Extract error message from response if available
-        if (errorResponse.data && 
-            typeof errorResponse.data === 'object' && 
-            errorResponse.data !== null) {
-          
+        if (errorResponse.data &&
+          typeof errorResponse.data === 'object' &&
+          errorResponse.data !== null) {
+
           // Process validation errors
           try {
             const entries = Object.entries(errorResponse.data as Record<string, unknown>);
@@ -275,7 +275,7 @@ export default function CourseCreate() {
               .filter(([, value]) => value !== null && typeof value !== 'undefined')
               .map(([field, value]) => `${field}: ${String(value)}`)
               .join(', ');
-            
+
             if (fieldErrors) {
               errorMessage = `Validation errors: ${fieldErrors}`;
             }
@@ -284,7 +284,7 @@ export default function CourseCreate() {
           }
         }
       }
-      
+
       Toast().fire({
         icon: "error",
         title: `Failed to create course: ${errorMessage}`,
@@ -293,42 +293,42 @@ export default function CourseCreate() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
         <InstructorHeader />
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8 mt-4 sm:mt-8">
           <div className="lg:sticky lg:top-4 lg:self-start">
             <InstructorSidebar />
           </div>
-          
+
           <div className="lg:col-span-3 space-y-4 sm:space-y-6">
             <motion.div className="flex items-center gap-2 mb-2">
-              <div className="h-10 w-10 rounded-full bg-buttonsCustom-100 flex items-center justify-center">
-                <BookOpen className="h-5 w-5 text-buttonsCustom-600" />
+              <div className="h-10 w-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                <BookOpen className="h-5 w-5 text-secondary" />
               </div>
               <div>
-                <h4 className="text-xl font-bold text-gray-900">Create Course</h4>
-                <p className="text-sm text-gray-500">Add a new course to your collection</p>
+                <h4 className="text-xl font-bold text-foreground">Create Course</h4>
+                <p className="text-sm text-muted-foreground">Add a new course to your collection</p>
               </div>
             </motion.div>
-            
+
             <form onSubmit={handleSubmit}>
-              <Card className="border-buttonsCustom-200 overflow-hidden bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl mb-6">
+              <Card className="border-border overflow-hidden bg-card backdrop-blur-sm border shadow-xl mb-6">
                 {/* Gradient Header */}
-                <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-                <CardHeader className="p-4 sm:p-6 bg-gradient-to-r from-buttonsCustom-50/50 to-transparent border-b border-buttonsCustom-100">
+                <div className="h-2 bg-secondary" />
+                <CardHeader className="p-4 sm:p-6 bg-muted/30 border-b border-border">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                      <CardTitle className="text-lg sm:text-xl text-buttonsCustom-900">Course Details</CardTitle>
-                      <p className="text-sm text-buttonsCustom-500 mt-1">
+                      <CardTitle className="text-lg sm:text-xl text-foreground">Course Details</CardTitle>
+                      <p className="text-sm text-muted-foreground mt-1">
                         Complete the form below to create a comprehensive course
                       </p>
                     </div>
                     <Button
                       asChild
                       variant="outline"
-                      className="border-buttonsCustom-200 text-buttonsCustom-600 hover:bg-buttonsCustom-50 gap-2"
+                      className="border-input text-secondary hover:bg-secondary/10 gap-2"
                     >
                       <Link href="/instructor/courses/">
                         <ArrowLeft className="h-4 w-4" />
@@ -337,15 +337,15 @@ export default function CourseCreate() {
                     </Button>
                   </div>
                 </CardHeader>
-                
+
                 <CardContent className="p-4 sm:p-6 space-y-6">
                   {/* Thumbnail section */}
                   <div>
-                    <Label htmlFor="courseThumbnail" className="mb-2 block font-medium">
+                    <Label htmlFor="courseThumbnail" className="mb-2 block font-medium text-foreground">
                       Course Thumbnail
                     </Label>
                     <div className="mb-4">
-                      <div className="relative aspect-video max-h-[330px] w-full overflow-hidden rounded-lg border bg-white/50 shadow-sm border-buttonsCustom-200/30 group">
+                      <div className="relative aspect-video max-h-[330px] w-full overflow-hidden rounded-lg border bg-muted/10 shadow-sm border-border group">
                         {imagePreview ? (
                           <Image
                             src={imagePreview}
@@ -355,10 +355,10 @@ export default function CourseCreate() {
                             className="object-cover transition duration-300 group-hover:scale-[1.01]"
                           />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center bg-slate-50">
+                          <div className="flex h-full w-full items-center justify-center bg-muted/20">
                             <div className="text-center">
-                              <BookOpen className="mx-auto h-12 w-12 text-buttonsCustom-200" />
-                              <p className="mt-2 text-sm text-buttonsCustom-400">Thumbnail Preview</p>
+                              <BookOpen className="mx-auto h-12 w-12 text-muted" />
+                              <p className="mt-2 text-sm text-muted-foreground">Thumbnail Preview</p>
                             </div>
                           </div>
                         )}
@@ -368,46 +368,46 @@ export default function CourseCreate() {
                       <Input
                         id="courseThumbnail"
                         type="file"
-                        className="cursor-pointer file:cursor-pointer file:text-buttonsCustom-600 file:bg-buttonsCustom-50 file:border-buttonsCustom-200 file:rounded-md file:px-3 file:py-1.5 file:mr-3 file:border file:transition-colors file:hover:bg-buttonsCustom-100"
+                        className="cursor-pointer file:cursor-pointer file:text-secondary file:bg-secondary/10 file:border-input file:rounded-md file:px-3 file:py-1.5 file:mr-3 file:border file:transition-colors file:hover:bg-secondary/20 bg-background text-foreground border-input"
                         accept="image/*"
                         onChange={handleImageUpload}
                       />
                       {isUploading && (
                         <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                          <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-buttonsCustom-600"></div>
+                          <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-secondary"></div>
                         </div>
                       )}
                     </div>
-                    <p className="mt-1 text-xs text-gray-500">
+                    <p className="mt-1 text-xs text-muted-foreground">
                       Upload a high-quality image (16:9 ratio recommended) for your course thumbnail
                     </p>
                   </div>
-                  
-                  <Separator className="bg-buttonsCustom-100" />
-                  
+
+                  <Separator className="bg-border" />
+
                   {/* Intro Video section */}
                   <div>
-                    <Label htmlFor="introVideo" className="mb-2 block font-medium">
+                    <Label htmlFor="introVideo" className="mb-2 block font-medium text-foreground">
                       Course Intro Video
                     </Label>
                     <div className="relative">
                       <Input
                         id="introVideo"
                         type="file"
-                        className="cursor-pointer file:cursor-pointer file:text-buttonsCustom-600 file:bg-buttonsCustom-50 file:border-buttonsCustom-200 file:rounded-md file:px-3 file:py-1.5 file:mr-3 file:border file:transition-colors file:hover:bg-buttonsCustom-100"
+                        className="cursor-pointer file:cursor-pointer file:text-secondary file:bg-secondary/10 file:border-input file:rounded-md file:px-3 file:py-1.5 file:mr-3 file:border file:transition-colors file:hover:bg-secondary/20 bg-background text-foreground border-input"
                         accept="video/*"
                         onChange={handleFileUpload}
                       />
                       {isFileUploading && (
                         <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                          <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-buttonsCustom-600"></div>
+                          <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-secondary"></div>
                         </div>
                       )}
                     </div>
                     {courseData.file && (
-                      <div className="mt-2 flex items-center gap-2 text-sm text-buttonsCustom-600">
+                      <div className="mt-2 flex items-center gap-2 text-sm text-secondary">
                         <FileVideo className="h-4 w-4" />
-                        <a 
+                        <a
                           href={courseData.file}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -417,40 +417,40 @@ export default function CourseCreate() {
                         </a>
                       </div>
                     )}
-                    <p className="mt-1 text-xs text-gray-500">
+                    <p className="mt-1 text-xs text-muted-foreground">
                       Add a short preview video to attract more students to your course
                     </p>
                   </div>
-                  
-                  <Separator className="bg-buttonsCustom-100" />
-                  
+
+                  <Separator className="bg-border" />
+
                   {/* Title & Category section */}
                   <div className="grid gap-6 sm:grid-cols-2">
                     <div className="space-y-2">
-                      <Label htmlFor="courseTitle" className="font-medium">Course Title</Label>
+                      <Label htmlFor="courseTitle" className="font-medium text-foreground">Course Title</Label>
                       <Input
                         id="courseTitle"
                         name="title"
                         placeholder="e.g., Mastering JavaScript for Beginners"
                         value={courseData.title}
                         onChange={handleCourseInputChange}
-                        className="border-buttonsCustom-200 focus:border-buttonsCustom-600 focus:ring-buttonsCustom-600/10"
+                        className="border-input bg-background text-foreground focus:border-secondary focus:ring-secondary"
                       />
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-muted-foreground">
                         Write a clear, concise title (max 60 characters)
                       </p>
                     </div>
-                    
+
                     <div className="space-y-2">
-                      <Label htmlFor="category" className="font-medium">Course Category</Label>
-                      <Select 
-                        value={courseData.category} 
+                      <Label htmlFor="category" className="font-medium text-foreground">Course Category</Label>
+                      <Select
+                        value={courseData.category}
                         onValueChange={(value) => handleSelectChange(value, "category")}
                       >
-                        <SelectTrigger className="border-buttonsCustom-200 focus:ring-buttonsCustom-600/10">
+                        <SelectTrigger className="border-input bg-background text-foreground focus:ring-secondary">
                           <SelectValue placeholder="Select a category" />
                         </SelectTrigger>
-                        <SelectContent className="border-buttonsCustom-100">
+                        <SelectContent className="border-border bg-card">
                           {category.map((cat) => (
                             <SelectItem key={cat.id} value={cat.id.toString()}>
                               {cat.title}
@@ -458,26 +458,26 @@ export default function CourseCreate() {
                           ))}
                         </SelectContent>
                       </Select>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-muted-foreground">
                         Choose the most relevant category for your course
                       </p>
                     </div>
                   </div>
-                  
-                  <Separator className="bg-buttonsCustom-100" />
-                  
+
+                  <Separator className="bg-border" />
+
                   {/* Level & Language section */}
                   <div className="grid gap-6 sm:grid-cols-2">
                     <div className="space-y-2">
-                      <Label className="font-medium">Course Level</Label>
-                      <Select 
-                        value={courseData.level} 
+                      <Label className="font-medium text-foreground">Course Level</Label>
+                      <Select
+                        value={courseData.level}
                         onValueChange={(value) => handleSelectChange(value, "level")}
                       >
-                        <SelectTrigger className="w-full border-buttonsCustom-200 focus:ring-buttonsCustom-600/10">
+                        <SelectTrigger className="w-full border-input bg-background text-foreground focus:ring-secondary">
                           <SelectValue placeholder="Select course level" />
                         </SelectTrigger>
-                        <SelectContent className="border-buttonsCustom-100">
+                        <SelectContent className="border-border bg-card">
                           <SelectItem value="Beginner">
                             <div className="flex items-center gap-2">
                               <GraduationCap className="h-4 w-4 text-green-500" />
@@ -499,17 +499,17 @@ export default function CourseCreate() {
                         </SelectContent>
                       </Select>
                     </div>
-                    
+
                     <div className="space-y-2">
-                      <Label className="font-medium">Course Language</Label>
-                      <Select 
-                        value={courseData.language} 
+                      <Label className="font-medium text-foreground">Course Language</Label>
+                      <Select
+                        value={courseData.language}
                         onValueChange={(value) => handleSelectChange(value, "language")}
                       >
-                        <SelectTrigger className="w-full border-buttonsCustom-200 focus:ring-buttonsCustom-600/10">
+                        <SelectTrigger className="w-full border-input bg-background text-foreground focus:ring-secondary">
                           <SelectValue placeholder="Select language" />
                         </SelectTrigger>
-                        <SelectContent className="border-buttonsCustom-100">
+                        <SelectContent className="border-border bg-card">
                           <SelectItem value="English">
                             <div className="flex items-center gap-2">
                               <Languages className="h-4 w-4 text-blue-500" />
@@ -532,13 +532,13 @@ export default function CourseCreate() {
                       </Select>
                     </div>
                   </div>
-                  
-                  <Separator className="bg-buttonsCustom-100" />
-                  
+
+                  <Separator className="bg-border" />
+
                   {/* Description section */}
                   <div className="space-y-2">
-                    <Label htmlFor="description" className="font-medium">Course Description</Label>
-                    <div className="min-h-[200px] rounded-md border border-buttonsCustom-200 overflow-hidden shadow-sm hover:border-buttonsCustom-500 focus-within:border-buttonsCustom-600 focus-within:ring-2 focus-within:ring-buttonsCustom-600/20 transition-all duration-200">
+                    <Label htmlFor="description" className="font-medium text-foreground">Course Description</Label>
+                    <div className="min-h-[200px] rounded-md border border-input overflow-hidden shadow-sm hover:border-secondary focus-within:border-secondary focus-within:ring-2 focus-within:ring-secondary/20 transition-all duration-200">
                       <DynamicCKEditorWrapper
                         onChange={(data) => {
                           setCourseData({
@@ -548,18 +548,18 @@ export default function CourseCreate() {
                         }}
                       />
                     </div>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-muted-foreground">
                       Provide a comprehensive description of what students will learn
                     </p>
                   </div>
-                  
-                  <Separator className="bg-buttonsCustom-100" />
-                  
+
+                  <Separator className="bg-border" />
+
                   {/* Price section */}
                   <div className="max-w-xs space-y-2">
-                    <Label htmlFor="price" className="font-medium">Course Price</Label>
+                    <Label htmlFor="price" className="font-medium text-foreground">Course Price</Label>
                     <div className="relative">
-                      <DollarSign className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-buttonsCustom-400" />
+                      <DollarSign className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
                         id="price"
                         type="number"
@@ -567,22 +567,22 @@ export default function CourseCreate() {
                         step="0.01"
                         name="price"
                         placeholder="29.99"
-                        className="pl-9 border-buttonsCustom-200 focus:border-buttonsCustom-600 focus:ring-buttonsCustom-600/10"
+                        className="pl-9 border-input bg-background text-foreground focus:border-secondary focus:ring-secondary"
                         value={courseData.price}
                         onChange={handleCourseInputChange}
                       />
                     </div>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-muted-foreground">
                       Set an appropriate price based on course length and content
                     </p>
                   </div>
                 </CardContent>
               </Card>
-              
-              <Button 
-                type="submit" 
-                size="lg" 
-                className="w-full sm:w-auto float-right gap-2 bg-gradient-to-r from-buttonsCustom-600 to-buttonsCustom-800 hover:from-buttonsCustom-700 hover:to-buttonsCustom-900 shadow-md hover:shadow-lg transition-all duration-200 text-white"
+
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full sm:w-auto float-right gap-2 bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all duration-200 text-primary-foreground"
               >
                 <CheckCircle2 className="h-5 w-5" />
                 Create Course

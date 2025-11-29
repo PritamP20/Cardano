@@ -155,8 +155,8 @@ export default function BaseHeader() {
         className={cn(
           "fixed w-full z-50 transition-all duration-300 border-b",
           isScrolled
-            ? "bg-white/95 backdrop-blur-sm shadow-md border-gray-200"
-            : "bg-gradient-to-b from-primaryCustom-100 to-primaryCustom-300 border-gray-200/50"
+            ? "bg-background/95 backdrop-blur-sm shadow-md border-border"
+            : "bg-background/50 backdrop-blur-sm border-transparent"
         )}
       >
         <div className="container mx-auto px-4">
@@ -168,9 +168,9 @@ export default function BaseHeader() {
               className="flex-shrink-0"
             >
               <Link href="/" className="flex items-center">
-                <div className="h-8 w-8 rounded-full bg-buttonsCustom-900 flex items-center justify-center">
+                <div className="h-8 w-8 rounded-full bg-secondary flex items-center justify-center">
                   <svg
-                    className="h-5 w-5 text-white"
+                    className="h-5 w-5 text-secondary-foreground"
                     viewBox="0 0 24 24"
                     fill="none"
                   >
@@ -197,7 +197,7 @@ export default function BaseHeader() {
                     />
                   </svg>
                 </div>
-                <span className="ml-2 text-xl font-bold text-gray-800">
+                <span className="ml-2 text-xl font-bold text-foreground">
                   WEB3LMS
                 </span>
               </Link>
@@ -315,13 +315,13 @@ export default function BaseHeader() {
                 <div className="flex space-x-4">
                   <Link
                     href="/login"
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700"
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-primary-foreground bg-primary hover:bg-primary/90 transition-colors"
                   >
                     Login
                   </Link>
                   <Link
                     href="/register"
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-green-600 hover:bg-green-700"
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-secondary-foreground bg-secondary hover:bg-secondary/90 transition-colors"
                   >
                     Register
                   </Link>

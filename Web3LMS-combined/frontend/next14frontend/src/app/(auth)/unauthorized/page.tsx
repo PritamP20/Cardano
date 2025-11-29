@@ -27,20 +27,20 @@ const Unauthorized = () => {
   }, [router, progressControls]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
-        className="w-full max-w-md bg-white/90 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden border border-white/20"
+        className="w-full max-w-md bg-card backdrop-blur-sm rounded-xl shadow-lg overflow-hidden border border-border"
       >
         <div className="p-8">
           {/* Progress bar */}
-          <div className="w-full h-1.5 bg-gray-100 rounded-full mb-8 overflow-hidden">
+          <div className="w-full h-1.5 bg-muted rounded-full mb-8 overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={progressControls}
-              className="h-full bg-red-600 rounded-full"
+              className="h-full bg-destructive rounded-full"
             />
           </div>
 
@@ -54,9 +54,9 @@ const Unauthorized = () => {
               damping: 20,
               delay: 0.1,
             }}
-            className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-red-100 mb-8"
+            className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-destructive/10 mb-8"
           >
-            <XCircle className="h-10 w-10 text-red-600" />
+            <XCircle className="h-10 w-10 text-destructive" />
           </motion.div>
 
           {/* Content */}
@@ -66,10 +66,10 @@ const Unauthorized = () => {
             transition={{ delay: 0.2 }}
             className="text-center"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">
+            <h2 className="text-2xl font-bold text-foreground mb-3">
               Access Restricted
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-muted-foreground mb-6">
               You are not logged in. To access any content of the website, please login or register. Redirecting in {REDIRECT_DELAY} seconds...
             </p>
 
@@ -77,7 +77,7 @@ const Unauthorized = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => router.push("/login")}
-              className="w-full py-3 px-4 bg-buttonsCustom-800 hover:bg-buttonsCustom-600 text-white font-medium rounded-lg transition-colors shadow-sm"
+              className="w-full py-3 px-4 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-lg transition-colors shadow-sm"
             >
               Go to Login Now
             </motion.button>
@@ -85,10 +85,10 @@ const Unauthorized = () => {
         </div>
 
         {/* Footer */}
-        <div className="bg-gray-50/50 px-6 py-4 text-center">
-          <p className="text-xs text-gray-500">
+        <div className="bg-muted/30 px-6 py-4 text-center">
+          <p className="text-xs text-muted-foreground">
             Don&apos;t have an account?{" "}
-            <a href="/register" className="text-buttonsCustom-600 hover:underline">
+            <a href="/register" className="text-secondary hover:text-secondary/80 hover:underline">
               Register here
             </a>
           </p>

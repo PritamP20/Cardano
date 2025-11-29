@@ -23,7 +23,7 @@ import {
   Lock,
   FileText,
   BookOpen,
-  BarChart2, 
+  BarChart2,
   Globe,
   Calendar,
   Users,
@@ -126,11 +126,11 @@ function CourseDetail(): React.ReactElement {
 
   const checkWishlistStatus = useCallback(async (): Promise<void> => {
     if (!userId) return;
-    
+
     try {
       const res = await useAxios.get<WishlistItem[]>(`student/wishlist/${userId}/`);
       // Check if this course is in the user's wishlist
-      const isInWishlist = res.data.some((item: WishlistItem) => 
+      const isInWishlist = res.data.some((item: WishlistItem) =>
         item.course && item.course.slug === slug
       );
       setIsWishlisted(isInWishlist);
@@ -148,14 +148,14 @@ function CourseDetail(): React.ReactElement {
 
   const toggleWishlist = async (): Promise<void> => {
     if (!userId || !course) return;
-    
+
     setWishlistLoading(true);
     try {
       // Create FormData
       const formdata = new FormData();
       formdata.append("user_id", userId.toString());
       formdata.append("course_id", course.id.toString());
-      
+
       if (isWishlisted) {
         // Looking at the wishlist page, there's no specific endpoint for removing
         // Instead, we'll call the add/remove toggle endpoint
@@ -168,7 +168,7 @@ function CourseDetail(): React.ReactElement {
         Toast().fire({ title: "Added to Wishlist", icon: "success" });
         setIsWishlisted(true);
       }
-      
+
       // Refresh wishlist status after toggling
       await checkWishlistStatus();
     } catch (error) {
@@ -194,7 +194,7 @@ function CourseDetail(): React.ReactElement {
       formdata.append("price", price.toString());
       formdata.append("country_name", country);
       formdata.append("cart_id", cartId);
-      
+
       await useAxios.post(`course/cart/`, formdata);
       setAddToCartBtn("Added To Cart");
       Toast().fire({ title: "Added To Cart", icon: "success" });
@@ -205,32 +205,32 @@ function CourseDetail(): React.ReactElement {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-900">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         {isLoading ? (
           <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-buttonsCustom-600" />
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-secondary" />
           </div>
         ) : course ? (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
             <div className="lg:col-span-2">
-              <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 p-4 md:p-6">
+              <div className="bg-card rounded-xl shadow-sm border border-border p-4 md:p-6">
                 <div className="mb-6 md:mb-8">
                   {/* Title and Category */}
                   <div className="flex flex-col sm:flex-row sm:items-center gap-3 md:gap-4 mb-6 md:mb-8">
                     <div className="w-fit">
-                      <span className="inline-block bg-gradient-to-r from-buttonsCustom-600 to-buttonsCustom-700 text-white text-sm font-medium px-3 md:px-4 py-1.5 md:py-2 rounded-full shadow-md hover:shadow-lg transition-shadow">
+                      <span className="inline-block bg-secondary/10 text-secondary text-sm font-medium px-3 md:px-4 py-1.5 md:py-2 rounded-full border border-secondary/20">
                         {course.category.title}
                       </span>
                     </div>
-                    <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-buttonsCustom-900">
+                    <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-foreground">
                       {course.title}
                     </h1>
                   </div>
 
                   {/* Tab Navigation - Scrollable on mobile */}
                   <div className="relative overflow-x-auto pb-2 -mb-2">
-                    <nav className="flex space-x-4 md:space-x-8 border-b border-buttonsCustom-200 whitespace-nowrap">
+                    <nav className="flex space-x-4 md:space-x-8 border-b border-border whitespace-nowrap">
                       {[
                         { id: "overview", label: "Overview" },
                         { id: "curriculum", label: "Curriculum" },
@@ -240,17 +240,16 @@ function CourseDetail(): React.ReactElement {
                         <button
                           key={tab.id}
                           onClick={() => setActiveTab(tab.id)}
-                          className={`relative py-3 text-xs sm:text-sm font-medium transition-colors focus:outline-none ${
-                            activeTab === tab.id
-                              ? "text-buttonsCustom-600"
-                              : "text-buttonsCustom-700 hover:text-buttonsCustom-900"
-                          }`}
+                          className={`relative py-3 text-xs sm:text-sm font-medium transition-colors focus:outline-none ${activeTab === tab.id
+                            ? "text-secondary"
+                            : "text-muted-foreground hover:text-foreground"
+                            }`}
                         >
                           {tab.label}
                           {activeTab === tab.id && (
                             <motion.span
                               layoutId="activeTabIndicator"
-                              className="absolute bottom-0 left-0 right-0 h-0.5 bg-buttonsCustom-600"
+                              className="absolute bottom-0 left-0 right-0 h-0.5 bg-secondary"
                               transition={{
                                 type: "spring",
                                 bounce: 0.2,
@@ -263,7 +262,7 @@ function CourseDetail(): React.ReactElement {
                     </nav>
                   </div>
                 </div>
-                
+
                 {activeTab === "overview" && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
@@ -271,7 +270,7 @@ function CourseDetail(): React.ReactElement {
                     className="space-y-8 mt-6"
                   >
                     {/* Course Description */}
-                    <div className="prose max-w-none text-buttonsCustom-800">
+                    <div className="prose max-w-none text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground">
                       <div
                         dangerouslySetInnerHTML={{ __html: course.description }}
                       />
@@ -280,27 +279,27 @@ function CourseDetail(): React.ReactElement {
                     {/* Course Metadata Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {/* Course Details */}
-                      <div className="bg-buttonsCustom-50 p-6 rounded-xl border border-buttonsCustom-200">
-                        <h3 className="text-lg font-semibold text-buttonsCustom-900 mb-4 flex items-center gap-2">
-                          <BookOpen className="w-5 h-5 text-buttonsCustom-700" />
+                      <div className="bg-muted/30 p-6 rounded-xl border border-border">
+                        <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+                          <BookOpen className="w-5 h-5 text-primary" />
                           Course Details
                         </h3>
                         <div className="space-y-3">
                           <div className="flex justify-between">
-                            <span className="text-buttonsCustom-700">Level</span>
-                            <span className="font-medium capitalize text-buttonsCustom-900">
+                            <span className="text-muted-foreground">Level</span>
+                            <span className="font-medium capitalize text-foreground">
                               {course.level}
                             </span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-buttonsCustom-700">Language</span>
-                            <span className="font-medium text-buttonsCustom-900">
+                            <span className="text-muted-foreground">Language</span>
+                            <span className="font-medium text-foreground">
                               {course.language}
                             </span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-buttonsCustom-700">Last Updated</span>
-                            <span className="font-medium text-buttonsCustom-900">
+                            <span className="text-muted-foreground">Last Updated</span>
+                            <span className="font-medium text-foreground">
                               {new Date(course.date).toLocaleDateString(
                                 "en-US",
                                 {
@@ -312,8 +311,8 @@ function CourseDetail(): React.ReactElement {
                             </span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-buttonsCustom-700">Category</span>
-                            <span className="font-medium text-buttonsCustom-900">
+                            <span className="text-muted-foreground">Category</span>
+                            <span className="font-medium text-foreground">
                               {course.category.title}
                             </span>
                           </div>
@@ -321,30 +320,30 @@ function CourseDetail(): React.ReactElement {
                       </div>
 
                       {/* Student Statistics */}
-                      <div className="bg-buttonsCustom-50 p-6 rounded-xl border border-buttonsCustom-200">
-                        <h3 className="text-lg font-semibold text-buttonsCustom-900 mb-4 flex items-center gap-2">
-                          <Users className="w-5 h-5 text-buttonsCustom-700" />
+                      <div className="bg-muted/30 p-6 rounded-xl border border-border">
+                        <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+                          <Users className="w-5 h-5 text-primary" />
                           Student Statistics
                         </h3>
                         <div className="space-y-3">
                           <div className="flex justify-between">
-                            <span className="text-buttonsCustom-700">Total Students</span>
-                            <span className="font-medium text-buttonsCustom-900">
+                            <span className="text-muted-foreground">Total Students</span>
+                            <span className="font-medium text-foreground">
                               {course.students.length}
                             </span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-buttonsCustom-700">Average Rating</span>
+                            <span className="text-muted-foreground">Average Rating</span>
                             <div className="flex items-center gap-1">
-                              <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                              <span className="font-medium text-buttonsCustom-900">
+                              <Star className="w-5 h-5 text-secondary fill-secondary" />
+                              <span className="font-medium text-foreground">
                                 {course.average_rating?.toFixed(1) ?? '0'}/5
                               </span>
                             </div>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-buttonsCustom-700">Total Reviews</span>
-                            <span className="font-medium text-buttonsCustom-900">
+                            <span className="text-muted-foreground">Total Reviews</span>
+                            <span className="font-medium text-foreground">
                               {course.reviews.length}
                             </span>
                           </div>
@@ -354,21 +353,21 @@ function CourseDetail(): React.ReactElement {
 
                     {/* Curriculum Preview */}
                     {course.curriculum.length > 0 && (
-                      <div className="bg-white p-6 rounded-xl border border-buttonsCustom-200">
-                        <h3 className="text-lg font-semibold text-buttonsCustom-900 mb-4 flex items-center gap-2">
-                          <ListOrdered className="w-5 h-5 text-buttonsCustom-700" />
+                      <div className="bg-card p-6 rounded-xl border border-border">
+                        <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+                          <ListOrdered className="w-5 h-5 text-primary" />
                           Curriculum Preview
                         </h3>
                         <div className="space-y-4">
                           {course.curriculum.slice(0, 3).map((module) => (
                             <div
                               key={module.variant_id}
-                              className="border-l-2 border-buttonsCustom-300 pl-4"
+                              className="border-l-2 border-secondary pl-4"
                             >
-                              <h4 className="font-medium text-buttonsCustom-900">
+                              <h4 className="font-medium text-foreground">
                                 {module.title}
                               </h4>
-                              <div className="text-sm text-buttonsCustom-700 mt-1">
+                              <div className="text-sm text-muted-foreground mt-1">
                                 {module.variant_items.map((item, index) => {
                                   const formatDuration = (duration: string) => {
                                     if (!duration) return "0 minutes";
@@ -378,11 +377,10 @@ function CourseDetail(): React.ReactElement {
                                     const seconds = parseInt(parts[2]);
 
                                     if (hours > 0) {
-                                      return `${hours} hour${hours !== 1 ? "s" : ""}${
-                                        minutes > 0
-                                          ? ` ${minutes} minute${minutes !== 1 ? "s" : ""}`
-                                          : ""
-                                      }`;
+                                      return `${hours} hour${hours !== 1 ? "s" : ""}${minutes > 0
+                                        ? ` ${minutes} minute${minutes !== 1 ? "s" : ""}`
+                                        : ""
+                                        }`;
                                     } else if (minutes > 0) {
                                       return `${minutes} minute${minutes !== 1 ? "s" : ""}`;
                                     } else {
@@ -393,15 +391,15 @@ function CourseDetail(): React.ReactElement {
                                   return (
                                     <div
                                       key={`${item.title}-${index}`}
-                                      className="flex items-center justify-between p-3 rounded-lg hover:bg-buttonsCustom-50"
+                                      className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-colors"
                                     >
                                       <div className="flex items-center gap-3">
                                         {item.preview ? (
-                                          <PlayCircle className="h-5 w-5 text-green-500" />
+                                          <PlayCircle className="h-5 w-5 text-secondary" />
                                         ) : (
-                                          <Lock className="h-5 w-5 text-buttonsCustom-400" />
+                                          <Lock className="h-5 w-5 text-muted-foreground" />
                                         )}
-                                        <span className="text-buttonsCustom-800">
+                                        <span className="text-foreground">
                                           {item.title}
                                         </span>
                                       </div>
@@ -409,12 +407,12 @@ function CourseDetail(): React.ReactElement {
                                         {item.preview && (
                                           <Badge
                                             variant="outline"
-                                            className="text-green-600 bg-green-50"
+                                            className="text-secondary bg-secondary/10 border-secondary/20"
                                           >
                                             Preview
                                           </Badge>
                                         )}
-                                        <span className="text-sm text-buttonsCustom-500">
+                                        <span className="text-sm text-muted-foreground">
                                           {formatDuration(item.duration)}
                                         </span>
                                       </div>
@@ -425,7 +423,7 @@ function CourseDetail(): React.ReactElement {
                             </div>
                           ))}
                           {course.curriculum.length > 3 && (
-                            <div className="text-buttonsCustom-600 font-medium mt-2">
+                            <div className="text-secondary font-medium mt-2">
                               + {course.curriculum.length - 3} more modules
                             </div>
                           )}
@@ -444,23 +442,23 @@ function CourseDetail(): React.ReactElement {
                     {course.curriculum.length > 0 ? (
                       course.curriculum.map((module) => (
                         <Collapsible key={module.variant_id}>
-                          <div className="bg-white rounded-lg border border-buttonsCustom-200 overflow-hidden">
+                          <div className="bg-card rounded-lg border border-border overflow-hidden">
                             <CollapsibleTrigger asChild>
-                              <button className="w-full flex justify-between items-center px-6 py-4 hover:bg-buttonsCustom-50 transition-colors">
+                              <button className="w-full flex justify-between items-center px-6 py-4 hover:bg-muted/50 transition-colors">
                                 <div className="flex items-center gap-4">
-                                  <ChevronDown className="h-5 w-5 text-buttonsCustom-400 transition-transform collapsible-[data-state=open]:rotate-180" />
+                                  <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform collapsible-[data-state=open]:rotate-180" />
                                   <div className="text-left">
-                                    <h3 className="text-lg font-semibold text-buttonsCustom-900">
+                                    <h3 className="text-lg font-semibold text-foreground">
                                       {module.title}
                                     </h3>
-                                    <p className="text-sm text-buttonsCustom-500 mt-1">
+                                    <p className="text-sm text-muted-foreground mt-1">
                                       {module.content_duration}
                                     </p>
                                   </div>
                                 </div>
                                 <Badge
                                   variant="outline"
-                                  className="bg-buttonsCustom-50 text-buttonsCustom-600 border-buttonsCustom-300"
+                                  className="bg-muted text-muted-foreground border-border"
                                 >
                                   {module.variant_items.length} lessons
                                 </Badge>
@@ -468,7 +466,7 @@ function CourseDetail(): React.ReactElement {
                             </CollapsibleTrigger>
 
                             <CollapsibleContent>
-                              <div className="border-t border-buttonsCustom-100 px-6 py-4 space-y-3">
+                              <div className="border-t border-border px-6 py-4 space-y-3">
                                 {module.variant_items.map((item, index) => {
                                   const formatDuration = (duration: string) => {
                                     if (!duration) return "0 minutes";
@@ -478,11 +476,10 @@ function CourseDetail(): React.ReactElement {
                                     const seconds = parseInt(parts[2]);
 
                                     if (hours > 0) {
-                                      return `${hours} hour${hours !== 1 ? "s" : ""}${
-                                        minutes > 0
-                                          ? ` ${minutes} minute${minutes !== 1 ? "s" : ""}`
-                                          : ""
-                                      }`;
+                                      return `${hours} hour${hours !== 1 ? "s" : ""}${minutes > 0
+                                        ? ` ${minutes} minute${minutes !== 1 ? "s" : ""}`
+                                        : ""
+                                        }`;
                                     } else if (minutes > 0) {
                                       return `${minutes} minute${minutes !== 1 ? "s" : ""}`;
                                     } else {
@@ -493,15 +490,15 @@ function CourseDetail(): React.ReactElement {
                                   return (
                                     <div
                                       key={`${item.title}-${index}`}
-                                      className="flex items-center justify-between p-3 rounded-lg hover:bg-buttonsCustom-50"
+                                      className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-colors"
                                     >
                                       <div className="flex items-center gap-3">
                                         {item.preview ? (
-                                          <PlayCircle className="h-5 w-5 text-green-500" />
+                                          <PlayCircle className="h-5 w-5 text-secondary" />
                                         ) : (
-                                          <Lock className="h-5 w-5 text-buttonsCustom-400" />
+                                          <Lock className="h-5 w-5 text-muted-foreground" />
                                         )}
-                                        <span className="text-buttonsCustom-800">
+                                        <span className="text-foreground">
                                           {item.title}
                                         </span>
                                       </div>
@@ -509,12 +506,12 @@ function CourseDetail(): React.ReactElement {
                                         {item.preview && (
                                           <Badge
                                             variant="outline"
-                                            className="text-green-600 bg-green-50"
+                                            className="text-secondary bg-secondary/10 border-secondary/20"
                                           >
                                             Preview
                                           </Badge>
                                         )}
-                                        <span className="text-sm text-buttonsCustom-500">
+                                        <span className="text-sm text-muted-foreground">
                                           {formatDuration(item.duration)}
                                         </span>
                                       </div>
@@ -527,9 +524,9 @@ function CourseDetail(): React.ReactElement {
                         </Collapsible>
                       ))
                     ) : (
-                      <div className="text-center p-8 rounded-xl bg-buttonsCustom-50 border-2 border-dashed border-buttonsCustom-200">
-                        <FileText className="w-12 h-12 text-buttonsCustom-400 mx-auto mb-4" />
-                        <p className="text-buttonsCustom-700">
+                      <div className="text-center p-8 rounded-xl bg-muted/30 border-2 border-dashed border-border">
+                        <FileText className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                        <p className="text-muted-foreground">
                           Curriculum details coming soon
                         </p>
                       </div>
@@ -541,10 +538,10 @@ function CourseDetail(): React.ReactElement {
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mt-8 bg-white rounded-xl shadow-sm border border-buttonsCustom-200 p-6"
+                    className="mt-8 bg-card rounded-xl shadow-sm border border-border p-6"
                   >
                     <div className="flex flex-col md:flex-row gap-6 items-start">
-                      <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-buttonsCustom-100">
+                      <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-border">
                         <Image
                           src={course.teacher.image}
                           alt={course.teacher.full_name}
@@ -556,10 +553,10 @@ function CourseDetail(): React.ReactElement {
 
                       <div className="flex-1 space-y-4">
                         <div>
-                          <h3 className="text-2xl font-bold text-buttonsCustom-900">
+                          <h3 className="text-2xl font-bold text-foreground">
                             {course.teacher.full_name}
                           </h3>
-                          <p className="text-buttonsCustom-600 mt-1">
+                          <p className="text-secondary mt-1">
                             {course.teacher.bio}
                           </p>
                         </div>
@@ -570,7 +567,7 @@ function CourseDetail(): React.ReactElement {
                               href={course.teacher.twitter}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-blue-400 hover:text-blue-600 transition-colors"
+                              className="text-muted-foreground hover:text-secondary transition-colors"
                             >
                               <Twitter className="w-6 h-6" />
                             </a>
@@ -580,7 +577,7 @@ function CourseDetail(): React.ReactElement {
                               href={course.teacher.facebook}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-blue-600 hover:text-blue-800 transition-colors"
+                              className="text-muted-foreground hover:text-secondary transition-colors"
                             >
                               <Facebook className="w-6 h-6" />
                             </a>
@@ -590,18 +587,18 @@ function CourseDetail(): React.ReactElement {
                               href={course.teacher.linkedin}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-blue-700 hover:text-blue-900 transition-colors"
+                              className="text-muted-foreground hover:text-secondary transition-colors"
                             >
                               <Linkedin className="w-6 h-6" />
                             </a>
                           )}
                         </div>
 
-                        <div className="pt-4 border-t border-buttonsCustom-100">
-                          <h4 className="text-lg font-semibold text-buttonsCustom-900 mb-2">
+                        <div className="pt-4 border-t border-border">
+                          <h4 className="text-lg font-semibold text-foreground mb-2">
                             About the Instructor
                           </h4>
-                          <p className="text-buttonsCustom-700 leading-relaxed">
+                          <p className="text-muted-foreground leading-relaxed">
                             {course.teacher.about}
                           </p>
                         </div>
@@ -617,12 +614,12 @@ function CourseDetail(): React.ReactElement {
                         key={index}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-white p-6 rounded-xl shadow-sm border border-buttonsCustom-100"
+                        className="bg-card p-6 rounded-xl shadow-sm border border-border"
                       >
                         <div className="flex items-start gap-4">
                           <div className="flex-shrink-0">
-                            <div className="h-10 w-10 rounded-full bg-buttonsCustom-100 flex items-center justify-center">
-                              <span className="text-buttonsCustom-600 font-medium">
+                            <div className="h-10 w-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                              <span className="text-secondary font-medium">
                                 {review.profile.full_name[0]}
                               </span>
                             </div>
@@ -631,10 +628,10 @@ function CourseDetail(): React.ReactElement {
                           <div className="flex-1 space-y-2">
                             <div className="flex justify-between items-start">
                               <div>
-                                <h4 className="font-semibold text-buttonsCustom-900">
+                                <h4 className="font-semibold text-foreground">
                                   {review.profile.full_name}
                                 </h4>
-                                <p className="text-sm text-buttonsCustom-500">
+                                <p className="text-sm text-muted-foreground">
                                   {new Date(review.date).toLocaleDateString(
                                     "en-US",
                                     {
@@ -649,11 +646,10 @@ function CourseDetail(): React.ReactElement {
                                 {[1, 2, 3, 4, 5].map((star) => (
                                   <svg
                                     key={star}
-                                    className={`w-5 h-5 ${
-                                      star <= review.rating
-                                        ? "text-yellow-400"
-                                        : "text-buttonsCustom-300"
-                                    }`}
+                                    className={`w-5 h-5 ${star <= review.rating
+                                      ? "text-secondary fill-secondary"
+                                      : "text-muted"
+                                      }`}
                                     fill="currentColor"
                                     viewBox="0 0 20 20"
                                   >
@@ -663,7 +659,7 @@ function CourseDetail(): React.ReactElement {
                               </div>
                             </div>
 
-                            <p className="text-buttonsCustom-700 mt-2">
+                            <p className="text-muted-foreground mt-2">
                               {review.review}
                             </p>
                           </div>
@@ -680,7 +676,7 @@ function CourseDetail(): React.ReactElement {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 whileHover={{ y: -5 }}
-                className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-white/20 hover:shadow-2xl transition-all duration-300 sticky top-4"
+                className="bg-card rounded-2xl shadow-xl overflow-hidden border border-border hover:shadow-2xl transition-all duration-300 sticky top-4"
               >
                 {/* Media Container */}
                 <div className="relative aspect-video w-full">
@@ -715,22 +711,22 @@ function CourseDetail(): React.ReactElement {
                 <div className="p-4 md:p-6">
                   <div className="flex justify-between items-center mb-4 md:mb-6">
                     <div className="flex items-end gap-2">
-                      <span className="text-2xl md:text-3xl font-bold text-buttonsCustom-900">
-                      ₹ {course.price}
+                      <span className="text-2xl md:text-3xl font-bold text-foreground">
+                        ₹ {course.price}
                       </span>
-                      <span className="text-sm md:text-lg text-buttonsCustom-400 line-through">
-                      ₹ 1700
+                      <span className="text-sm md:text-lg text-muted-foreground line-through">
+                        ₹ 1700
                       </span>
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-3 mb-4">
                     {addToCartBtn === "Add To Cart" && (
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         type="button"
-                        className="col-span-2 sm:col-span-1 bg-gradient-to-r from-buttonsCustom-600 to-buttonsCustom-700 hover:from-buttonsCustom-700 hover:to-buttonsCustom-800 text-white font-medium shadow-lg px-3 py-2.5 md:py-3 rounded-xl flex items-center justify-center gap-2 text-sm md:text-base"
+                        className="col-span-2 sm:col-span-1 bg-primary text-primary-foreground hover:bg-primary/90 font-medium shadow-lg px-3 py-2.5 md:py-3 rounded-xl flex items-center justify-center gap-2 text-sm md:text-base"
                         onClick={() =>
                           addToCart(
                             course.id,
@@ -749,7 +745,7 @@ function CourseDetail(): React.ReactElement {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         type="button"
-                        className="col-span-2 sm:col-span-1 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-medium shadow-lg px-6 py-2.5 md:py-3 rounded-xl flex items-center justify-center gap-2 text-sm md:text-base"
+                        className="col-span-2 sm:col-span-1 bg-green-600 hover:bg-green-700 text-white font-medium shadow-lg px-6 py-2.5 md:py-3 rounded-xl flex items-center justify-center gap-2 text-sm md:text-base"
                         onClick={() =>
                           addToCart(
                             course.id,
@@ -767,24 +763,23 @@ function CourseDetail(): React.ReactElement {
                     {addToCartBtn === "Adding To Cart" && (
                       <button
                         type="button"
-                        className="col-span-2 sm:col-span-1 bg-gradient-to-r from-buttonsCustom-600 to-buttonsCustom-500 text-white font-medium shadow-lg px-6 py-2.5 md:py-3 rounded-xl flex items-center justify-center gap-2 text-sm md:text-base"
+                        className="col-span-2 sm:col-span-1 bg-primary/80 text-primary-foreground font-medium shadow-lg px-6 py-2.5 md:py-3 rounded-xl flex items-center justify-center gap-2 text-sm md:text-base"
                         disabled
                       >
                         <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin" />
                         Adding To Cart
                       </button>
                     )}
-                    
+
                     {/* Wishlist Button */}
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       type="button"
-                      className={`col-span-2 sm:col-span-1 font-medium px-3 py-2.5 md:py-3 rounded-xl flex items-center justify-center gap-2 text-sm md:text-base border ${
-                        isWishlisted 
-                          ? "border-red-200 bg-red-50 text-red-600 hover:bg-red-100" 
-                          : "border-buttonsCustom-200 bg-buttonsCustom-50 text-buttonsCustom-700 hover:bg-buttonsCustom-100"
-                      }`}
+                      className={`col-span-2 sm:col-span-1 font-medium px-3 py-2.5 md:py-3 rounded-xl flex items-center justify-center gap-2 text-sm md:text-base border ${isWishlisted
+                        ? "border-red-200 bg-red-50 text-red-600 hover:bg-red-100"
+                        : "border-secondary text-secondary hover:bg-secondary/10"
+                        }`}
                       onClick={toggleWishlist}
                       disabled={wishlistLoading}
                     >
@@ -796,64 +791,22 @@ function CourseDetail(): React.ReactElement {
                       {isWishlisted ? "Wishlisted" : "Add to Wishlist"}
                     </motion.button>
                   </div>
-
-                  {/* Course Meta */}
-                  <div className="space-y-3 md:space-y-4">
-                    <div className="flex items-center gap-3 p-2.5 md:p-3 bg-buttonsCustom-50 rounded-lg border border-buttonsCustom-200">
-                      <BookOpen className="w-4 h-4 md:w-5 md:h-5 text-buttonsCustom-700" />
-                      <div>
-                        <p className="text-xs md:text-sm text-buttonsCustom-700">Lectures</p>
-                        <p className="text-sm md:text-base font-medium text-buttonsCustom-900">
-                          {course.curriculum.reduce(
-                            (total, module) =>
-                              total + module.variant_items.length,
-                            0
-                          )}{" "}
-                          total lessons
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 p-2.5 md:p-3 bg-buttonsCustom-50 rounded-lg border border-buttonsCustom-200">
-                      <BarChart2 className="w-4 h-4 md:w-5 md:h-5 text-buttonsCustom-700" />
-                      <div>
-                        <p className="text-xs md:text-sm text-buttonsCustom-700">Level</p>
-                        <p className="text-sm md:text-base font-medium text-buttonsCustom-900 capitalize">{course.level}</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 p-2.5 md:p-3 bg-buttonsCustom-50 rounded-lg border border-buttonsCustom-200">
-                      <Globe className="w-4 h-4 md:w-5 md:h-5 text-buttonsCustom-700" />
-                      <div>
-                        <p className="text-xs md:text-sm text-buttonsCustom-700">Language</p>
-                        <p className="text-sm md:text-base font-medium text-buttonsCustom-900">{course.language}</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 p-2.5 md:p-3 bg-buttonsCustom-50 rounded-lg border border-buttonsCustom-200">
-                      <Calendar className="w-4 h-4 md:w-5 md:h-5 text-buttonsCustom-700" />
-                      <div>
-                        <p className="text-xs md:text-sm text-buttonsCustom-700">Last Updated</p>
-                        <p className="text-sm md:text-base font-medium text-buttonsCustom-900">
-                          {new Date(course.date).toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </motion.div>
             </div>
           </div>
         ) : (
-          <p className="text-center text-buttonsCustom-700">Course not found</p>
+          <div className="text-center py-20">
+            <h2 className="text-2xl font-bold text-foreground">Course not found</h2>
+            <p className="text-muted-foreground mt-2">The course you are looking for does not exist.</p>
+          </div>
         )}
       </div>
     </div>
   );
 }
+
+
+
 
 export default CourseDetail;

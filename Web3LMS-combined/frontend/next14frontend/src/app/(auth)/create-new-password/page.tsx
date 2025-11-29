@@ -67,7 +67,7 @@ function CreatePassword() {
     } catch (error: unknown) {
       console.error("Password change error:", error);
       let errorMessage = "An error occurred. Please try again";
-      
+
       if (error instanceof Error && 'response' in error) {
         const axiosError = error as { response?: { data?: { message?: string } } };
         if (axiosError.response?.data?.message) {
@@ -87,16 +87,13 @@ function CreatePassword() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
-        className="w-full max-w-md bg-white/90 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden border border-white/20"
+        className="w-full max-w-md bg-card backdrop-blur-sm rounded-xl shadow-lg overflow-hidden border border-border"
       >
-        {/* Gradient Header */}
-        <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-        
         <div className="p-8">
           {/* Icon and Title */}
           <motion.div
@@ -105,13 +102,13 @@ function CreatePassword() {
             transition={{ delay: 0.1 }}
             className="text-center mb-8"
           >
-            <div className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-buttonsCustom-50 mb-4">
-              <KeyRound className="h-10 w-10 text-buttonsCustom-600" />
+            <div className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-secondary/10 mb-4">
+              <KeyRound className="h-10 w-10 text-secondary" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl font-bold text-foreground mb-2">
               Create New Password
             </h2>
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               Your new password must be different from previous used passwords
             </p>
           </motion.div>
@@ -123,7 +120,7 @@ function CreatePassword() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="password">
+              <label className="block text-sm font-medium text-foreground mb-2" htmlFor="password">
                 New Password
               </label>
               <div className="relative">
@@ -133,13 +130,13 @@ function CreatePassword() {
                   required
                   name="password"
                   onChange={handleNewPasswordChange}
-                  className="block w-full pr-10 pl-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-buttonsCustom-100 focus:border-buttonsCustom-300 transition-all"
+                  className="block w-full pr-10 pl-4 py-3 border border-input rounded-lg bg-background text-foreground focus:ring-2 focus:ring-secondary focus:border-transparent transition-all placeholder-muted-foreground"
                   placeholder="Enter your new password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-3.5 text-muted-foreground hover:text-foreground"
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5" />
@@ -155,7 +152,7 @@ function CreatePassword() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="confirmPassword">
+              <label className="block text-sm font-medium text-foreground mb-2" htmlFor="confirmPassword">
                 Confirm Password
               </label>
               <div className="relative">
@@ -165,13 +162,13 @@ function CreatePassword() {
                   required
                   name="confirmPassword"
                   onChange={handleNewPasswordConfirmChange}
-                  className="block w-full pr-10 pl-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-buttonsCustom-100 focus:border-buttonsCustom-300 transition-all"
+                  className="block w-full pr-10 pl-4 py-3 border border-input rounded-lg bg-background text-foreground focus:ring-2 focus:ring-secondary focus:border-transparent transition-all placeholder-muted-foreground"
                   placeholder="Confirm your new password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-3.5 text-muted-foreground hover:text-foreground"
                 >
                   {showConfirmPassword ? (
                     <EyeOff className="h-5 w-5" />
@@ -186,7 +183,7 @@ function CreatePassword() {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    className={`text-sm mt-2 ${error ? 'text-red-600' : 'text-green-600'}`}
+                    className={`text-sm mt-2 ${error ? 'text-destructive' : 'text-green-600'}`}
                   >
                     {error ? 'Passwords do not match' : 'Passwords match!'}
                   </motion.p>
@@ -202,15 +199,15 @@ function CreatePassword() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full flex items-center justify-center py-3 px-4 rounded-lg shadow-sm text-white font-medium
+                className={`w-full flex items-center justify-center py-3 px-4 rounded-lg shadow-sm font-medium
                   ${isSubmitting
-                    ? "bg-buttonsCustom-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-buttonsCustom-700 to-buttonsCustom-800 hover:from-buttonsCustom-800 hover:to-buttonsCustom-900"
+                    ? "bg-muted text-muted-foreground cursor-not-allowed"
+                    : "bg-secondary text-secondary-foreground hover:bg-secondary/90"
                   } transition-all`}
               >
                 {isSubmitting ? (
                   <>
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
@@ -228,12 +225,12 @@ function CreatePassword() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="mt-6 text-center text-sm text-gray-600"
+            className="mt-6 text-center text-sm text-muted-foreground"
           >
             Remember your password?{" "}
             <button
               onClick={() => router.push("/login")}
-              className="font-medium text-buttonsCustom-600 hover:text-buttonsCustom-700 hover:underline focus:outline-none"
+              className="font-medium text-secondary hover:text-secondary/80 hover:underline focus:outline-none"
             >
               Sign in here
             </button>
@@ -247,9 +244,9 @@ function CreatePassword() {
 export default function CreatePasswordPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-pulse flex space-x-4">
-          <div className="w-12 h-12 bg-buttonsCustom-100 rounded-full"></div>
+          <div className="w-12 h-12 bg-muted rounded-full"></div>
         </div>
       </div>
     }>

@@ -5,15 +5,15 @@ import { Github, Linkedin } from "lucide-react";
 
 function BaseFooter() {
   return (
-    <footer className="bg-gradient-to-t from-primaryCustom-100 to-primaryCustom-700 shadow-sm border-t border-gray-700">
+    <footer className="bg-primary text-primary-foreground shadow-sm border-t border-border">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Brand Info */}
           <div className="lg:col-span-1">
-            <h2 className="text-2xl font-bold text-buttonsCustom-900 mb-4">
+            <h2 className="text-2xl font-bold text-secondary mb-4">
               WEB3LMS
             </h2>
-            <p className="text-buttonsCustom-700 mb-6">
+            <p className="text-primary-foreground/80 mb-6">
               Empowering the next generation of blockchain developers through
               decentralized learning and verifiable credentials.
             </p>
@@ -22,7 +22,7 @@ function BaseFooter() {
                 href="https://www.linkedin.com/in/vinit-inamke/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-buttonsCustom-800 hover:text-buttonsCustom-400 transition-all transform hover:scale-110"
+                className="text-primary-foreground/80 hover:text-secondary transition-all transform hover:scale-110"
                 aria-label="LinkedIn"
               >
                 <Linkedin size={24} />
@@ -31,7 +31,7 @@ function BaseFooter() {
                 href="https://github.com/VINIT-INAMKE"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-buttonsCustom-800 hover:text-buttonsCustom-400 transition-all transform hover:scale-110"
+                className="text-primary-foreground/80 hover:text-secondary transition-all transform hover:scale-110"
                 aria-label="Github"
               >
                 <Github size={24} />
@@ -41,7 +41,7 @@ function BaseFooter() {
 
           {/* Learn Links */}
           <div>
-            <h3 className="text-lg font-semibold text-buttonsCustom-900 mb-4">Learn</h3>
+            <h3 className="text-lg font-semibold text-secondary mb-4">Learn</h3>
             <ul className="space-y-2">
               {[
                 "Blockchain Basics",
@@ -53,7 +53,7 @@ function BaseFooter() {
                 <li key={item}>
                   <Link
                     href="#"
-                    className="text-buttonsCustom-700 hover:text-buttonsCustom-400 transition-colors"
+                    className="text-primary-foreground/70 hover:text-secondary transition-colors"
                   >
                     {item}
                   </Link>
@@ -64,7 +64,7 @@ function BaseFooter() {
 
           {/* Community Links */}
           <div>
-            <h3 className="text-lg font-semibold text-buttonsCustom-900 mb-4">Community</h3>
+            <h3 className="text-lg font-semibold text-secondary mb-4">Community</h3>
             <ul className="space-y-2">
               {[
                 "Developer DAO",
@@ -76,7 +76,7 @@ function BaseFooter() {
                 <li key={item}>
                   <Link
                     href="#"
-                    className="text-buttonsCustom-700 hover:text-buttonsCustom-400 transition-colors"
+                    className="text-primary-foreground/70 hover:text-secondary transition-colors"
                   >
                     {item}
                   </Link>
@@ -87,7 +87,7 @@ function BaseFooter() {
 
           {/* Resources */}
           <div>
-            <h3 className="text-lg font-semibold text-buttonsCustom-900 mb-4">Resources</h3>
+            <h3 className="text-lg font-semibold text-secondary mb-4">Resources</h3>
             <ul className="space-y-2">
               {[
                 "Whitepaper",
@@ -99,7 +99,7 @@ function BaseFooter() {
                 <li key={item}>
                   <Link
                     href="#"
-                    className="text-buttonsCustom-700 hover:text-buttonsCustom-400 transition-colors"
+                    className="text-primary-foreground/70 hover:text-secondary transition-colors"
                   >
                     {item}
                   </Link>
@@ -107,11 +107,11 @@ function BaseFooter() {
               ))}
             </ul>
             <div className="mt-6">
-              <p className="text-buttonsCustom-700 mb-2">
+              <p className="text-primary-foreground/80 mb-2">
                 Contact:{" "}
                 <Link
                   href="mailto:vinitinamkekse@gmail.com"
-                  className="text-buttonsCustom-400 hover:text-buttonsCustom-300"
+                  className="text-secondary hover:text-secondary/80"
                 >
                   vinitinamkekse@gmail.com
                 </Link>
@@ -121,10 +121,10 @@ function BaseFooter() {
         </div>
 
         {/* Bottom Footer */}
-        <div className="border-t border-gray-700/50 pt-6">
+        <div className="border-t border-primary-foreground/10 pt-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 mb-4 md:mb-0">
-              <span className="text-buttonsCustom-700">
+              <span className="text-primary-foreground/60">
                 © {new Date().getFullYear()} WEB3LMS DAO
               </span>
               <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
@@ -136,7 +136,7 @@ function BaseFooter() {
                   <Link
                     key={item}
                     href="#"
-                    className="text-buttonsCustom-700 hover:text-buttonsCustom-400 transition-colors"
+                    className="text-primary-foreground/60 hover:text-secondary transition-colors"
                   >
                     {item}
                   </Link>
@@ -145,10 +145,10 @@ function BaseFooter() {
             </div>
 
             <div className="flex items-center space-x-2">
-              <span className="text-buttonsCustom-700">Verified Contract:</span>
+              <span className="text-primary-foreground/60">Verified Contract:</span>
               <Link
                 href="#"
-                className="text-buttonsCustom-400 hover:text-buttonsCustom-300 font-mono text-sm"
+                className="text-secondary hover:text-secondary/80 font-mono text-sm"
               >
                 0x1234...5678
               </Link>
