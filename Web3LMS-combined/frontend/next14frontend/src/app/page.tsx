@@ -315,39 +315,47 @@ export default function Home() {
       {/* Features Bento Grid */}
       <section className="py-24 container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto mb-16">
+          <Badge variant="outline" className="mb-4 border-secondary text-secondary">Why Us</Badge>
           <h2 className="text-3xl md:text-5xl font-bold mb-6 text-foreground">Why Choose Decentralized Learning?</h2>
           <p className="text-xl text-muted-foreground">Experience the next evolution of education with blockchain-verified credentials and community-driven curriculum.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {/* Large Feature */}
+        <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-6 max-w-7xl mx-auto h-auto md:h-[600px]">
+          {/* Large Feature - Immutable Certificates */}
           <motion.div
             whileHover={{ y: -5 }}
-            className="md:col-span-2 bg-card rounded-3xl p-8 border border-border shadow-sm hover:shadow-xl transition-all relative overflow-hidden group"
+            className="md:col-span-2 md:row-span-2 bg-card rounded-3xl p-8 border border-border shadow-sm hover:shadow-xl transition-all relative overflow-hidden group flex flex-col"
           >
             <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -mr-16 -mt-16 transition-all group-hover:bg-secondary/20" />
-            <div className="relative z-10">
+            <div className="relative z-10 flex-1">
               <div className="bg-secondary/10 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
                 <ShieldCheck className="h-6 w-6 text-secondary" />
               </div>
               <h3 className="text-2xl font-bold mb-4 text-foreground">Immutable On-Chain Certificates</h3>
-              <p className="text-muted-foreground text-lg mb-6 max-w-md">
+              <p className="text-muted-foreground text-lg mb-8 max-w-md">
                 Your achievements are minted as NFTs on the blockchain. Verifiable, permanent, and owned by you. Share your credentials with confidence.
               </p>
-              <Image
-                src="https://images.unsplash.com/photo-1620325867502-221cfb5faa5f?q=80&w=2957&auto=format&fit=crop"
-                alt="NFT Certificate"
-                width={400}
-                height={200}
-                className="rounded-xl shadow-lg border border-border/50"
-              />
+              <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-border/50 group-hover:scale-[1.02] transition-transform duration-500">
+                <Image
+                  src="https://images.unsplash.com/photo-1620325867502-221cfb5faa5f?q=80&w=2957&auto=format&fit=crop"
+                  alt="NFT Certificate"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+                  <div className="flex items-center gap-2 text-white">
+                    <CheckCircle2 className="h-5 w-5 text-green-400" />
+                    <span className="font-medium">Verified on Polygon</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </motion.div>
 
-          {/* Tall Feature */}
+          {/* Tall Feature - Career Launchpad */}
           <motion.div
             whileHover={{ y: -5 }}
-            className="md:row-span-2 bg-gradient-to-b from-primary to-primary/90 rounded-3xl p-8 border border-primary/20 shadow-sm hover:shadow-xl transition-all text-primary-foreground relative overflow-hidden"
+            className="md:col-span-1 md:row-span-2 bg-gradient-to-b from-primary to-primary/90 rounded-3xl p-8 border border-primary/20 shadow-sm hover:shadow-xl transition-all text-primary-foreground relative overflow-hidden flex flex-col"
           >
             <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
             <div className="relative z-10 h-full flex flex-col">
@@ -355,84 +363,127 @@ export default function Home() {
                 <Rocket className="h-6 w-6 text-white" />
               </div>
               <h3 className="text-2xl font-bold mb-4">Career Launchpad</h3>
-              <p className="text-white/80 mb-8 flex-grow">
-                Direct integration with top Web3 hiring partners. Get discovered by leading protocols and DAOs based on your verified skill set.
+              <p className="text-white/80 mb-8">
+                Direct integration with top Web3 hiring partners.
               </p>
-              <div className="space-y-4">
-                {["DeFi Protocols", "NFT Marketplaces", "L1/L2 Chains", "Audit Firms"].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 bg-white/5 p-3 rounded-lg backdrop-blur-sm">
-                    <CheckCircle2 className="h-5 w-5 text-secondary" />
-                    <span className="font-medium">{item}</span>
+              <div className="space-y-3 flex-1">
+                {["DeFi Protocols", "NFT Marketplaces", "L1/L2 Chains", "Audit Firms", "DAO Core Units"].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 bg-white/5 p-3 rounded-lg backdrop-blur-sm hover:bg-white/10 transition-colors cursor-default">
+                    <CheckCircle2 className="h-4 w-4 text-secondary" />
+                    <span className="font-medium text-sm">{item}</span>
                   </div>
                 ))}
               </div>
+              <Button variant="secondary" className="w-full mt-6 bg-white text-primary hover:bg-white/90">
+                View Partners
+              </Button>
             </div>
           </motion.div>
 
-          {/* Small Feature 1 */}
+          {/* Small Feature 1 - DAO Governance */}
           <motion.div
             whileHover={{ y: -5 }}
-            className="bg-card rounded-3xl p-8 border border-border shadow-sm hover:shadow-xl transition-all group"
+            className="md:col-span-1 bg-card rounded-3xl p-6 border border-border shadow-sm hover:shadow-xl transition-all group flex flex-col justify-between"
           >
-            <div className="bg-blue-500/10 w-12 h-12 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <Users className="h-6 w-6 text-blue-500" />
+            <div>
+              <div className="bg-blue-500/10 w-10 h-10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <Users className="h-5 w-5 text-blue-500" />
+              </div>
+              <h3 className="text-lg font-bold mb-2 text-foreground">DAO Governance</h3>
+              <p className="text-sm text-muted-foreground">
+                Vote on new courses and curriculum updates.
+              </p>
             </div>
-            <h3 className="text-xl font-bold mb-3 text-foreground">DAO Governance</h3>
-            <p className="text-muted-foreground">
-              Participate in platform governance. Vote on new courses and curriculum updates.
-            </p>
+            <div className="mt-4 flex -space-x-2">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="w-8 h-8 rounded-full border-2 border-card bg-muted" />
+              ))}
+              <div className="w-8 h-8 rounded-full border-2 border-card bg-muted flex items-center justify-center text-[10px] font-bold">+2k</div>
+            </div>
           </motion.div>
 
-          {/* Small Feature 2 */}
+          {/* Small Feature 2 - Global Community */}
           <motion.div
             whileHover={{ y: -5 }}
-            className="bg-card rounded-3xl p-8 border border-border shadow-sm hover:shadow-xl transition-all group"
+            className="md:col-span-1 bg-card rounded-3xl p-6 border border-border shadow-sm hover:shadow-xl transition-all group flex flex-col justify-between"
           >
-            <div className="bg-purple-500/10 w-12 h-12 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <Globe className="h-6 w-6 text-purple-500" />
+            <div>
+              <div className="bg-purple-500/10 w-10 h-10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <Globe className="h-5 w-5 text-purple-500" />
+              </div>
+              <h3 className="text-lg font-bold mb-2 text-foreground">Global Community</h3>
+              <p className="text-sm text-muted-foreground">
+                Connect with developers from 120+ countries.
+              </p>
             </div>
-            <h3 className="text-xl font-bold mb-3 text-foreground">Global Community</h3>
-            <p className="text-muted-foreground">
-              Connect with developers from 120+ countries. Collaborate on hackathons and projects.
-            </p>
+            <div className="mt-4">
+              <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                <div className="h-full bg-purple-500 w-[75%]" />
+              </div>
+              <p className="text-xs text-muted-foreground mt-2">150k+ Active Learners</p>
+            </div>
           </motion.div>
         </div>
       </section>
 
       {/* Categories Section */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-end mb-12">
+      <section className="py-24 bg-muted/30 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] bg-secondary/5 rounded-full blur-3xl" />
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
             <div>
-              <h2 className="text-3xl font-bold mb-4 text-foreground">Explore Top Categories</h2>
-              <p className="text-muted-foreground">Find the perfect path for your Web3 journey</p>
+              <Badge variant="outline" className="mb-4 border-primary/20 text-primary">Curriculum</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Explore Top Categories</h2>
+              <p className="text-muted-foreground max-w-xl">
+                Dive into specialized tracks designed by industry experts. From smart contract security to DeFi architecture.
+              </p>
             </div>
-            <Button variant="ghost" className="hidden md:flex gap-2 text-secondary hover:text-secondary/80">
+            <Button variant="outline" className="hidden md:flex gap-2 hover:bg-secondary hover:text-white hover:border-secondary transition-all">
               View All Categories <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { name: 'Smart Contracts', icon: Code2, count: "24 Courses", color: "text-blue-500", bg: "bg-blue-500/10" },
-              { name: 'DeFi Development', icon: Layers, count: "18 Courses", color: "text-green-500", bg: "bg-green-500/10" },
-              { name: 'NFTs & Metaverse', icon: Rocket, count: "12 Courses", color: "text-purple-500", bg: "bg-purple-500/10" },
-              { name: 'Blockchain Security', icon: ShieldCheck, count: "15 Courses", color: "text-red-500", bg: "bg-red-500/10" },
+              { name: 'Smart Contracts', icon: Code2, count: "24 Courses", color: "text-blue-500", bg: "bg-blue-500/10", border: "hover:border-blue-500/50" },
+              { name: 'DeFi Development', icon: Layers, count: "18 Courses", color: "text-green-500", bg: "bg-green-500/10", border: "hover:border-green-500/50" },
+              { name: 'NFTs & Metaverse', icon: Rocket, count: "12 Courses", color: "text-purple-500", bg: "bg-purple-500/10", border: "hover:border-purple-500/50" },
+              { name: 'Blockchain Security', icon: ShieldCheck, count: "15 Courses", color: "text-red-500", bg: "bg-red-500/10", border: "hover:border-red-500/50" },
             ].map((category, idx) => (
               <motion.div
                 key={category.name}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="bg-card p-6 rounded-2xl border border-border hover:border-secondary/50 transition-all cursor-pointer group"
+                whileHover={{ y: -8 }}
+                className={`bg-card p-6 rounded-2xl border border-border shadow-sm hover:shadow-xl transition-all cursor-pointer group relative overflow-hidden ${category.border}`}
                 onClick={() => router.push(`/courses?category=${category.name.toLowerCase()}`)}
               >
-                <div className={`${category.bg} w-14 h-14 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`absolute top-0 right-0 w-24 h-24 ${category.bg} rounded-bl-full opacity-50 transition-transform group-hover:scale-150`} />
+
+                <div className={`${category.bg} w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 relative z-10`}>
                   <category.icon className={`h-7 w-7 ${category.color}`} />
                 </div>
-                <h3 className="font-bold text-lg mb-1 text-foreground group-hover:text-secondary transition-colors">{category.name}</h3>
-                <p className="text-sm text-muted-foreground">{category.count}</p>
+
+                <div className="relative z-10">
+                  <h3 className="font-bold text-xl mb-2 text-foreground group-hover:text-primary transition-colors">{category.name}</h3>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm text-muted-foreground font-medium">{category.count}</p>
+                    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0">
+                      <ArrowRight className="h-4 w-4 text-foreground" />
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             ))}
+          </div>
+
+          <div className="mt-8 text-center md:hidden">
+            <Button variant="outline" className="w-full gap-2">
+              View All Categories <ArrowRight className="h-4 w-4" />
+            </Button>
           </div>
         </div>
       </section>
