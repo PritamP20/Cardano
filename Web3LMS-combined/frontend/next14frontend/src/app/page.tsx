@@ -19,6 +19,7 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import Rater from "react-rater";
 import "react-rater/lib/react-rater.css";
@@ -37,6 +38,7 @@ import {
   Code2,
   Cpu,
   Layers,
+  Heart,
 } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -489,11 +491,17 @@ export default function Home() {
       </section>
 
       {/* Featured Courses Carousel */}
-      <section className="py-24 container mx-auto px-4">
-        <div className="flex flex-col items-center text-center mb-16">
-          <Badge variant="outline" className="mb-4 border-secondary text-secondary">Top Rated</Badge>
-          <h2 className="text-4xl font-bold mb-4 text-foreground">Featured Courses</h2>
-          <p className="text-muted-foreground max-w-2xl">
+      <section className="py-24 container mx-auto px-4 relative">
+        {/* Background Elements */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-7xl pointer-events-none">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
+        </div>
+
+        <div className="flex flex-col items-center text-center mb-16 relative z-10">
+          <Badge variant="outline" className="mb-4 border-secondary text-secondary px-4 py-1">Top Rated</Badge>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">Featured Courses</h2>
+          <p className="text-muted-foreground max-w-2xl text-lg">
             Hand-picked courses from our top instructors to help you master the most in-demand skills.
           </p>
         </div>
@@ -503,7 +511,7 @@ export default function Home() {
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-secondary"></div>
           </div>
         ) : (
-          <div className="relative">
+          <div className="relative z-10">
             <Carousel
               opts={{
                 align: "start",
@@ -511,81 +519,96 @@ export default function Home() {
               }}
               className="w-full"
             >
-              <CarouselContent className="-ml-4">
+              <CarouselContent className="-ml-6">
                 {courses.map((course) => (
-                  <CarouselItem key={course.course_id} className="pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
-                    <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3 }}>
-                      <Card className="h-full flex flex-col overflow-hidden border-border hover:shadow-2xl hover:shadow-secondary/5 transition-all duration-300 group bg-card">
+                  <CarouselItem key={course.course_id} className="pl-6 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+                    <motion.div whileHover={{ y: -10 }} transition={{ duration: 0.3 }}>
+                      <Card className="h-full flex flex-col overflow-hidden border-0 bg-card/50 backdrop-blur-sm shadow-lg hover:shadow-2xl hover:shadow-secondary/10 transition-all duration-300 group ring-1 ring-border hover:ring-secondary/50">
+                        {/* Image Container */}
                         <div
-                          className="relative aspect-[4/3] cursor-pointer overflow-hidden"
+                          className="relative aspect-[16/10] cursor-pointer overflow-hidden"
                           onClick={() => handleCourseClick(course.slug)}
                         >
                           <Image
                             src={course.image || "/placeholder-course.jpg"}
                             alt={course.title}
                             fill
-                            className="object-cover transition-transform duration-500 group-hover:scale-110"
+                            className="object-cover transition-transform duration-700 group-hover:scale-110"
                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           />
-                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <Button className="bg-white/20 backdrop-blur-md hover:bg-white/30 text-white border-white/50 rounded-full">
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+
+                          {/* Overlay Content */}
+                          <div className="absolute top-4 left-4 right-4 flex justify-between items-start">
+                            <Badge className="bg-white/20 backdrop-blur-md text-white hover:bg-white/30 border-0">
+                              {course.level}
+                            </Badge>
+                            <div className="bg-white/20 backdrop-blur-md rounded-full p-2 hover:bg-white/30 transition-colors">
+                              <Heart className="h-4 w-4 text-white" />
+                            </div>
+                          </div>
+
+                          <div className="absolute bottom-4 left-4 right-4">
+                            <Badge variant="secondary" className="bg-secondary text-white border-0 mb-2">
+                              {course.category.title}
+                            </Badge>
+                          </div>
+
+                          {/* Hover Button */}
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                            <Button className="bg-white text-black hover:bg-white/90 rounded-full px-6 pointer-events-auto shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                               View Course
                             </Button>
                           </div>
-                          <div className="absolute top-3 left-3">
-                            <Badge className="bg-background/80 backdrop-blur-md text-foreground hover:bg-background/90">
-                              {course.level}
-                            </Badge>
-                          </div>
                         </div>
 
-                        <CardHeader className="p-5">
-                          <div className="flex justify-between items-start mb-2">
-                            <Badge variant="secondary" className="bg-secondary/10 text-secondary hover:bg-secondary/20 border-0">
-                              {course.category.title}
-                            </Badge>
-                            <div className="flex items-center gap-1 text-yellow-500 text-sm font-medium">
-                              <Zap className="h-3 w-3 fill-yellow-500" />
-                              {course.average_rating || 4.8}
-                            </div>
+                        <CardHeader className="p-6 pb-3">
+                          <div className="flex items-center gap-1 text-yellow-500 text-sm font-bold mb-2">
+                            <Zap className="h-4 w-4 fill-yellow-500" />
+                            {course.average_rating || 4.8} <span className="text-muted-foreground font-normal ml-1">({course.students.length * 12} reviews)</span>
                           </div>
                           <CardTitle
-                            className="text-lg font-bold line-clamp-2 hover:text-secondary transition-colors cursor-pointer text-foreground"
+                            className="text-xl font-bold line-clamp-2 hover:text-secondary transition-colors cursor-pointer text-foreground leading-tight"
                             onClick={() => handleCourseClick(course.slug)}
                           >
                             {course.title}
                           </CardTitle>
                         </CardHeader>
 
-                        <CardContent className="p-5 pt-0 flex-1">
-                          <div className="flex items-center gap-3 mb-4">
-                            <Avatar className="h-8 w-8 border border-border">
+                        <CardContent className="p-6 pt-0 flex-1">
+                          <div className="flex items-center gap-3 mb-6 mt-4">
+                            <Avatar className="h-10 w-10 ring-2 ring-border">
                               <AvatarImage src={course.teacher.image} />
                               <AvatarFallback>{course.teacher.full_name[0]}</AvatarFallback>
                             </Avatar>
-                            <span className="text-sm text-muted-foreground line-clamp-1">
-                              By <span className="text-foreground font-medium">{course.teacher.full_name}</span>
-                            </span>
+                            <div>
+                              <p className="text-sm font-bold text-foreground">{course.teacher.full_name}</p>
+                              <p className="text-xs text-muted-foreground">Senior Instructor</p>
+                            </div>
                           </div>
-                          <div className="flex items-center justify-between text-sm text-muted-foreground border-t border-border pt-4">
-                            <div className="flex items-center gap-1">
-                              <Users className="h-4 w-4" />
+
+                          <Separator className="bg-border/50 mb-4" />
+
+                          <div className="flex items-center justify-between text-sm text-muted-foreground">
+                            <div className="flex items-center gap-1.5">
+                              <Users className="h-4 w-4 text-secondary" />
                               {course.students.length} students
                             </div>
-                            <div className="flex items-center gap-1">
-                              <PlayCircle className="h-4 w-4" />
+                            <div className="flex items-center gap-1.5">
+                              <PlayCircle className="h-4 w-4 text-secondary" />
                               12 Lessons
                             </div>
                           </div>
                         </CardContent>
 
-                        <CardFooter className="p-5 pt-0">
-                          <div className="flex items-center justify-between w-full">
-                            <span className="text-2xl font-bold text-foreground">
-                              ₹{course.price}
-                            </span>
-                            <Button size="sm" variant="outline" className="hover:bg-secondary hover:text-white hover:border-secondary transition-colors" onClick={() => handleCourseClick(course.slug)}>
-                              Enroll
+                        <CardFooter className="p-6 pt-0 mt-auto">
+                          <div className="flex items-center justify-between w-full bg-muted/30 p-3 rounded-xl border border-border/50 group-hover:border-secondary/30 transition-colors">
+                            <div className="flex flex-col">
+                              <span className="text-xs text-muted-foreground line-through">₹{(parseFloat(course.price) * 1.5).toFixed(2)}</span>
+                              <span className="text-xl font-bold text-foreground">₹{course.price}</span>
+                            </div>
+                            <Button size="sm" className="bg-foreground text-background hover:bg-secondary hover:text-white transition-colors rounded-lg" onClick={() => handleCourseClick(course.slug)}>
+                              Enroll Now
                             </Button>
                           </div>
                         </CardFooter>
@@ -594,31 +617,51 @@ export default function Home() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="hidden md:flex -left-12 h-12 w-12 border-border hover:bg-secondary hover:text-white hover:border-secondary" />
-              <CarouselNext className="hidden md:flex -right-12 h-12 w-12 border-border hover:bg-secondary hover:text-white hover:border-secondary" />
+              <CarouselPrevious className="hidden md:flex -left-12 h-12 w-12 border-border bg-card hover:bg-secondary hover:text-white hover:border-secondary transition-all shadow-lg" />
+              <CarouselNext className="hidden md:flex -right-12 h-12 w-12 border-border bg-card hover:bg-secondary hover:text-white hover:border-secondary transition-all shadow-lg" />
             </Carousel>
           </div>
         )}
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 container mx-auto px-4 mb-12">
-        <div className="bg-primary rounded-[2.5rem] p-8 md:p-16 relative overflow-hidden text-center">
-          <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-secondary/20 to-transparent" />
+      <section className="py-24 container mx-auto px-4 mb-12">
+        <div className="relative rounded-[2.5rem] p-8 md:p-20 overflow-hidden text-center bg-primary">
+          {/* Background Effects */}
+          <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20" />
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-transparent to-black/20" />
+          <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-secondary/20 rounded-full blur-[120px]" />
+          <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-blue-500/20 rounded-full blur-[120px]" />
 
-          <div className="relative z-10 max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-primary-foreground">Ready to Start Your Web3 Journey?</h2>
-            <p className="text-xl text-primary-foreground/80 mb-10">
-              Join thousands of developers building the future of the internet. Get unlimited access to all courses with our Pro plan.
+          <div className="relative z-10 max-w-4xl mx-auto">
+            <Badge className="mb-6 bg-secondary text-white hover:bg-secondary/90 px-4 py-1 text-base">
+              Start Learning Today
+            </Badge>
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white tracking-tight">
+              Ready to Launch Your <span className="text-secondary">Web3 Career?</span>
+            </h2>
+            <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto leading-relaxed">
+              Join a community of 50,000+ developers building the future of the decentralized web. Get unlimited access to all courses, projects, and certifications.
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-white h-14 px-8 text-lg rounded-full">
+
+            <div className="flex flex-col sm:flex-row justify-center gap-4 items-center">
+              <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-white h-16 px-10 text-lg rounded-full shadow-xl shadow-secondary/20 hover:scale-105 transition-all duration-300">
                 Get Started for Free
               </Button>
-              <Button size="lg" variant="outline" className="bg-transparent text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/10 h-14 px-8 text-lg rounded-full">
-                View Pricing
+              <Button size="lg" variant="outline" className="bg-white/5 backdrop-blur-sm text-white border-white/20 hover:bg-white/10 h-16 px-10 text-lg rounded-full hover:scale-105 transition-all duration-300">
+                View Pricing Plans
               </Button>
+            </div>
+
+            <div className="mt-12 flex items-center justify-center gap-8 text-white/60 text-sm font-medium">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 text-secondary" />
+                <span>No Credit Card Required</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 text-secondary" />
+                <span>7-Day Free Trial</span>
+              </div>
             </div>
           </div>
         </div>

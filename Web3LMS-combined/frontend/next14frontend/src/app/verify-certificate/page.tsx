@@ -1,21 +1,22 @@
 "use client";
 
 import { useState } from "react";
-
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { 
-  ShieldCheck, 
+import {
+  ShieldCheck,
   Search,
   HelpCircle,
   CheckCircle,
   XCircle,
-  AlertTriangle
+  AlertTriangle,
+  ArrowRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 
 export default function CertificateVerificationLandingPage() {
   const [certificateId, setCertificateId] = useState("");
@@ -29,162 +30,129 @@ export default function CertificateVerificationLandingPage() {
   };
 
   const fadeIn = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 }
-  };
-
-  const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700 flex flex-col">
-      
-      
-      <main className="flex-grow container mx-auto px-4 py-8 md:py-12 max-w-5xl">
+    <div className="min-h-screen bg-background flex flex-col relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <main className="flex-grow container mx-auto px-4 py-16 md:py-24 max-w-5xl relative z-10">
         <motion.div
           initial="hidden"
           animate="visible"
           variants={fadeIn}
-          transition={{ duration: 0.3 }}
-          className="text-center mb-8"
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
         >
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Certificate Verification
+          <Badge variant="outline" className="mb-4 border-secondary text-secondary px-4 py-1">Blockchain Verification</Badge>
+          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 tracking-tight">
+            Verify <span className="text-secondary">Certificate</span> Authenticity
           </h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Verify the authenticity of a certificate by entering the certificate ID below.
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+            Ensure the legitimacy of credentials issued on our platform. All certificates are minted as NFTs on the blockchain for immutable proof of achievement.
           </p>
         </motion.div>
-        
+
         <motion.div
           initial="hidden"
           animate="visible"
-          variants={fadeInUp}
-          transition={{ duration: 0.3, delay: 0.1 }}
-          className="mb-12"
+          variants={fadeIn}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mb-16"
         >
-          <Card className="overflow-hidden bg-white/90 backdrop-blur-sm border-buttonsCustom-100 shadow-lg hover:shadow-xl transition-all duration-300">
-            <CardHeader className="bg-buttonsCustom-50 border-b border-buttonsCustom-100">
-              <div className="flex items-center mb-2">
-                <ShieldCheck className="h-5 w-5 text-buttonsCustom-600 mr-2" />
-                <CardTitle className="text-buttonsCustom-800">Verify Certificate</CardTitle>
+          <Card className="overflow-hidden bg-card/50 backdrop-blur-xl border-border shadow-2xl hover:shadow-secondary/5 transition-all duration-500 max-w-3xl mx-auto">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary via-primary to-secondary opacity-50" />
+
+            <CardHeader className="p-8 pb-2 text-center">
+              <div className="mx-auto bg-secondary/10 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
+                <ShieldCheck className="h-8 w-8 text-secondary" />
               </div>
-              <CardDescription>
-                Enter the certificate ID to verify its authenticity
+              <CardTitle className="text-2xl font-bold text-foreground">Enter Certificate ID</CardTitle>
+              <CardDescription className="text-base">
+                Locate the unique ID at the bottom of the certificate
               </CardDescription>
             </CardHeader>
-            <CardContent className="p-6">
+
+            <CardContent className="p-8 pt-6">
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <div className="relative flex-grow">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="relative flex-grow group">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-secondary transition-colors" />
                     <Input
                       type="text"
-                      placeholder="Certificate ID (e.g., CERT-123456)"
+                      placeholder="e.g., CERT-8X92-M4K1"
                       value={certificateId}
                       onChange={(e) => setCertificateId(e.target.value)}
-                      className="pl-10 border-gray-300 focus:border-buttonsCustom-500"
+                      className="pl-12 h-14 text-lg bg-background/50 border-input focus:border-secondary focus:ring-secondary/20 transition-all"
                       required
                     />
                   </div>
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     disabled={!certificateId.trim()}
-                    className="bg-buttonsCustom-600 hover:bg-buttonsCustom-700 min-w-[120px] transition-all duration-300"
+                    className="h-14 px-8 bg-secondary hover:bg-secondary/90 text-white text-lg font-medium transition-all duration-300 shadow-lg shadow-secondary/20 hover:shadow-secondary/40"
                   >
-                    <ShieldCheck className="h-4 w-4 mr-2" />
-                    Verify
+                    Verify Now
+                    <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </div>
-                <p className="text-sm text-gray-500 text-center mt-2">
-                  Please enter the certificate ID found at the bottom of your certificate.
-                </p>
               </form>
             </CardContent>
           </Card>
         </motion.div>
-        
+
         {/* Information Panel */}
         <motion.div
           initial="hidden"
           animate="visible"
-          variants={fadeInUp}
-          transition={{ duration: 0.3, delay: 0.3 }}
-          className="mt-8 bg-white/90 backdrop-blur-sm rounded-lg border border-gray-200 shadow-md p-6"
+          variants={fadeIn}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
         >
-          <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-            <ShieldCheck className="h-5 w-5 text-buttonsCustom-600 mr-2" />
-            About Certificate Verification
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-8 w-8 rounded-full bg-green-100 text-green-600">
-                    <CheckCircle className="h-5 w-5" />
-                  </div>
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-sm font-medium text-gray-900">Authentic Certificates</h3>
-                  <p className="mt-1 text-sm text-gray-500">
-                    Authentic certificates include detailed information about the course, student, and completion date.
-                  </p>
-                </div>
+          {[
+            {
+              icon: CheckCircle,
+              color: "text-green-500",
+              bg: "bg-green-500/10",
+              title: "Instant Verification",
+              desc: "Real-time check against the blockchain ledger to confirm validity."
+            },
+            {
+              icon: ShieldCheck,
+              color: "text-blue-500",
+              bg: "bg-blue-500/10",
+              title: "Tamper-Proof",
+              desc: "Certificates are immutable NFTs that cannot be forged or altered."
+            },
+            {
+              icon: HelpCircle,
+              color: "text-purple-500",
+              bg: "bg-purple-500/10",
+              title: "Global Recognition",
+              desc: "Verifiable proof of skills recognized by top Web3 organizations."
+            }
+          ].map((item, idx) => (
+            <div key={idx} className="bg-card/30 backdrop-blur-sm border border-border p-6 rounded-2xl hover:bg-card/50 transition-colors">
+              <div className={`${item.bg} w-12 h-12 rounded-xl flex items-center justify-center mb-4`}>
+                <item.icon className={`h-6 w-6 ${item.color}`} />
               </div>
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-8 w-8 rounded-full bg-red-100 text-red-600">
-                    <XCircle className="h-5 w-5" />
-                  </div>
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-sm font-medium text-gray-900">Invalid Certificates</h3>
-                  <p className="mt-1 text-sm text-gray-500">
-                    Invalid certificates may be expired, revoked, or not found in our system.
-                  </p>
-                </div>
-              </div>
+              <h3 className="font-bold text-lg mb-2 text-foreground">{item.title}</h3>
+              <p className="text-sm text-muted-foreground">{item.desc}</p>
             </div>
-            <div className="space-y-4">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-8 w-8 rounded-full bg-amber-100 text-amber-600">
-                    <AlertTriangle className="h-5 w-5" />
-                  </div>
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-sm font-medium text-gray-900">Certificate Status</h3>
-                  <p className="mt-1 text-sm text-gray-500">
-                    Certificates can be active, revoked, or expired based on various factors.
-                  </p>
-                </div>
-              </div>
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-8 w-8 rounded-full bg-blue-100 text-blue-600">
-                    <HelpCircle className="h-5 w-5" />
-                  </div>
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-sm font-medium text-gray-900">Need Help?</h3>
-                  <p className="mt-1 text-sm text-gray-500">
-                    If you&apos;re having trouble verifying a certificate, please contact our support team.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <Separator className="my-6" />
-          <div className="text-center text-sm text-gray-500">
-            <p>All certificates issued by our platform can be verified through this page.</p>
-            <p className="mt-1">If you have any concerns about the authenticity of a certificate, please contact us.</p>
-          </div>
+          ))}
         </motion.div>
+
+        <div className="mt-16 text-center">
+          <p className="text-sm text-muted-foreground">
+            Having trouble? <a href="/contact-us" className="text-secondary hover:underline">Contact Support</a>
+          </p>
+        </div>
       </main>
-      
-     
     </div>
   );
 } 
