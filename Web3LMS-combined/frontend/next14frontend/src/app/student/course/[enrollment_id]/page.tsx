@@ -32,6 +32,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import apiInstance from "@/utils/axios";
+import { API_BASE_URL } from "@/utils/constants";
 
 import StudentHeader from "@/components/student/Header";
 import StudentSidebar from "@/components/student/Sidebar";
@@ -171,6 +172,13 @@ interface QuizAttempt {
   min_pass_points?: number;
   attempt_id?: string;
 }
+
+// Helper function to ensure absolute URL
+const getAbsoluteUrl = (url: string | undefined): string => {
+  if (!url) return "";
+  if (url.startsWith("http")) return url;
+  return `${API_BASE_URL.replace("/api/v1/", "")}${url}`;
+};
 
 // Helper function to determine file type
 const getFileType = (url: string): "video" | "pdf" | "document" | "other" => {
@@ -576,14 +584,14 @@ function CourseDetailContent(props: { course: Course | null }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+    <div className="min-h-screen bg-gray-50/50">
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
         <StudentHeader />
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8 mt-4 sm:mt-8">
-          <div className="lg:sticky lg:top-4 lg:self-start">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8 mt-6">
+          <div className="lg:col-span-1 lg:sticky lg:top-4 lg:self-start">
             <StudentSidebar />
           </div>
-          <div className="lg:col-span-3 space-y-5 sm:space-y-7">
+          <div className="lg:col-span-3 space-y-8">
             <motion.div
               initial="hidden"
               animate="visible"
@@ -591,8 +599,8 @@ function CourseDetailContent(props: { course: Course | null }) {
               transition={{ duration: 0.3 }}
               className="flex items-center gap-2 mb-2"
             >
-              <div className="h-10 w-10 rounded-full bg-buttonsCustom-100 flex items-center justify-center">
-                <BookOpen className="h-5 w-5 text-buttonsCustom-600" />
+              <div className="h-10 w-10 rounded-full bg-indigo-50 flex items-center justify-center">
+                <BookOpen className="h-5 w-5 text-indigo-600" />
               </div>
               <div>
                 <h4 className="text-xl font-bold text-gray-900">Course Content</h4>
@@ -605,11 +613,10 @@ function CourseDetailContent(props: { course: Course | null }) {
               variants={fadeInUp}
               transition={{ duration: 0.3, delay: 0.1 }}
             >
-              <Card className="border-buttonsCustom-200 overflow-hidden bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl">
-                <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-                <CardHeader className="p-4 sm:p-6 bg-gradient-to-r from-buttonsCustom-50/50 to-transparent border-b border-buttonsCustom-100">
-                  <CardTitle className="text-lg sm:text-xl text-buttonsCustom-900">{course?.course?.title}</CardTitle>
-                  <CardDescription className="mt-1 sm:mt-2 line-clamp-3 text-sm sm:text-base text-buttonsCustom-500">
+              <Card className="border-none shadow-md bg-white overflow-hidden">
+                <CardHeader className="p-6 border-b border-gray-100">
+                  <CardTitle className="text-lg sm:text-xl text-gray-900">{course?.course?.title}</CardTitle>
+                  <CardDescription className="mt-1 sm:mt-2 line-clamp-3 text-sm sm:text-base text-gray-500">
                     {course?.course?.description}
                   </CardDescription>
                 </CardHeader>
@@ -630,19 +637,19 @@ function CourseDetailContent(props: { course: Course | null }) {
                         </div>
                         <Accordion type="single" collapsible className="w-full">
                           {course?.curriculum?.map(section => (
-                            <AccordionItem key={section.variant_id} value={section.variant_id.toString()} className="border-buttonsCustom-200">
-                              <AccordionTrigger className="text-sm sm:text-base font-medium py-3 px-4 hover:bg-buttonsCustom-50">
+                            <AccordionItem key={section.variant_id} value={section.variant_id.toString()} className="border-gray-100">
+                              <AccordionTrigger className="text-sm sm:text-base font-medium py-3 px-4 hover:bg-gray-50">
                                 <div className="flex items-center">
                                   <span>{section.title}</span>
                                   <span className="text-xs sm:text-sm text-gray-500 ml-2">({section.variant_items?.length} Lectures)</span>
                                 </div>
                               </AccordionTrigger>
                               <AccordionContent className="py-0">
-                                <div className="space-y-1 divide-y divide-buttonsCustom-100">
+                                <div className="space-y-1 divide-y divide-gray-100">
                                   {section.variant_items?.map(lecture => (
                                     <div key={lecture.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 hover:bg-gray-50 transition-colors">
                                       <div className="flex items-center gap-2 sm:gap-4">
-                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-buttonsCustom-600" onClick={() => { setVariantItem(lecture); setIsLectureModalOpen(true); }}>
+                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50" onClick={() => { setVariantItem(lecture); setIsLectureModalOpen(true); }}>
                                           <Play className="h-4 w-4" />
                                         </Button>
                                         <span className="text-sm sm:text-base font-medium">{lecture.title}</span>
@@ -653,12 +660,12 @@ function CourseDetailContent(props: { course: Course | null }) {
                                           <input
                                             type="checkbox"
                                             className="h-4 w-4 rounded border-gray-300 text-buttonsCustom-600"
-                                            checked={course.completed_lesson?.some(cl => cl.variant_item.id === lecture.id)}
+                                            checked={course?.completed_lesson?.some(cl => cl.variant_item.id === lecture.id)}
                                             onChange={() => handleMarkLessonAsCompleted(lecture.id)}
                                           />
                                         </div>
                                         <span className="ml-2 text-xs text-buttonsCustom-500">
-                                          {course.completed_lesson?.some(cl => cl.variant_item.id === lecture.id) ? "Completed" : ""}
+                                          {course?.completed_lesson?.some(cl => cl.variant_item.id === lecture.id) ? "Completed" : ""}
                                         </span>
                                       </div>
                                     </div>
@@ -834,7 +841,7 @@ function CourseDetailContent(props: { course: Course | null }) {
                               <form onSubmit={handleUpdateReviewSubmit} className="space-y-4">
                                 <div className="space-y-2">
                                   <label className="text-sm font-medium text-gray-700">Rating</label>
-                                  <Select name="rating" defaultValue={studentReview.rating.toString()} onValueChange={value => setCreateReview({ ...createReview, rating: parseInt(value) })}>
+                                  <Select name="rating" defaultValue={studentReview?.rating?.toString()} onValueChange={value => setCreateReview({ ...createReview, rating: parseInt(value) })}>
                                     <SelectTrigger className="border-gray-200 focus:ring-buttonsCustom-500"><SelectValue placeholder="Select rating" /></SelectTrigger>
                                     <SelectContent>
                                       <SelectItem value="1">★☆☆☆☆ (1/5)</SelectItem>
@@ -847,7 +854,7 @@ function CourseDetailContent(props: { course: Course | null }) {
                                 </div>
                                 <div className="space-y-2">
                                   <label className="text-sm font-medium text-gray-700">Review</label>
-                                  <Textarea name="review" defaultValue={studentReview.review} onChange={handleReviewChange} placeholder="Share your experience with this course..." rows={4} className="border-gray-200 focus-visible:ring-buttonsCustom-500 resize-none" />
+                                  <Textarea name="review" defaultValue={studentReview?.review} onChange={handleReviewChange} placeholder="Share your experience with this course..." rows={4} className="border-gray-200 focus-visible:ring-buttonsCustom-500 resize-none" />
                                 </div>
                                 <Button type="submit" className="bg-buttonsCustom-600 hover:bg-buttonsCustom-700 text-white">Update Review</Button>
                               </form>
@@ -997,12 +1004,12 @@ function CourseDetailContent(props: { course: Course | null }) {
             <DialogTitle className="text-base sm:text-lg md:text-xl font-semibold text-white">{variantItem?.title}</DialogTitle>
           </DialogHeader>
           <div className="relative bg-black rounded-lg overflow-hidden group video-container">
-            {variantItem?.file && getFileType(variantItem.file) === "video" ? (
+            {variantItem?.file && getFileType(variantItem.file!) === "video" ? (
               <>
                 <div className="aspect-video cursor-pointer" onClick={handlePlayPause}>
                   <ReactPlayer
                     ref={playerRef}
-                    url={variantItem.file}
+                    url={getAbsoluteUrl(variantItem?.file)}
                     controls={false}
                     width="100%"
                     height="100%"
@@ -1014,9 +1021,7 @@ function CourseDetailContent(props: { course: Course | null }) {
                     config={{
                       file: {
                         attributes: {
-                          controlsList: "nodownload",
-                          disablePictureInPicture: true,
-                          playsInline: true
+                          controlsList: "nodownload"
                         }
                       }
                     }}
@@ -1051,9 +1056,9 @@ function CourseDetailContent(props: { course: Course | null }) {
                   </div>
                 </div>
               </>
-            ) : variantItem?.file && getFileType(variantItem.file) === "pdf" ? (
+            ) : variantItem?.file && getFileType(variantItem.file!) === "pdf" ? (
               <div className="h-[60vh] flex items-center justify-center bg-gray-100">
-                <iframe src={`${variantItem.file}#toolbar=0`} className="w-full h-full" title={variantItem.title} />
+                <iframe src={`${getAbsoluteUrl(variantItem?.file)}#toolbar=0`} className="w-full h-full" title={variantItem?.title} />
               </div>
             ) : (
               <div className="h-[60vh] flex flex-col items-center justify-center bg-gray-100">
@@ -1061,7 +1066,7 @@ function CourseDetailContent(props: { course: Course | null }) {
                   <File className="h-16 w-16 text-buttonsCustom-500 mb-4" />
                   <h3 className="text-lg font-medium text-gray-800 mb-2">{variantItem?.title}</h3>
                   <p className="text-sm text-gray-500 mb-4">This file type cannot be previewed directly</p>
-                  <a href={variantItem?.file} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-buttonsCustom-500 hover:bg-buttonsCustom-600 text-white px-4 py-2 rounded-md transition-colors">
+                  <a href={getAbsoluteUrl(variantItem?.file)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-buttonsCustom-500 hover:bg-buttonsCustom-600 text-white px-4 py-2 rounded-md transition-colors">
                     <Download className="h-4 w-4" /> Download File
                   </a>
                 </div>

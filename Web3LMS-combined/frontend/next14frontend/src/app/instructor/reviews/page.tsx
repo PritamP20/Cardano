@@ -89,6 +89,7 @@ export default function Reviews() {
 
   const handleSubmitReply = async (reviewId: string) => {
     try {
+      const teacherId = getTeacherId();
       await useAxios.patch(`teacher/review-detail/${teacherId}/${reviewId}/`, {
         reply: reply,
       });
@@ -141,7 +142,7 @@ export default function Reviews() {
 
   // Custom star rating component
   const StarRating = ({ rating }: { rating: number }) => {
-    const stars = [];
+    const stars: JSX.Element[] = [];
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 !== 0;
 
@@ -162,7 +163,7 @@ export default function Reviews() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+    <div className="min-h-screen bg-gray-50/50">
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
         <InstructorHeader />
 
@@ -182,10 +183,8 @@ export default function Reviews() {
               </div>
             </motion.div>
 
-            <Card className="border-buttonsCustom-200 overflow-hidden bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl">
-              {/* Gradient Header */}
-              <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-              <CardHeader className="p-4 sm:p-6 bg-gradient-to-r from-buttonsCustom-50/50 to-transparent border-b border-buttonsCustom-100">
+            <Card className="border-none shadow-md bg-white overflow-hidden">
+              <CardHeader className="p-6 bg-white border-b border-gray-100">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
                     <CardTitle className="text-lg sm:text-xl text-buttonsCustom-900">Student Reviews</CardTitle>

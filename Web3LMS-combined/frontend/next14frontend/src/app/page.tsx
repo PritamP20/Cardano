@@ -253,7 +253,7 @@ export default function Home() {
                         <Cpu className="h-5 w-5 text-primary" />
                       </div>
                       <div>
-                        <h3 className="font-bold text-foreground">Solidity Masterclass</h3>
+                        <h3 className="font-bold text-foreground">Haskell Masterclass</h3>
                         <p className="text-sm text-muted-foreground">Advanced Smart Contracts</p>
                       </div>
                     </div>
@@ -274,7 +274,7 @@ export default function Home() {
                   <ShieldCheck className="h-8 w-8 text-green-500" />
                   <div>
                     <h4 className="font-bold text-foreground">Verified Certificate</h4>
-                    <p className="text-xs text-muted-foreground">Minted on Polygon</p>
+                    <p className="text-xs text-muted-foreground">Minted on Cardano</p>
                   </div>
                 </div>
               </motion.div>
@@ -347,7 +347,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
                   <div className="flex items-center gap-2 text-white">
                     <CheckCircle2 className="h-5 w-5 text-green-400" />
-                    <span className="font-medium">Verified on Polygon</span>
+                    <span className="font-medium">Verified on Cardano</span>
                   </div>
                 </div>
               </div>

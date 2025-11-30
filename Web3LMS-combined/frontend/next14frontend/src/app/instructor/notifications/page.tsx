@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { format } from "date-fns";
-import { 
-  Bell, 
-  Check, 
+import {
+  Bell,
+  Check,
   Clock,
   Calendar,
   AlertCircle,
@@ -44,14 +44,14 @@ export default function Notifications() {
     } finally {
       setIsLoading(false);
     }
-    };
+  };
 
-    useEffect(() => {
+  useEffect(() => {
     fetchNotifications();
-    }, []);
+  }, []);
 
   const handleMarkAsSeen = async (notificationId: string) => {
-        const formdata = new FormData();
+    const formdata = new FormData();
     formdata.append("teacher", String(UserData()?.teacher_id || ""));
     formdata.append("pk", notificationId);
     formdata.append("seen", "true");
@@ -59,10 +59,10 @@ export default function Notifications() {
     try {
       await useAxios.patch(`teacher/noti-detail/${UserData()?.teacher_id}/${notificationId}`, formdata);
       fetchNotifications();
-            Toast().fire({
-                icon: "success",
+      Toast().fire({
+        icon: "success",
         title: "Notification marked as seen",
-            });
+      });
     } catch (error) {
       console.error("Error marking notification as seen:", error);
       Toast().fire({
@@ -88,20 +88,20 @@ export default function Notifications() {
       default:
         return <Bell className="h-5 w-5 text-buttonsCustom-600" />;
     }
-    };
+  };
 
-    return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+  return (
+    <div className="min-h-screen bg-gray-50/50">
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
-                    <InstructorHeader />
-        
+        <InstructorHeader />
+
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8 mt-4 sm:mt-8">
           <div className="lg:sticky lg:top-4 lg:self-start">
-                        <InstructorSidebar />
+            <InstructorSidebar />
           </div>
-          
+
           <div className="lg:col-span-3 space-y-5 sm:space-y-7">
-            <motion.div 
+            <motion.div
               initial="hidden"
               animate="visible"
               variants={fadeInUp}
@@ -110,25 +110,23 @@ export default function Notifications() {
             >
               <div className="h-10 w-10 rounded-full bg-buttonsCustom-100 flex items-center justify-center">
                 <Bell className="h-5 w-5 text-buttonsCustom-600" />
-                                    </div>
+              </div>
               <div>
                 <h4 className="text-xl font-bold text-gray-900">Notifications</h4>
                 <p className="text-sm text-gray-500">Manage all your notifications from here</p>
-                                </div>
+              </div>
             </motion.div>
-            
-            <Card className="border-buttonsCustom-200 overflow-hidden bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl">
-              {/* Gradient Header */}
-              <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-              <CardHeader className="p-5 sm:p-6 bg-gradient-to-r from-buttonsCustom-50/50 to-transparent border-b border-buttonsCustom-100">
+
+            <Card className="border-none shadow-md bg-white overflow-hidden">
+              <CardHeader className="p-6 bg-white border-b border-gray-100">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                                                            <div>
+                  <div>
                     <CardTitle className="text-lg sm:text-xl text-buttonsCustom-900">Your Notifications</CardTitle>
                     <CardDescription className="text-buttonsCustom-500 mt-1">
                       Stay updated with important alerts and messages
                     </CardDescription>
-                                                            </div>
-                                                        </div>
+                  </div>
+                </div>
               </CardHeader>
               <CardContent className="p-5 sm:p-6">
                 {isLoading ? (
@@ -143,9 +141,9 @@ export default function Notifications() {
                             <div className="flex justify-end">
                               <Skeleton className="h-9 w-32" />
                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                          </div>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 ) : notifications.length > 0 ? (
@@ -171,17 +169,17 @@ export default function Notifications() {
                                   {format(new Date(notification.date), "dd MMM, yyyy")}
                                 </Badge>
                               </div>
-                              
+
                               <div className="mt-4 flex justify-end">
-                                <Button 
+                                <Button
                                   onClick={() => handleMarkAsSeen(notification.id)}
-                                  variant="outline" 
+                                  variant="outline"
                                   className="border-buttonsCustom-200 text-buttonsCustom-700 hover:bg-buttonsCustom-50"
                                 >
                                   <Check className="h-4 w-4 mr-2" />
                                   Mark as Seen
                                 </Button>
-                                </div>
+                              </div>
                             </div>
                           </div>
                         </motion.div>
@@ -201,9 +199,9 @@ export default function Notifications() {
                 )}
               </CardContent>
             </Card>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    );
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

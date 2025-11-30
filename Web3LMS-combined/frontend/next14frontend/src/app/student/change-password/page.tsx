@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { 
-  LockKeyhole, 
-  Save, 
+import {
+  LockKeyhole,
+  Save,
   Shield,
   Eye,
   EyeOff
@@ -61,17 +61,17 @@ export default function ChangePassword() {
 
   const onSubmit = async (values: PasswordFormValues) => {
     setIsSubmitting(true);
-    
+
     try {
       const formData = new FormData();
       formData.append("user_id", String(UserData()?.user_id || ""));
       formData.append("old_password", values.old_password);
       formData.append("new_password", values.new_password);
-      
+
       const response = await useAxios.post(`user/change-password/`, formData);
-      
+
       toast.success(response.data.message || "Password changed successfully");
-      
+
       // Reset form on success
       form.reset();
     } catch (error) {
@@ -88,47 +88,45 @@ export default function ChangePassword() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+    <div className="min-h-screen bg-gray-50/50">
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
         <StudentHeader />
-        
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8 mt-4 sm:mt-8">
-          <div className="lg:sticky lg:top-4 lg:self-start">
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8 mt-6">
+          <div className="lg:col-span-1 lg:sticky lg:top-4 lg:self-start">
             <StudentSidebar />
           </div>
-          
-          <div className="lg:col-span-3 space-y-5 sm:space-y-7">
-            <motion.div 
+
+          <div className="lg:col-span-3 space-y-8">
+            <motion.div
               initial="hidden"
               animate="visible"
               variants={fadeInUp}
               transition={{ duration: 0.3 }}
               className="flex items-center gap-2 mb-2"
             >
-              <div className="h-10 w-10 rounded-full bg-buttonsCustom-100 flex items-center justify-center">
-                <LockKeyhole className="h-5 w-5 text-buttonsCustom-600" />
+              <div className="h-10 w-10 rounded-full bg-indigo-50 flex items-center justify-center">
+                <LockKeyhole className="h-5 w-5 text-indigo-600" />
               </div>
               <div>
                 <h4 className="text-xl font-bold text-gray-900">Change Password</h4>
                 <p className="text-sm text-gray-500">Update your account password</p>
               </div>
             </motion.div>
-            
+
             <motion.div
               initial="hidden"
               animate="visible"
               variants={fadeInUp}
               transition={{ duration: 0.3, delay: 0.1 }}
             >
-              <Card className="border-buttonsCustom-200 overflow-hidden bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl">
-                {/* Gradient Header */}
-                <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-                <CardHeader className="p-5 sm:p-6 bg-gradient-to-r from-buttonsCustom-50/50 to-transparent border-b border-buttonsCustom-100">
-                  <CardTitle className="text-lg sm:text-xl text-buttonsCustom-900 flex items-center gap-2">
-                    <Shield className="h-5 w-5 text-buttonsCustom-600" />
+              <Card className="border-none shadow-md bg-white overflow-hidden">
+                <CardHeader className="p-6 border-b border-gray-100">
+                  <CardTitle className="text-lg sm:text-xl text-gray-900 flex items-center gap-2">
+                    <Shield className="h-5 w-5 text-indigo-600" />
                     Password Security
                   </CardTitle>
-                  <CardDescription className="text-buttonsCustom-500 mt-1">
+                  <CardDescription className="text-gray-500 mt-1">
                     Choose a strong password to secure your account
                   </CardDescription>
                 </CardHeader>
@@ -232,9 +230,9 @@ export default function ChangePassword() {
                       />
 
                       <div className="pt-2">
-                        <Button 
-                          type="submit" 
-                          className="bg-gradient-to-r from-buttonsCustom-600 to-buttonsCustom-700 hover:from-buttonsCustom-700 hover:to-buttonsCustom-800 text-white"
+                        <Button
+                          type="submit"
+                          className="bg-gray-900 hover:bg-indigo-600 text-white transition-colors"
                           disabled={isSubmitting}
                         >
                           <Save className="h-4 w-4 mr-2" />

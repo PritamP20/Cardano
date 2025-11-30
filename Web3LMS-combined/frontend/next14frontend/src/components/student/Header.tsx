@@ -3,7 +3,6 @@
 import { useContext, useEffect, useState, useCallback } from "react";
 import { Settings2, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import { AvatarImage } from "@/components/ui/avatar-image";
 import Cookie from "js-cookie";
 import { jwtDecode } from "jwt-decode";
@@ -111,7 +110,7 @@ export default function StudentHeader() {
       <div className="w-full bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-buttonsCustom-600" />
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
           </div>
         </div>
       </div>
@@ -123,13 +122,13 @@ export default function StudentHeader() {
   }
 
   return (
-    <div className="w-full bg-white border-b border-gray-200">
+    <div className="w-full bg-white border-b border-gray-100 rounded-2xl shadow-sm mb-6">
       <div className="container mx-auto px-4 py-3 sm:py-4">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
           <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto justify-between sm:justify-start">
             <div className="flex items-center gap-3 sm:gap-4">
               <div className="relative">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-buttonsCustom-600 to-buttonsCustom-700 -z-10 blur-sm" />
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 -z-10 blur-sm" />
                 <AvatarImage
                   src={localProfile.image}
                   alt={localProfile.full_name}
@@ -144,10 +143,10 @@ export default function StudentHeader() {
                 />
               </div>
               <div>
-                <h2 className="text-base sm:text-lg font-semibold text-gray-900">
+                <h2 className="text-base sm:text-lg font-bold text-gray-900">
                   {localProfile.full_name}
                 </h2>
-                <p className="text-xs sm:text-sm text-gray-600">
+                <p className="text-xs sm:text-sm text-gray-500 font-medium">
                   Student Dashboard
                 </p>
               </div>
@@ -158,7 +157,7 @@ export default function StudentHeader() {
             <Button
               variant="ghost"
               size="sm"
-              className="text-gray-600 hover:text-buttonsCustom-600 text-xs sm:text-sm px-2 sm:px-3"
+              className="text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 text-xs sm:text-sm px-2 sm:px-3 rounded-xl"
               onClick={() => router.push("/student/courses")}
             >
               <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
@@ -168,7 +167,7 @@ export default function StudentHeader() {
             <Button
               variant="outline"
               size="sm"
-              className="border-buttonsCustom-200 text-buttonsCustom-600 hover:bg-buttonsCustom-50 text-xs sm:text-sm px-2 sm:px-3"
+              className="border-gray-200 text-gray-700 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 text-xs sm:text-sm px-2 sm:px-3 rounded-xl"
               onClick={handleSettingsClick}
             >
               <Settings2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />

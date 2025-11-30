@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { format } from "date-fns";
-import { 
-  Users, 
-  MapPin, 
+import {
+  Users,
+  MapPin,
   Calendar
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -44,15 +44,15 @@ export default function Students() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+    <div className="min-h-screen bg-gray-50/50">
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
         <InstructorHeader />
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8 mt-4 sm:mt-8">
           <div className="lg:sticky lg:top-4 lg:self-start">
             <InstructorSidebar />
           </div>
-          
+
           <div className="lg:col-span-3 space-y-4 sm:space-y-6">
             <motion.div className="flex items-center gap-2 mb-2">
               <div className="h-10 w-10 rounded-full bg-buttonsCustom-100 flex items-center justify-center">
@@ -63,11 +63,9 @@ export default function Students() {
                 <p className="text-sm text-gray-500">Manage your enrolled students</p>
               </div>
             </motion.div>
-            
-            <Card className="border-buttonsCustom-200 overflow-hidden bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl">
-              {/* Gradient Header */}
-              <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-              <CardHeader className="p-4 sm:p-6 bg-gradient-to-r from-buttonsCustom-50/50 to-transparent border-b border-buttonsCustom-100">
+
+            <Card className="border-none shadow-md bg-white overflow-hidden">
+              <CardHeader className="p-6 bg-white border-b border-gray-100">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
                     <CardTitle className="text-lg sm:text-xl text-buttonsCustom-900">My Students</CardTitle>
@@ -85,7 +83,7 @@ export default function Students() {
                 ) : students.length > 0 ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {students.map((student, index) => (
-                      <motion.div 
+                      <motion.div
                         key={index}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}

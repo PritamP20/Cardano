@@ -13,6 +13,7 @@ import CartId from "../../../../views/plugins/CartId";
 import GetCurrentAddress from "../../../../views/plugins/UserCountry";
 import UserData from "../../../../views/plugins/UserData";
 import Toast from "../../../../views/plugins/Toast";
+import { API_BASE_URL } from "../../../../utils/constants";
 import { motion } from "framer-motion";
 import {
   Twitter,
@@ -688,7 +689,14 @@ function CourseDetail(): React.ReactElement {
                         className="w-full h-full object-cover"
                         poster={course.image}
                       >
-                        <source src={course.file} type="video/mp4" />
+                        <source
+                          src={
+                            course.file?.startsWith("http")
+                              ? course.file
+                              : `${API_BASE_URL.replace("/api/v1/", "")}${course.file}`
+                          }
+                          type="video/mp4"
+                        />
                         Your browser does not support the video tag.
                       </video>
                       <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/10 to-transparent" />

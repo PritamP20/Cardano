@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { format } from "date-fns";
-import { 
-  Ticket, 
-  Plus, 
-  Trash2, 
-  Edit, 
+import {
+  Ticket,
+  Plus,
+  Trash2,
+  Edit,
   PercentIcon,
   Calendar,
   Users,
@@ -69,10 +69,10 @@ export default function Coupon() {
   }, []);
 
   const handleCreateCouponChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.name === "discount" 
-      ? Number(event.target.value) 
+    const value = event.target.name === "discount"
+      ? Number(event.target.value)
       : event.target.value;
-      
+
     setCreateCoupon({
       ...createCoupon,
       [event.target.name]: value,
@@ -164,17 +164,17 @@ export default function Coupon() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+    <div className="min-h-screen bg-gray-50/50">
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
         <InstructorHeader />
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8 mt-4 sm:mt-8">
           <div className="lg:sticky lg:top-4 lg:self-start">
             <InstructorSidebar />
           </div>
-          
+
           <div className="lg:col-span-3 space-y-5 sm:space-y-7">
-            <motion.div 
+            <motion.div
               initial="hidden"
               animate="visible"
               variants={fadeInUp}
@@ -190,10 +190,8 @@ export default function Coupon() {
               </div>
             </motion.div>
 
-            <Card className="border-buttonsCustom-200 overflow-hidden bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl">
-              {/* Gradient Header */}
-              <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-              <CardHeader className="p-5 sm:p-6 bg-gradient-to-r from-buttonsCustom-50/50 to-transparent border-b border-buttonsCustom-100">
+            <Card className="border-none shadow-md bg-white overflow-hidden">
+              <CardHeader className="p-6 bg-white border-b border-gray-100">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
                     <CardTitle className="text-lg sm:text-xl text-buttonsCustom-900">Discount Coupons</CardTitle>
@@ -201,7 +199,7 @@ export default function Coupon() {
                       Create and manage discount codes for your courses
                     </CardDescription>
                   </div>
-                  <Button 
+                  <Button
                     onClick={() => setIsAddDialogOpen(true)}
                     className="bg-buttonsCustom-600 hover:bg-buttonsCustom-700 text-white"
                   >
@@ -251,7 +249,7 @@ export default function Coupon() {
                                   {coupon.discount}% OFF
                                 </Badge>
                               </div>
-                              
+
                               <div className="mt-2 space-y-1 text-sm">
                                 <div className="flex items-center text-gray-600">
                                   <Users className="h-3.5 w-3.5 mr-1.5" />
@@ -263,18 +261,18 @@ export default function Coupon() {
                                 </div>
                               </div>
                             </div>
-                            
+
                             <div className="flex gap-2 mt-3 sm:mt-0">
-                              <Button 
-                                variant="outline" 
+                              <Button
+                                variant="outline"
                                 onClick={() => handleEditCoupon(coupon)}
                                 className="border-buttonsCustom-200 text-buttonsCustom-700 hover:bg-buttonsCustom-50"
                               >
                                 <Edit className="h-4 w-4 mr-2" />
                                 Edit
                               </Button>
-                              <Button 
-                                variant="outline" 
+                              <Button
+                                variant="outline"
                                 onClick={() => handleDeleteCoupon(coupon.id)}
                                 className="border-red-200 text-red-600 hover:bg-red-50"
                               >
@@ -295,9 +293,9 @@ export default function Coupon() {
                     <p className="mt-2 text-sm text-gray-500 max-w-sm mx-auto">
                       Create your first coupon to offer discounts on your courses
                     </p>
-                    <Button 
+                    <Button
                       onClick={() => setIsAddDialogOpen(true)}
-                      variant="outline" 
+                      variant="outline"
                       className="mt-4 border-buttonsCustom-200 text-buttonsCustom-700"
                     >
                       <Plus className="h-4 w-4 mr-2" />

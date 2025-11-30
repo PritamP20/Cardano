@@ -41,7 +41,7 @@ export default function QuizAnalyticsPage() {
 
   const sortedStudentAttempts = useMemo(() => {
     if (!data?.students_best_attempts) return [];
-    
+
     return [...data.students_best_attempts].sort((a, b) => {
       const aValue = a[sortKey];
       const bValue = b[sortKey];
@@ -97,7 +97,7 @@ export default function QuizAnalyticsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+    <div className="min-h-screen bg-gray-50/50">
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
         <InstructorHeader />
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8 mt-4 sm:mt-8">
@@ -114,8 +114,8 @@ export default function QuizAnalyticsPage() {
                 <p className="text-sm text-gray-500">View performance and statistics for this quiz</p>
               </div>
             </div>
-            <Card className="border-buttonsCustom-200 overflow-hidden bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl">
-              <CardHeader className="p-4 sm:p-6 bg-gradient-to-r from-buttonsCustom-50/50 to-transparent border-b border-buttonsCustom-100">
+            <Card className="border-none shadow-md bg-white overflow-hidden">
+              <CardHeader className="p-6 bg-white border-b border-gray-100">
                 <CardTitle className="text-lg sm:text-xl text-buttonsCustom-900">
                   Analytics Overview
                 </CardTitle>
@@ -176,7 +176,7 @@ export default function QuizAnalyticsPage() {
                             <BarChart data={Object.entries(data.attempts_distribution).map(([attempt, count]) => ({ attempt: `Attempt ${attempt}`, count }))}>
                               <XAxis dataKey="attempt" />
                               <YAxis allowDecimals={false} />
-                              <Tooltip cursor={{fill: 'rgba(239, 246, 255, 0.5)'}} contentStyle={{backgroundColor: '#fff', border: '1px solid #ddd'}} />
+                              <Tooltip cursor={{ fill: 'rgba(239, 246, 255, 0.5)' }} contentStyle={{ backgroundColor: '#fff', border: '1px solid #ddd' }} />
                               <Bar dataKey="count" fill="#6366f1" radius={[4, 4, 0, 0]} name="Students" />
                             </BarChart>
                           </ResponsiveContainer>
@@ -222,7 +222,7 @@ export default function QuizAnalyticsPage() {
                         ) : (
                           <table className="w-full">
                             <thead>
-                              <tr className="bg-gradient-to-r from-buttonsCustom-50 to-buttonsCustom-100 text-buttonsCustom-900 text-sm">
+                              <tr className="bg-gray-50 border-b border-gray-100 text-gray-700 text-sm">
                                 <th className="p-3 text-left font-semibold">#</th>
                                 <th className="p-3 text-left font-semibold">Student ID</th>
                                 <th className="p-3 text-left font-semibold">Score</th>
@@ -254,7 +254,7 @@ export default function QuizAnalyticsPage() {
                         ) : (
                           <table className="w-full">
                             <thead>
-                              <tr className="bg-gradient-to-r from-buttonsCustom-50 to-buttonsCustom-100 text-buttonsCustom-900 text-sm">
+                              <tr className="bg-gray-50 border-b border-gray-100 text-gray-700 text-sm">
                                 <SortableHeader tkey="user_id" title="Student ID" />
                                 <SortableHeader tkey="score" title="Best Score" />
                                 <SortableHeader tkey="attempt_number" title="Best Attempt #" />
@@ -275,20 +275,20 @@ export default function QuizAnalyticsPage() {
                         )}
                       </div>
                     </div>
-                   </div>
-                 ) : (
-                   <div className="py-8 text-center text-gray-500">No analytics data found.</div>
-                 )}
-                 <div className="mt-8">
-                   <a href="/instructor/quiz-manage/">
-                     <Button variant="outline">Back to Quizzes</Button>
-                   </a>
-                 </div>
-               </CardContent>
-             </Card>
-           </div>
-         </div>
-       </div>
-     </div>
+                  </div>
+                ) : (
+                  <div className="py-8 text-center text-gray-500">No analytics data found.</div>
+                )}
+                <div className="mt-8">
+                  <a href="/instructor/quiz-manage/">
+                    <Button variant="outline">Back to Quizzes</Button>
+                  </a>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 } 

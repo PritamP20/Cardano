@@ -1,8 +1,7 @@
 "use client";
 
 import { useContext, useEffect, useState, useCallback } from "react";
-import { Settings2 } from "lucide-react";
-import Image from "next/image";
+import { Bell, Search } from "lucide-react";
 import { AvatarImage } from "@/components/ui/avatar-image";
 import Cookie from "js-cookie";
 import { jwtDecode } from "jwt-decode";
@@ -11,6 +10,7 @@ import UserData from "@/views/plugins/UserData";
 import { ProfileContext } from "@/views/plugins/Context";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
 
 interface DecodedToken {
   token_type: string;
@@ -110,12 +110,8 @@ export default function InstructorHeader() {
 
   if (isLoading) {
     return (
-      <div className="w-full bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-buttonsCustom-600" />
-          </div>
-        </div>
+      <div className="w-full bg-white border-b border-gray-100 h-20 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600" />
       </div>
     );
   }
@@ -125,14 +121,41 @@ export default function InstructorHeader() {
   }
 
   return (
-    <div className="w-full bg-white border-b border-gray-200 shadow-sm">
-      <div className="container mx-auto px-4 py-4 sm:py-5">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
-          <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto justify-between sm:justify-start">
-            <div className="flex items-center gap-3 sm:gap-5">
-              <div className="relative group">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-buttonsCustom-600 to-buttonsCustom-700 -z-10 blur-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative h-12 w-12 sm:h-14 sm:w-14 rounded-full overflow-hidden border-2 border-white shadow-md transform transition-transform duration-300 group-hover:scale-105">
+    <div className="w-full bg-white rounded-2xl border border-gray-100 shadow-sm mb-6">
+      <div className="px-6 py-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Left Side: Search (Optional) or Breadcrumbs */}
+          <div className="hidden sm:flex items-center w-full max-w-md">
+            <div className="relative w-full">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                placeholder="Search..."
+                className="pl-10 bg-gray-50 border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl"
+              />
+            </div>
+          </div>
+
+          {/* Right Side: Profile & Actions */}
+          <div className="flex items-center gap-4 w-full sm:w-auto justify-end">
+            <Button variant="ghost" size="icon" className="text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-full">
+              <Bell className="h-5 w-5" />
+            </Button>
+
+            <div className="h-8 w-px bg-gray-200 hidden sm:block" />
+
+            <div className="flex items-center gap-3 pl-2">
+              <div className="text-right hidden sm:block">
+                <p className="text-sm font-bold text-gray-900 leading-none">
+                  {localProfile.full_name}
+                </p>
+                <p className="text-xs text-indigo-600 font-medium mt-1">
+                  Instructor
+                </p>
+              </div>
+
+              <div className="relative group cursor-pointer" onClick={handleSettingsClick}>
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 -z-10 blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
+                <div className="relative h-10 w-10 rounded-full overflow-hidden border-2 border-white shadow-sm ring-2 ring-gray-100 group-hover:ring-indigo-100 transition-all">
                   <AvatarImage
                     src={localProfile.image}
                     alt={localProfile.full_name}
@@ -141,28 +164,7 @@ export default function InstructorHeader() {
                   />
                 </div>
               </div>
-              <div>
-                <h2 className="text-base sm:text-xl font-bold text-gray-900">
-                  {localProfile.full_name}
-                </h2>
-                <p className="text-xs sm:text-sm text-buttonsCustom-600 font-medium flex items-center">
-                  <span className="inline-block h-2 w-2 rounded-full bg-green-500 mr-2"></span>
-                  Instructor Dashboard
-                </p>
-              </div>
             </div>
-          </div>
-
-          <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto justify-end">
-            <Button
-              variant="outline"
-              size="sm"
-              className="border-buttonsCustom-200 text-buttonsCustom-600 hover:bg-buttonsCustom-50 hover:text-buttonsCustom-700 hover:border-buttonsCustom-300 text-xs sm:text-sm px-3 sm:px-4 rounded-full transition-all duration-200"
-              onClick={handleSettingsClick}
-            >
-              <Settings2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2" />
-              Settings
-            </Button>
           </div>
         </div>
       </div>

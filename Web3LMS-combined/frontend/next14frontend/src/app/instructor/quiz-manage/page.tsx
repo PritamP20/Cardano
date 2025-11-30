@@ -341,7 +341,7 @@ const QuizManagePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+    <div className="min-h-screen bg-gray-50/50">
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
         <InstructorHeader />
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8 mt-4 sm:mt-8">
@@ -358,10 +358,8 @@ const QuizManagePage = () => {
                 <p className="text-sm text-gray-500">Create and manage quizzes for your courses</p>
               </div>
             </motion.div>
-            <Card className="border-buttonsCustom-200 overflow-hidden bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl">
-              {/* Gradient Header */}
-              <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-              <CardHeader className="p-4 sm:p-6 bg-gradient-to-r from-buttonsCustom-50/50 to-transparent border-b border-buttonsCustom-100">
+            <Card className="border-none shadow-md bg-white overflow-hidden">
+              <CardHeader className="p-6 bg-white border-b border-gray-100">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
                     <CardTitle className="text-lg sm:text-xl text-buttonsCustom-900">Quizzes</CardTitle>
@@ -511,7 +509,7 @@ const QuizManagePage = () => {
                         </div>
                         <table className="w-full min-w-[700px]">
                           <thead>
-                            <tr className="bg-gradient-to-r from-buttonsCustom-50 to-buttonsCustom-100 text-buttonsCustom-900">
+                            <tr className="bg-gray-50 border-b border-gray-100 text-gray-700">
                               <th className="p-3 text-left font-semibold">Title</th>
                               <th className="p-3 text-left font-semibold">Description</th>
                               <th className="p-3 text-center font-semibold">Time Limit</th>
@@ -523,7 +521,7 @@ const QuizManagePage = () => {
                           </thead>
                           <tbody>
                             {quizzes.map(quiz => (
-                              <tr key={quiz.quiz_id} className="border-t border-buttonsCustom-100 hover:bg-buttonsCustom-50/50 transition">
+                              <tr key={quiz.quiz_id} className="border-t border-gray-100 hover:bg-gray-50/50 transition">
                                 <td className="p-3 text-gray-900 font-medium">{quiz.title}</td>
                                 <td className="p-3 text-gray-700">{quiz.description}</td>
                                 <td className="p-3 text-center text-blue-700 font-semibold">{quiz.time_limit} min</td>

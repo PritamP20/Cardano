@@ -21,6 +21,7 @@ import {
   FileText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 interface NavItem {
   href: string;
@@ -109,9 +110,9 @@ function InstructorSidebar() {
 
   return (
     <div className="w-full lg:w-64">
-      <nav className="bg-card rounded-lg shadow-sm border border-border p-4">
+      <nav className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sticky top-4">
         <div className="flex items-center justify-between lg:hidden mb-4">
-          <span className="font-semibold text-foreground">Menu</span>
+          <span className="font-bold text-gray-900">Menu</span>
           <Button variant="ghost" size="icon" className="lg:hidden">
             <Menu className="h-5 w-5" />
           </Button>
@@ -120,48 +121,65 @@ function InstructorSidebar() {
         <div className="space-y-6">
           {/* Main Navigation */}
           <div>
+            <h3 className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+              Menu
+            </h3>
             <ul className="space-y-1">
-              {mainNavItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                      pathname === item.href
-                        ? "bg-secondary/10 text-secondary"
-                        : "text-muted-foreground hover:bg-secondary/5 hover:text-secondary"
-                    )}
-                  >
-                    <item.icon className="h-4 w-4" />
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              {mainNavItems.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        "group flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
+                        isActive
+                          ? "bg-indigo-50 text-indigo-600 shadow-sm"
+                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                      )}
+                    >
+                      <div className="flex items-center gap-3">
+                        <item.icon className={cn("h-4 w-4 transition-colors", isActive ? "text-indigo-600" : "text-gray-400 group-hover:text-gray-600")} />
+                        {item.label}
+                      </div>
+                      {isActive && (
+                        <motion.div
+                          layoutId="activeIndicator"
+                          className="h-1.5 w-1.5 rounded-full bg-indigo-600"
+                        />
+                      )}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
           {/* Account Settings */}
           <div>
-            <h3 className="px-3 text-sm font-semibold text-foreground mb-2">
-              Account Settings
+            <h3 className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+              Settings
             </h3>
             <ul className="space-y-1">
-              {accountNavItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                      pathname === item.href
-                        ? "bg-secondary/10 text-secondary"
-                        : "text-muted-foreground hover:bg-secondary/5 hover:text-secondary"
-                    )}
-                  >
-                    <item.icon className="h-4 w-4" />
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              {accountNavItems.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        "group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
+                        isActive
+                          ? "bg-indigo-50 text-indigo-600 shadow-sm"
+                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                      )}
+                    >
+                      <item.icon className={cn("h-4 w-4 transition-colors", isActive ? "text-indigo-600" : "text-gray-400 group-hover:text-gray-600")} />
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>

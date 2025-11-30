@@ -82,9 +82,9 @@ function StudentSidebar() {
 
   return (
     <div className="w-full lg:w-64">
-      <nav className="bg-card rounded-lg shadow-sm border border-border p-4">
+      <nav className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
         <div className="flex items-center justify-between lg:hidden mb-4">
-          <span className="font-semibold text-foreground">Menu</span>
+          <span className="font-semibold text-gray-900">Menu</span>
           <Button variant="ghost" size="icon" className="lg:hidden">
             <Menu className="h-5 w-5" />
           </Button>
@@ -99,13 +99,13 @@ function StudentSidebar() {
                   <Link
                     href={item.href}
                     className={cn(
-                      "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                      "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
                       pathname === item.href
-                        ? "bg-secondary/10 text-secondary"
-                        : "text-muted-foreground hover:bg-secondary/5 hover:text-secondary"
+                        ? "bg-indigo-50 text-indigo-600 shadow-sm"
+                        : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
                     )}
                   >
-                    <item.icon className="h-4 w-4" />
+                    <item.icon className={cn("h-4 w-4", pathname === item.href ? "text-indigo-600" : "text-gray-400")} />
                     {item.label}
                   </Link>
                 </li>
@@ -115,7 +115,7 @@ function StudentSidebar() {
 
           {/* Certificates Navigation */}
           <div>
-            <h3 className="px-3 text-sm font-semibold text-foreground mb-2">
+            <h3 className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
               Certificates
             </h3>
             <ul className="space-y-1">
@@ -124,13 +124,13 @@ function StudentSidebar() {
                   <Link
                     href={item.href}
                     className={cn(
-                      "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                      "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
                       pathname === item.href
-                        ? "bg-secondary/10 text-secondary"
-                        : "text-muted-foreground hover:bg-secondary/5 hover:text-secondary"
+                        ? "bg-indigo-50 text-indigo-600 shadow-sm"
+                        : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
                     )}
                   >
-                    <item.icon className="h-4 w-4" />
+                    <item.icon className={cn("h-4 w-4", pathname === item.href ? "text-indigo-600" : "text-gray-400")} />
                     {item.label}
                   </Link>
                 </li>
@@ -140,8 +140,8 @@ function StudentSidebar() {
 
           {/* Account Settings */}
           <div>
-            <h3 className="px-3 text-sm font-semibold text-foreground mb-2">
-              Account Settings
+            <h3 className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+              Account
             </h3>
             <ul className="space-y-1">
               {accountNavItems.map((item) => (
@@ -149,13 +149,13 @@ function StudentSidebar() {
                   <Link
                     href={item.href}
                     className={cn(
-                      "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                      "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
                       pathname === item.href
-                        ? "bg-secondary/10 text-secondary"
-                        : "text-muted-foreground hover:bg-secondary/5 hover:text-secondary"
+                        ? "bg-indigo-50 text-indigo-600 shadow-sm"
+                        : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
                     )}
                   >
-                    <item.icon className="h-4 w-4" />
+                    <item.icon className={cn("h-4 w-4", pathname === item.href ? "text-indigo-600" : "text-gray-400")} />
                     {item.label}
                   </Link>
                 </li>

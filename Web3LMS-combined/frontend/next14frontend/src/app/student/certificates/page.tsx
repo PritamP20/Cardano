@@ -5,23 +5,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { 
-  Award, 
-  Search, 
-  Filter, 
-  SlidersHorizontal, 
-  Clock, 
-  CheckCircle, 
-  XCircle, 
-  ChevronRight, 
-  Download, 
-  Share2, 
+import {
+  Award,
+  Search,
+  Filter,
+  SlidersHorizontal,
+  Clock,
+  CheckCircle,
+  XCircle,
+  ChevronRight,
+  Download,
+  Share2,
   ArrowUpDown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -76,66 +76,66 @@ export default function StudentCertificatesDashboard() {
   const [activeTab, setActiveTab] = useState<string>("all");
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  
+
   const router = useRouter();
 
   // Wrap the search params usage in a separate component
   function SearchParamsHandler() {
     const searchParams = useSearchParams();
-    
+
     useEffect(() => {
       // Get initial filter values from URL if present
       const tabParam = searchParams.get('tab');
       if (tabParam) setActiveTab(tabParam);
-      
+
       const statusParam = searchParams.get('status') as StatusFilter;
       if (statusParam) setStatusFilter(statusParam);
-      
+
       const levelParam = searchParams.get('level') as LevelFilter;
       if (levelParam) setLevelFilter(levelParam);
-      
+
       const sortParam = searchParams.get('sort') as SortOption;
       if (sortParam) setSortBy(sortParam);
-      
+
       const searchParam = searchParams.get('search');
       if (searchParam) setSearchQuery(searchParam);
     }, [searchParams]);
 
     return null;
   }
-  
+
   const certificatesPerPage = 9;
 
   // Apply all filters and sorting
   const applyFilters = useCallback(() => {
     let result = [...certificates];
-    
+
     // Apply status filter
     if (statusFilter !== 'all') {
       result = result.filter(cert => cert.status === statusFilter);
     }
-    
+
     // Apply level filter
     if (levelFilter !== 'all') {
       result = result.filter(cert => cert.course.level === levelFilter);
     }
-    
+
     // Apply search query
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      result = result.filter(cert => 
+      result = result.filter(cert =>
         cert.course.title.toLowerCase().includes(query) ||
         cert.certificate_id.toLowerCase().includes(query)
       );
     }
-    
+
     // Apply sorting
     result.sort((a, b) => {
       const dateA = new Date(a.issue_date).getTime();
       const dateB = new Date(b.issue_date).getTime();
       return sortBy === 'newest' ? dateB - dateA : dateA - dateB;
     });
-    
+
     setFilteredCertificates(result);
     setPage(1); // Reset to first page when filters change
     setHasMore(result.length > certificatesPerPage);
@@ -150,7 +150,7 @@ export default function StudentCertificatesDashboard() {
     try {
       const userId = UserData()?.user_id;
       if (!userId) throw new Error("User not authenticated");
-      
+
       const response = await useAxios.get(`/student/certificate/list/${userId}/`);
       setCertificates(response.data || []);
     } catch (error) {
@@ -177,7 +177,7 @@ export default function StudentCertificatesDashboard() {
     if (levelFilter !== 'all') params.set('level', levelFilter);
     if (sortBy !== 'newest') params.set('sort', sortBy);
     if (searchQuery) params.set('search', searchQuery);
-    
+
     const queryString = params.toString();
     router.push(queryString ? `?${queryString}` : '/student/certificates', { scroll: false });
   }, [activeTab, statusFilter, levelFilter, sortBy, searchQuery, router]);
@@ -200,7 +200,7 @@ export default function StudentCertificatesDashboard() {
 
   const handleShareCertificate = async (certificate: Certificate) => {
     const url = `${window.location.origin}/verify-certificate/${certificate.certificate_id}`;
-    
+
     if (navigator.share) {
       try {
         await navigator.share({
@@ -235,7 +235,7 @@ export default function StudentCertificatesDashboard() {
 
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+      <div className="min-h-screen bg-gray-50/50">
         <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
           <div className="animate-pulse space-y-4">
             <div className="h-12 bg-gray-200 rounded w-full"></div>
@@ -244,35 +244,35 @@ export default function StudentCertificatesDashboard() {
         </div>
       </div>
     }>
-      <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+      <div className="min-h-screen bg-gray-50/50">
         <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
           <StudentHeader />
-          
+
           {/* Add SearchParamsHandler inside Suspense */}
           <SearchParamsHandler />
-          
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8 mt-4 sm:mt-8">
-            <div className="lg:sticky lg:top-4 lg:self-start">
+
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8 mt-6">
+            <div className="lg:col-span-1 lg:sticky lg:top-4 lg:self-start">
               <StudentSidebar />
             </div>
-            
-            <div className="lg:col-span-3 space-y-5 sm:space-y-7">
-              <motion.div 
+
+            <div className="lg:col-span-3 space-y-8">
+              <motion.div
                 initial="hidden"
                 animate="visible"
                 variants={fadeInUp}
                 transition={{ duration: 0.3 }}
                 className="flex items-center gap-2 mb-2"
               >
-                <div className="h-10 w-10 rounded-full bg-buttonsCustom-100 flex items-center justify-center">
-                  <Award className="h-5 w-5 text-buttonsCustom-600" />
+                <div className="h-10 w-10 rounded-full bg-indigo-50 flex items-center justify-center">
+                  <Award className="h-5 w-5 text-indigo-600" />
                 </div>
                 <div>
                   <h4 className="text-xl font-bold text-gray-900">My Certificates</h4>
                   <p className="text-sm text-gray-500">View and manage your earned certificates</p>
                 </div>
               </motion.div>
-              
+
               {/* Filters and Search */}
               <motion.div
                 initial="hidden"
@@ -291,7 +291,7 @@ export default function StudentCertificatesDashboard() {
                     className="pl-10 border-buttonsCustom-200 focus:border-buttonsCustom-500"
                   />
                 </div>
-                
+
                 <div className="flex gap-2 flex-wrap">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -317,7 +317,7 @@ export default function StudentCertificatesDashboard() {
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  
+
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="outline" size="sm" className="border-buttonsCustom-200 text-buttonsCustom-600">
@@ -338,7 +338,7 @@ export default function StudentCertificatesDashboard() {
                   </DropdownMenu>
                 </div>
               </motion.div>
-              
+
               {/* Tabs */}
               <motion.div
                 initial="hidden"
@@ -361,7 +361,7 @@ export default function StudentCertificatesDashboard() {
                       Expired
                     </TabsTrigger>
                   </TabsList>
-                  
+
                   <TabsContent value={activeTab} className="mt-0">
                     {isLoading ? (
                       // Loading Skeleton
@@ -390,32 +390,33 @@ export default function StudentCertificatesDashboard() {
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: index * 0.05 }}
                             >
-                              <Card className="overflow-hidden border-gray-200 h-full flex flex-col bg-white/95 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
-                                <div className="relative h-40 w-full">
+                              <Card className="border-none shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden bg-white rounded-2xl flex flex-col h-full group">
+                                <div className="relative h-48 w-full overflow-hidden">
                                   {certificate.course?.image ? (
                                     <Image
                                       src={certificate.course.image}
                                       alt={certificate.course.title}
                                       fill
-                                      className="object-cover"
+                                      className="object-cover transition-transform duration-500 group-hover:scale-110"
                                     />
                                   ) : (
-                                    <div className="w-full h-full bg-gradient-to-r from-buttonsCustom-100 to-buttonsCustom-200 flex items-center justify-center">
-                                      <Award className="h-12 w-12 text-buttonsCustom-500" />
+                                    <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                                      <Award className="h-12 w-12 text-gray-400" />
                                     </div>
                                   )}
-                                  
+
+                                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
                                   {/* Status Badge */}
-                                  <div className="absolute top-2 right-2">
-                                    <div className={`px-2 py-1 rounded-full text-xs font-medium flex items-center ${
-                                      certificate.status === 'active' 
-                                        ? 'bg-green-100 text-green-800' 
+                                  <div className="absolute top-3 right-3">
+                                    <div className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center shadow-sm backdrop-blur-md ${certificate.status === 'active'
+                                        ? 'bg-white/90 text-green-700'
                                         : certificate.status === 'revoked'
-                                          ? 'bg-red-100 text-red-800'
-                                          : 'bg-yellow-100 text-yellow-800'
-                                    }`}>
-                                      {certificate.status === 'active' 
-                                        ? <CheckCircle className="h-3 w-3 mr-1" /> 
+                                          ? 'bg-white/90 text-red-700'
+                                          : 'bg-white/90 text-yellow-700'
+                                      }`}>
+                                      {certificate.status === 'active'
+                                        ? <CheckCircle className="h-3 w-3 mr-1" />
                                         : certificate.status === 'revoked'
                                           ? <XCircle className="h-3 w-3 mr-1" />
                                           : <Clock className="h-3 w-3 mr-1" />
@@ -423,62 +424,57 @@ export default function StudentCertificatesDashboard() {
                                       {certificate.status === 'active' ? 'Active' : certificate.status === 'revoked' ? 'Revoked' : 'Expired'}
                                     </div>
                                   </div>
-                                  
+
                                   {/* Level Badge */}
-                                  <div className="absolute top-2 left-2">
-                                    <Badge className="bg-buttonsCustom-600">
+                                  <div className="absolute top-3 left-3">
+                                    <Badge className="bg-white/90 text-gray-800 hover:bg-white shadow-sm backdrop-blur-md border-none">
                                       {certificate.course.level}
                                     </Badge>
                                   </div>
-                                  
-                                  {/* Certificate Overlay */}
-                                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-4">
-                                    <div className="text-white">
-                                      <h3 className="font-bold text-lg line-clamp-1">{certificate.course.title}</h3>
-                                      <p className="text-xs opacity-80">Issued on: {new Date(certificate.issue_date).toLocaleDateString()}</p>
-                                    </div>
-                                  </div>
                                 </div>
-                                
-                                <CardContent className="flex-grow p-4">
-                                  <div className="flex items-start gap-2 mb-2">
-                                    <Award className="h-4 w-4 text-buttonsCustom-500 mt-0.5" />
-                                    <div>
-                                      <span className="text-xs text-gray-500">Certificate ID</span>
-                                      <p className="text-sm font-medium text-buttonsCustom-700">{certificate.certificate_id}</p>
+
+                                <CardContent className="flex-grow p-5">
+                                  <h3 className="font-bold text-lg text-gray-900 mb-3 line-clamp-2 group-hover:text-indigo-600 transition-colors">
+                                    {certificate.course.title}
+                                  </h3>
+
+                                  <div className="space-y-2">
+                                    <div className="flex items-start gap-2">
+                                      <Award className="h-4 w-4 text-indigo-500 mt-0.5" />
+                                      <div>
+                                        <span className="text-xs text-gray-500 block">Certificate ID</span>
+                                        <p className="text-sm font-medium text-gray-700 font-mono">{certificate.certificate_id}</p>
+                                      </div>
                                     </div>
-                                  </div>
-                                  
-                                  <div className="flex items-start gap-2">
-                                    <Clock className="h-4 w-4 text-buttonsCustom-500 mt-0.5" />
-                                    <div>
-                                      <span className="text-xs text-gray-500">Completed on</span>
-                                      <p className="text-sm font-medium">{new Date(certificate.completion_date).toLocaleDateString()}</p>
+
+                                    <div className="flex items-start gap-2">
+                                      <Clock className="h-4 w-4 text-indigo-500 mt-0.5" />
+                                      <div>
+                                        <span className="text-xs text-gray-500 block">Completed on</span>
+                                        <p className="text-sm font-medium text-gray-700">{new Date(certificate.completion_date).toLocaleDateString()}</p>
+                                      </div>
                                     </div>
                                   </div>
                                 </CardContent>
-                                
-                                <CardFooter className="p-4 pt-0 mt-auto">
-                                  <div className="w-full flex items-center justify-between gap-2">
-                                    <Button 
+
+                                <CardFooter className="p-5 pt-0 mt-auto">
+                                  <div className="w-full flex items-center justify-between gap-3">
+                                    <Button
                                       asChild
-                                      variant="default" 
-                                      size="sm"
-                                      className="bg-buttonsCustom-600 hover:bg-buttonsCustom-700"
+                                      className="flex-1 bg-gray-900 hover:bg-indigo-600 text-white transition-colors rounded-xl"
                                     >
                                       <Link href={`/student/certificates/view/${certificate.certificate_id}`}>
-                                        View Certificate
-                                        <ChevronRight className="h-4 w-4 ml-1" />
+                                        View
                                       </Link>
                                     </Button>
-                                    
+
                                     <DropdownMenu>
                                       <DropdownMenuTrigger asChild>
-                                        <Button variant="outline" size="icon" className="h-8 w-8 border-buttonsCustom-200">
-                                          <SlidersHorizontal className="h-4 w-4 text-buttonsCustom-600" />
+                                        <Button variant="outline" size="icon" className="h-10 w-10 rounded-xl border-gray-200 hover:bg-gray-50 hover:text-indigo-600">
+                                          <SlidersHorizontal className="h-4 w-4" />
                                         </Button>
                                       </DropdownMenuTrigger>
-                                      <DropdownMenuContent align="end">
+                                      <DropdownMenuContent align="end" className="w-48">
                                         <DropdownMenuItem onClick={() => handleShareCertificate(certificate)}>
                                           <Share2 className="h-4 w-4 mr-2" />
                                           Share
@@ -505,13 +501,13 @@ export default function StudentCertificatesDashboard() {
                             </motion.div>
                           ))}
                         </div>
-                        
+
                         {/* Load More Button */}
                         {hasMore && (
                           <div className="flex justify-center mt-8">
-                            <Button 
+                            <Button
                               onClick={loadMore}
-                              variant="outline" 
+                              variant="outline"
                               className="border-buttonsCustom-300 text-buttonsCustom-600 hover:bg-buttonsCustom-50"
                             >
                               Load More Certificates
@@ -542,7 +538,7 @@ export default function StudentCertificatesDashboard() {
                   </TabsContent>
                 </Tabs>
               </motion.div>
-              
+
               {/* Certificate Stats */}
               {!isLoading && filteredCertificates.length > 0 && (
                 <motion.div
@@ -568,7 +564,7 @@ export default function StudentCertificatesDashboard() {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="bg-yellow-50 border border-yellow-100 rounded-lg p-4">
                         <div className="flex items-center justify-between">
                           <div>
@@ -582,7 +578,7 @@ export default function StudentCertificatesDashboard() {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="bg-red-50 border border-red-100 rounded-lg p-4">
                         <div className="flex items-center justify-between">
                           <div>
@@ -600,7 +596,7 @@ export default function StudentCertificatesDashboard() {
                   </div>
                 </motion.div>
               )}
-              
+
               {/* Generate More Certificates Button */}
               {!isLoading && (
                 <motion.div

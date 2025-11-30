@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { 
-  IndianRupee, 
-  TrendingUp, 
+import {
+  IndianRupee,
+  TrendingUp,
   Calendar,
   MoreVertical,
   ChevronRight,
@@ -67,7 +67,7 @@ export default function Earning() {
   const [bestSellingCourses, setBestSellingCourses] = useState<BestSellingCourse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
@@ -76,7 +76,7 @@ export default function Earning() {
           useAxios.get(`teacher/all-months-earning/${UserData()?.user_id}/`),
           useAxios.get(`teacher/best-course-earning/${UserData()?.user_id}/`)
         ]);
-        
+
         setStats(statsRes.data[0] || {
           total_revenue: 0,
           monthly_revenue: 0,
@@ -93,7 +93,7 @@ export default function Earning() {
     };
 
     fetchData();
-    }, []);
+  }, []);
 
   const getMonthName = (month: number): string => {
     const monthNames = [
@@ -108,18 +108,18 @@ export default function Earning() {
     visible: { opacity: 1, y: 0 }
   };
 
-    return (
-    <div className="min-h-screen bg-gradient-to-b from-primaryCustom-300 to-primaryCustom-700">
+  return (
+    <div className="min-h-screen bg-gray-50/50">
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
         <InstructorHeader />
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8 mt-4 sm:mt-8">
           <div className="lg:sticky lg:top-4 lg:self-start">
             <InstructorSidebar />
           </div>
-          
+
           <div className="lg:col-span-3 space-y-5 sm:space-y-7">
-            <motion.div 
+            <motion.div
               initial="hidden"
               animate="visible"
               variants={fadeInUp}
@@ -134,16 +134,16 @@ export default function Earning() {
                 <p className="text-sm text-gray-500">Track your revenue and performance</p>
               </div>
             </motion.div>
-            
+
             {/* Stats Overview */}
-            <motion.div 
+            <motion.div
               initial="hidden"
               animate="visible"
               variants={fadeInUp}
               transition={{ duration: 0.3, delay: 0.1 }}
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
             >
-              <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 overflow-hidden backdrop-blur-sm border border-white/20 shadow-lg">
+              <Card className="bg-white border-none shadow-md overflow-hidden">
                 <CardContent className="p-5">
                   <div className="flex justify-between items-start">
                     <div>
@@ -172,8 +172,8 @@ export default function Earning() {
                   </div>
                 </CardContent>
               </Card>
-              
-              <Card className="bg-gradient-to-br from-buttonsCustom-50 to-buttonsCustom-100 border-buttonsCustom-200 overflow-hidden backdrop-blur-sm border border-white/20 shadow-lg">
+
+              <Card className="bg-white border-none shadow-md overflow-hidden">
                 <CardContent className="p-5">
                   <div className="flex justify-between items-start">
                     <div>
@@ -202,8 +202,8 @@ export default function Earning() {
                   </div>
                 </CardContent>
               </Card>
-              
-              <Card className="bg-gradient-to-br from-amber-50 to-amber-100 border-amber-200 overflow-hidden backdrop-blur-sm border border-white/20 shadow-lg">
+
+              <Card className="bg-white border-none shadow-md overflow-hidden">
                 <CardContent className="p-5">
                   <div className="flex justify-between items-start">
                     <div>
@@ -226,8 +226,8 @@ export default function Earning() {
                   </div>
                 </CardContent>
               </Card>
-              
-              <Card className="bg-gradient-to-br from-rose-50 to-rose-100 border-rose-200 overflow-hidden backdrop-blur-sm border border-white/20 shadow-lg">
+
+              <Card className="bg-white border-none shadow-md overflow-hidden">
                 <CardContent className="p-5">
                   <div className="flex justify-between items-start">
                     <div>
@@ -251,7 +251,7 @@ export default function Earning() {
                 </CardContent>
               </Card>
             </motion.div>
-            
+
             {/* Best Selling Courses */}
             <motion.div
               initial="hidden"
@@ -259,10 +259,8 @@ export default function Earning() {
               variants={fadeInUp}
               transition={{ duration: 0.3, delay: 0.2 }}
             >
-              <Card className="border-buttonsCustom-200 overflow-hidden bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl">
-                {/* Gradient Header */}
-                <div className="h-2 bg-gradient-to-r from-buttonsCustom-800 to-buttonsCustom-600" />
-                <CardHeader className="p-5 sm:p-6 bg-gradient-to-r from-buttonsCustom-50/50 to-transparent border-b border-buttonsCustom-100">
+              <Card className="border-none shadow-md bg-white overflow-hidden">
+                <CardHeader className="p-6 bg-white border-b border-gray-100">
                   <div className="flex flex-row items-center justify-between">
                     <div>
                       <CardTitle className="text-lg sm:text-xl text-buttonsCustom-900">Best Selling Courses</CardTitle>
@@ -347,13 +345,13 @@ export default function Earning() {
                           </TableBody>
                         </Table>
                       </div>
-                      
+
                       {/* Mobile View */}
                       <div className="sm:hidden">
                         <div className="divide-y divide-gray-100">
                           {bestSellingCourses.map((course, index) => (
-                            <motion.div 
-                              key={course.course_id || index} 
+                            <motion.div
+                              key={course.course_id || index}
                               className="p-4 hover:bg-gray-50/50"
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
@@ -406,7 +404,7 @@ export default function Earning() {
                 )}
               </Card>
             </motion.div>
-            
+
             {/* Monthly Earnings */}
             <motion.div
               initial="hidden"
@@ -414,10 +412,8 @@ export default function Earning() {
               variants={fadeInUp}
               transition={{ duration: 0.3, delay: 0.3 }}
             >
-              <Card className="border-buttonsCustom-200 overflow-hidden bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl">
-                {/* Gradient Header */}
-                <div className="h-2 bg-gradient-to-r from-green-800 to-green-600" />
-                <CardHeader className="p-5 sm:p-6 bg-gradient-to-r from-green-50/50 to-transparent border-b border-green-100">
+              <Card className="border-none shadow-md bg-white overflow-hidden">
+                <CardHeader className="p-6 bg-white border-b border-gray-100">
                   <div className="flex flex-row items-center justify-between">
                     <div>
                       <CardTitle className="text-lg sm:text-xl text-gray-900">Monthly Earnings</CardTitle>
@@ -471,13 +467,13 @@ export default function Earning() {
                           </TableBody>
                         </Table>
                       </div>
-                      
+
                       {/* Mobile View */}
                       <div className="sm:hidden">
                         <div className="divide-y divide-gray-100">
                           {earnings.map((earning, index) => (
-                            <motion.div 
-                              key={index} 
+                            <motion.div
+                              key={index}
                               className="flex justify-between items-center p-4 hover:bg-gray-50/50"
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}

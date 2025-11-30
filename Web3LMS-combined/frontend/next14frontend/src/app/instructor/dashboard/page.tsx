@@ -13,6 +13,11 @@ import {
   Trash,
   BookOpen,
   AlertTriangle,
+  Sparkles,
+  TrendingUp,
+  Plus,
+  MoreVertical,
+  Eye
 } from "lucide-react";
 import {
   AlertDialog,
@@ -29,6 +34,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 import InstructorSidebar from "@/components/instructor/Sidebar";
 import InstructorHeader from "@/components/instructor/Header";
@@ -50,7 +61,7 @@ interface Student {
 interface Course {
   id: string;
   course_id: string;
-  slug?: string; // Add the slug property
+  slug?: string;
   title: string;
   image: string;
   language: string;
@@ -71,26 +82,36 @@ export default function Dashboard() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [userData, setUserData] = useState<{ full_name?: string } | null>(null);
 
   const [deletingCourse, setDeletingCourse] = useState<Course | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  useEffect(() => {
+    const user = UserData();
+    setUserData(user);
+  }, []);
+
   const fetchCourseData = async () => {
     setIsLoading(true);
     try {
-      const [statsRes, coursesRes] = await Promise.all([
-        useAxios.get(`teacher/summary/${UserData()?.teacher_id}/`),
-        useAxios.get(`teacher/course-lists/${UserData()?.teacher_id}/`),
-      ]);
-      setStats(statsRes.data[0]);
-      setCourses(coursesRes.data);
+      const teacherId = UserData()?.teacher_id;
+      if (teacherId) {
+        const [statsRes, coursesRes] = await Promise.all([
+          useAxios.get(`teacher/summary/${teacherId}/`),
+          useAxios.get(`teacher/course-lists/${teacherId}/`),
+        ]);
+        setStats(statsRes.data[0]);
+        setCourses(coursesRes.data);
+      }
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
     } finally {
       setIsLoading(false);
     }
   };
+
   const handleDeleteClick = (course: Course) => {
     setDeletingCourse(course);
     setIsDeleteDialogOpen(true);
@@ -101,17 +122,14 @@ export default function Dashboard() {
 
     setIsDeleting(true);
     try {
-      // Make the delete API call using the slug
       await useAxios.delete(`course/course-detail/${deletingCourse.slug}/`);
 
-      // Remove the course from the state
       setCourses(
         courses.filter(
           (course) => course.course_id !== deletingCourse.course_id
         )
       );
 
-      // Show success message
       Toast().fire({
         title: `Course "${deletingCourse.title}" deleted successfully`,
         icon: "success",
@@ -123,12 +141,12 @@ export default function Dashboard() {
         icon: "error",
       });
     } finally {
-      // Reset state
       setIsDeleting(false);
       setIsDeleteDialogOpen(false);
       setDeletingCourse(null);
     }
   };
+
   useEffect(() => {
     fetchCourseData();
   }, []);
@@ -147,397 +165,324 @@ export default function Dashboard() {
     }
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-50/50">
       <div className="container mx-auto px-4 py-4 sm:py-8 max-w-7xl">
         <InstructorHeader />
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8 mt-4 sm:mt-8">
-          <div className="lg:sticky lg:top-4 lg:self-start">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8 mt-6">
+          <div className="lg:col-span-1 lg:sticky lg:top-4 lg:self-start">
             <InstructorSidebar />
           </div>
 
-          <div className="lg:col-span-3 space-y-4 sm:space-y-6">
-            <motion.div className="flex items-center gap-2 mb-2">
-              <div className="h-10 w-10 rounded-full bg-secondary/10 flex items-center justify-center">
-                <LayoutDashboard className="h-5 w-5 text-secondary" />
-              </div>
-              <div>
-                <h4 className="text-xl font-bold text-foreground">Dashboard</h4>
-                <p className="text-sm text-muted-foreground">
-                  Manage your courses and view insights
-                </p>
-              </div>
-            </motion.div>
+          <div className="lg:col-span-3 space-y-8">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={containerVariants}
+              className="space-y-8"
+            >
+              {/* Welcome Banner */}
+              <motion.div variants={itemVariants}>
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-900 to-violet-900 p-8 text-white shadow-lg">
+                  <div className="absolute top-0 right-0 -mt-10 -mr-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
+                  <div className="absolute bottom-0 left-0 -mb-10 -ml-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <Card className="bg-card border-border hover:border-secondary/50 transition-colors shadow-sm">
-                <CardContent className="p-4 sm:p-6">
-                  <div className="flex items-center gap-3 sm:gap-4">
-                    <div className="p-2 sm:p-3 bg-primary/5 rounded-lg">
-                      <LayoutDashboard className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-2 mb-2 text-indigo-200">
+                      <Sparkles className="h-5 w-5" />
+                      <span className="font-medium">Instructor Dashboard</span>
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-muted-foreground">
-                        Total Courses
-                      </p>
-                      <h3 className="text-xl sm:text-2xl font-bold text-foreground">
-                        {stats.total_courses}
-                      </h3>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-card border-border hover:border-secondary/50 transition-colors shadow-sm">
-                <CardContent className="p-4 sm:p-6">
-                  <div className="flex items-center gap-3 sm:gap-4">
-                    <div className="p-2 sm:p-3 bg-secondary/10 rounded-lg">
-                      <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6 text-secondary" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-muted-foreground">
-                        Total Students
-                      </p>
-                      <h3 className="text-xl sm:text-2xl font-bold text-foreground">
-                        {stats.total_students}
-                      </h3>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-card border-border hover:border-secondary/50 transition-colors shadow-sm">
-                <CardContent className="p-4 sm:p-6">
-                  <div className="flex items-center gap-3 sm:gap-4">
-                    <div className="p-2 sm:p-3 bg-green-500/10 rounded-lg">
-                      <IndianRupee className="h-5 w-5 sm:h-6 sm:w-6 text-green-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-muted-foreground">
-                        Total Revenue
-                      </p>
-                      <h3 className="text-xl sm:text-2xl font-bold text-foreground">
-                        ₹{stats.total_revenue?.toFixed(2)}
-                      </h3>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Courses Table */}
-            <Card className="border-border overflow-hidden bg-card shadow-sm">
-              <CardHeader className="p-4 sm:p-6 border-b border-border">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div>
-                    <CardTitle className="text-lg sm:text-xl text-foreground">
-                      Courses
-                    </CardTitle>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Manage your courses from here, search, view, edit or
-                      delete courses.
+                    <h1 className="text-3xl font-bold mb-2">Welcome back, {userData?.full_name || 'Instructor'}!</h1>
+                    <p className="text-indigo-100 max-w-xl">
+                      Manage your courses, track your revenue, and engage with your students all in one place.
                     </p>
-                  </div>
-                  <div className="relative w-full sm:w-64">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      type="search"
-                      placeholder="Search your courses..."
-                      value={searchQuery}
-                      onChange={handleSearch}
-                      className="pl-10 border-input focus:border-secondary"
-                    />
+                    <div className="mt-6">
+                      <Button asChild className="bg-white text-indigo-900 hover:bg-indigo-50 border-none shadow-md">
+                        <Link href="/instructor/create-course/">
+                          <Plus className="h-4 w-4 mr-2" /> Create New Course
+                        </Link>
+                      </Button>
+                    </div>
                   </div>
                 </div>
-              </CardHeader>
-              <CardContent className="p-0">
-                {isLoading ? (
-                  <div className="flex items-center justify-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-secondary" />
+              </motion.div>
+
+              {/* Stats Cards */}
+              <motion.div
+                variants={itemVariants}
+                className="grid grid-cols-1 sm:grid-cols-3 gap-6"
+              >
+                <Card className="border-none shadow-md bg-white hover:shadow-lg transition-all duration-300 group overflow-hidden relative">
+                  <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <BookOpen className="h-24 w-24 text-indigo-600 transform rotate-12 translate-x-8 -translate-y-8" />
                   </div>
-                ) : courses.length > 0 ? (
-                  <div>
-                    {/* Desktop and Tablet View */}
-                    <div className="hidden sm:block overflow-x-auto">
-                      <table className="w-full">
-                        <thead className="bg-muted/50 text-xs uppercase text-muted-foreground">
-                          <tr>
-                            <th className="px-6 py-3 text-left">Courses</th>
-                            <th className="px-6 py-3 text-left">Enrolled</th>
-                            <th className="px-6 py-3 text-left">Level</th>
-                            <th className="px-6 py-3 text-left">
-                              Platform Status
-                            </th>
-                            <th className="px-6 py-3 text-left">
-                              Course Status
-                            </th>
-                            <th className="px-6 py-3 text-left">
-                              Date Created
-                            </th>
-                            <th className="px-6 py-3 text-left">Action</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-border">
-                          {courses.map((course) => (
-                            <motion.tr
-                              key={course.id}
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              className="bg-card hover:bg-muted/50 transition-colors"
-                            >
-                              <td className="px-6 py-4">
-                                <div className="flex items-center space-x-3">
-                                  <div className="h-16 w-24 flex-shrink-0 overflow-hidden rounded-md border border-border">
-                                    <Image
-                                      src={course.image}
-                                      alt={course.title}
-                                      width={96}
-                                      height={64}
-                                      className="h-full w-full object-cover"
-                                    />
-                                  </div>
-                                  <div>
-                                    <div className="font-medium text-foreground">
-                                      {course.title}
+                  <CardContent className="p-6 relative z-10">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-3 bg-indigo-50 rounded-xl group-hover:bg-indigo-100 transition-colors">
+                        <LayoutDashboard className="h-6 w-6 text-indigo-600" />
+                      </div>
+                      <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-green-50 text-green-700 flex items-center gap-1">
+                        <TrendingUp className="h-3 w-3" /> Active
+                      </span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-500">Total Courses</p>
+                      <h3 className="text-3xl font-bold text-gray-900 mt-1">{stats.total_courses}</h3>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-none shadow-md bg-white hover:shadow-lg transition-all duration-300 group overflow-hidden relative">
+                  <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <GraduationCap className="h-24 w-24 text-violet-600 transform rotate-12 translate-x-8 -translate-y-8" />
+                  </div>
+                  <CardContent className="p-6 relative z-10">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-3 bg-violet-50 rounded-xl group-hover:bg-violet-100 transition-colors">
+                        <GraduationCap className="h-6 w-6 text-violet-600" />
+                      </div>
+                      <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-violet-50 text-violet-700">
+                        Enrolled
+                      </span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-500">Total Students</p>
+                      <h3 className="text-3xl font-bold text-gray-900 mt-1">{stats.total_students}</h3>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-none shadow-md bg-white hover:shadow-lg transition-all duration-300 group overflow-hidden relative">
+                  <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <IndianRupee className="h-24 w-24 text-emerald-600 transform rotate-12 translate-x-8 -translate-y-8" />
+                  </div>
+                  <CardContent className="p-6 relative z-10">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-3 bg-emerald-50 rounded-xl group-hover:bg-emerald-100 transition-colors">
+                        <IndianRupee className="h-6 w-6 text-emerald-600" />
+                      </div>
+                      <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700">
+                        Earnings
+                      </span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-500">Total Revenue</p>
+                      <h3 className="text-3xl font-bold text-gray-900 mt-1">₹{stats.total_revenue?.toLocaleString('en-IN') || '0'}</h3>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              {/* Courses Table */}
+              <motion.div variants={itemVariants}>
+                <Card className="border-none shadow-md bg-white overflow-hidden rounded-2xl">
+                  <CardHeader className="p-6 border-b border-gray-100 bg-white">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div>
+                        <CardTitle className="text-xl font-bold text-gray-900">
+                          My Courses
+                        </CardTitle>
+                        <p className="text-sm text-gray-500 mt-1">
+                          Manage and track your course performance
+                        </p>
+                      </div>
+                      <div className="relative w-full sm:w-72">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                        <Input
+                          type="search"
+                          placeholder="Search courses..."
+                          value={searchQuery}
+                          onChange={handleSearch}
+                          className="pl-10 bg-gray-50 border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl"
+                        />
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="p-0">
+                    {isLoading ? (
+                      <div className="flex flex-col items-center justify-center py-12">
+                        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600 mb-4" />
+                        <p className="text-gray-500">Loading your courses...</p>
+                      </div>
+                    ) : courses.length > 0 ? (
+                      <div className="overflow-x-auto">
+                        <table className="w-full">
+                          <thead className="bg-gray-50/50 text-xs uppercase text-gray-500 font-semibold">
+                            <tr>
+                              <th className="px-6 py-4 text-left tracking-wider">Course</th>
+                              <th className="px-6 py-4 text-left tracking-wider">Enrolled</th>
+                              <th className="px-6 py-4 text-left tracking-wider">Status</th>
+                              <th className="px-6 py-4 text-left tracking-wider">Date</th>
+                              <th className="px-6 py-4 text-right tracking-wider">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-100">
+                            {courses.map((course, index) => (
+                              <motion.tr
+                                key={course.id}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.05 }}
+                                className="group hover:bg-gray-50/50 transition-colors"
+                              >
+                                <td className="px-6 py-4">
+                                  <div className="flex items-center space-x-4">
+                                    <div className="h-16 w-24 flex-shrink-0 overflow-hidden rounded-lg border border-gray-100 shadow-sm relative">
+                                      <Image
+                                        src={course.image}
+                                        alt={course.title}
+                                        fill
+                                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                      />
                                     </div>
-                                    <div className="flex flex-wrap gap-2 mt-1 text-xs text-muted-foreground">
-                                      <span>{course.language}</span>
-                                      <span>•</span>
-                                      <span>{course.level}</span>
-                                      <span>•</span>
-                                      <span>₹{course.price}</span>
+                                    <div>
+                                      <div className="font-semibold text-gray-900 line-clamp-1">
+                                        {course.title}
+                                      </div>
+                                      <div className="flex flex-wrap gap-2 mt-1.5">
+                                        <Badge variant="secondary" className="text-[10px] px-1.5 h-5 bg-gray-100 text-gray-600 hover:bg-gray-200">
+                                          {course.level}
+                                        </Badge>
+                                        <span className="text-xs text-gray-500 flex items-center">
+                                          ₹{course.price}
+                                        </span>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </td>
-                              <td className="px-6 py-4 text-sm text-foreground">
-                                {course.students?.length || 0}
-                              </td>
-                              <td className="px-6 py-4">
-                                <Badge
-                                  variant="outline"
-                                  className="bg-secondary/10 text-secondary border-secondary/20"
-                                >
-                                  {course.level}
-                                </Badge>
-                              </td>
-                              <td className="px-6 py-4">
-                                <Badge
-                                  variant="outline"
-                                  className={`${course.platform_status === "Published"
-                                      ? "bg-green-500/10 text-green-600 border-green-500/20"
-                                      : course.platform_status === "Review"
-                                        ? "bg-blue-500/10 text-blue-600 border-blue-500/20"
-                                        : course.platform_status === "Draft"
-                                          ? "bg-gray-500/10 text-gray-600 border-gray-500/20"
-                                          : course.platform_status === "Reject"
-                                            ? "bg-red-500/10 text-red-600 border-red-500/20"
-                                            : "bg-amber-500/10 text-amber-600 border-amber-500/20"
-                                    }`}
-                                >
-                                  {course.platform_status || "Unknown"}
-                                </Badge>
-                              </td>
-                              <td className="px-6 py-4">
-                                <Badge
-                                  variant="outline"
-                                  className={`${course.teacher_course_status === "Published"
-                                      ? "bg-green-500/10 text-green-600 border-green-500/20"
-                                      : course.teacher_course_status === "Draft"
-                                        ? "bg-gray-500/10 text-gray-600 border-gray-500/20"
-                                        : "bg-amber-500/10 text-amber-600 border-amber-500/20"
-                                    }`}
-                                >
-                                  {course.teacher_course_status || "Unknown"}
-                                </Badge>
-                              </td>
-                              <td className="px-6 py-4 text-sm text-muted-foreground">
-                                {format(new Date(course.date), "dd MMM, yyyy")}
-                              </td>
-                              <td className="px-6 py-4">
-                                <div className="flex space-x-2 pt-2">
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="h-8 w-8 p-0 text-muted-foreground hover:text-secondary"
-                                    asChild
-                                  >
-                                    <Link
-                                      href={`/instructor/edit-course/${course.course_id}/`}
+                                </td>
+                                <td className="px-6 py-4">
+                                  <div className="flex items-center gap-2">
+                                    <div className="flex -space-x-2 overflow-hidden">
+                                      {course.students?.slice(0, 3).map((_, i) => (
+                                        <div key={i} className="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-gray-200 flex items-center justify-center text-[10px] font-bold text-gray-500">
+                                          {String(course.students[i]?.name || 'S').charAt(0)}
+                                        </div>
+                                      ))}
+                                      {(course.students?.length || 0) > 3 && (
+                                        <div className="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-500">
+                                          +{course.students.length - 3}
+                                        </div>
+                                      )}
+                                    </div>
+                                    <span className="text-sm font-medium text-gray-700">
+                                      {course.students?.length || 0}
+                                    </span>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4">
+                                  <div className="flex flex-col gap-1.5">
+                                    <Badge
+                                      variant="outline"
+                                      className={`w-fit ${course.platform_status === "Published"
+                                        ? "bg-green-50 text-green-700 border-green-200"
+                                        : course.platform_status === "Review"
+                                          ? "bg-blue-50 text-blue-700 border-blue-200"
+                                          : "bg-amber-50 text-amber-700 border-amber-200"
+                                        }`}
                                     >
-                                      <Edit className="h-4 w-4" />
-                                    </Link>
-                                  </Button>
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="h-8 w-8 p-0 text-muted-foreground hover:text-red-600"
-                                    onClick={() => handleDeleteClick(course)}
-                                  >
-                                    <Trash className="h-4 w-4" />
-                                  </Button>
-                                </div>
-                              </td>
-                            </motion.tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-
-                    {/* Mobile View */}
-                    <div className="sm:hidden p-4">
-                      {courses.map((course) => (
-                        <motion.div
-                          key={course.id}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="bg-card border border-border shadow-sm p-4 mb-3 rounded-lg"
-                        >
-                          <div className="flex items-start space-x-3 mb-3">
-                            <div className="h-16 w-24 flex-shrink-0 overflow-hidden rounded-md border border-border">
-                              <Image
-                                src={course.image}
-                                alt={course.title}
-                                width={96}
-                                height={64}
-                                className="h-full w-full object-cover"
-                              />
-                            </div>
-                            <div className="flex-grow">
-                              <div className="font-medium text-foreground">
-                                {course.title}
-                              </div>
-                              <div className="flex flex-wrap gap-2 mt-1 text-xs text-muted-foreground">
-                                <span>{course.language}</span>
-                                <span>•</span>
-                                <span>{course.level}</span>
-                                <span>•</span>
-                                <span>₹{course.price}</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="grid grid-cols-2 gap-2 text-xs mb-3">
-                            <div>
-                              <span className="text-muted-foreground block">
-                                Enrolled:
-                              </span>
-                              <span className="font-medium text-foreground">
-                                {course.students?.length || 0}
-                              </span>
-                            </div>
-                            <div>
-                              <span className="text-muted-foreground block">Date:</span>
-                              <span className="font-medium text-foreground">
-                                {format(new Date(course.date), "dd MMM, yyyy")}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="flex flex-wrap gap-2 mb-3">
-                            <div>
-                              <span className="text-muted-foreground text-xs block mb-1">
-                                Platform:
-                              </span>
-                              <Badge
-                                variant="outline"
-                                className={`${course.platform_status === "Published"
-                                    ? "bg-green-500/10 text-green-600 border-green-500/20"
-                                    : course.platform_status === "Review"
-                                      ? "bg-blue-500/10 text-blue-600 border-blue-500/20"
-                                      : course.platform_status === "Draft"
-                                        ? "bg-gray-500/10 text-gray-600 border-gray-500/20"
-                                        : course.platform_status === "Reject"
-                                          ? "bg-red-500/10 text-red-600 border-red-500/20"
-                                          : "bg-amber-500/10 text-amber-600 border-amber-500/20"
-                                  }`}
-                              >
-                                {course.platform_status || "Unknown"}
-                              </Badge>
-                            </div>
-                            <div>
-                              <span className="text-muted-foreground text-xs block mb-1">
-                                Status:
-                              </span>
-                              <Badge
-                                variant="outline"
-                                className={`${course.teacher_course_status === "Published"
-                                    ? "bg-green-500/10 text-green-600 border-green-500/20"
-                                    : course.teacher_course_status === "Draft"
-                                      ? "bg-gray-500/10 text-gray-600 border-gray-500/20"
-                                      : "bg-amber-500/10 text-amber-600 border-amber-500/20"
-                                  }`}
-                              >
-                                {course.teacher_course_status || "Unknown"}
-                              </Badge>
-                            </div>
-                          </div>
-
-                          <div className="flex space-x-2 pt-2 border-t border-border">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="flex-1 h-8 text-foreground hover:text-secondary"
-                            >
-                              <Edit className="h-3.5 w-3.5 mr-1" />
-                              Edit
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="flex-1 h-8 text-red-600 hover:bg-red-50"
-                            >
-                              <Trash className="h-3.5 w-3.5 mr-1" />
-                              Delete
-                            </Button>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center py-12 bg-card rounded-lg">
-                    <BookOpen className="h-12 w-12 mx-auto text-muted-foreground" />
-                    <h3 className="mt-4 text-lg font-medium text-foreground">
-                      No courses found
-                    </h3>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      Create your first course to get started
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                                      {course.platform_status || "Unknown"}
+                                    </Badge>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 text-sm text-gray-500">
+                                  {format(new Date(course.date), "MMM dd, yyyy")}
+                                </td>
+                                <td className="px-6 py-4 text-right">
+                                  <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                      <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-400 hover:text-gray-600">
+                                        <MoreVertical className="h-4 w-4" />
+                                      </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end" className="w-40">
+                                      <DropdownMenuItem asChild>
+                                        <Link href={`/course-details/${course.slug}`} className="flex items-center cursor-pointer">
+                                          <Eye className="h-4 w-4 mr-2" /> View
+                                        </Link>
+                                      </DropdownMenuItem>
+                                      <DropdownMenuItem asChild>
+                                        <Link href={`/instructor/edit-course/${course.course_id}/`} className="flex items-center cursor-pointer">
+                                          <Edit className="h-4 w-4 mr-2" /> Edit
+                                        </Link>
+                                      </DropdownMenuItem>
+                                      <DropdownMenuItem
+                                        className="text-red-600 focus:text-red-600 cursor-pointer"
+                                        onClick={() => handleDeleteClick(course)}
+                                      >
+                                        <Trash className="h-4 w-4 mr-2" /> Delete
+                                      </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                  </DropdownMenu>
+                                </td>
+                              </motion.tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : (
+                      <div className="text-center py-16 px-4">
+                        <div className="bg-gray-50 h-20 w-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                          <BookOpen className="h-10 w-10 text-gray-300" />
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">
+                          No courses found
+                        </h3>
+                        <p className="text-gray-500 max-w-md mx-auto mb-8">
+                          You haven&apos;t created any courses yet. Start sharing your knowledge today!
+                        </p>
+                        <Button asChild className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-md hover:shadow-lg transition-all">
+                          <Link href="/instructor/create-course/">
+                            <Plus className="h-4 w-4 mr-2" /> Create First Course
+                          </Link>
+                        </Button>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </div>
+
       <AlertDialog
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
       >
-        <AlertDialogContent className="bg-card border-border">
+        <AlertDialogContent className="bg-white border-none shadow-xl rounded-2xl">
           <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center gap-2 text-destructive">
-              <AlertTriangle className="h-5 w-5" />
+            <AlertDialogTitle className="flex items-center gap-2 text-red-600 text-xl font-bold">
+              <AlertTriangle className="h-6 w-6" />
               Delete Course
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-muted-foreground">
-              Are you sure you want to delete{" "}
-              <span className="font-medium text-foreground">{deletingCourse?.title}</span>?
-              <p className="mt-2 text-destructive">
-                This action cannot be undone. All course content, lectures, and
-                materials will be permanently removed.
-              </p>
+            <AlertDialogDescription className="text-gray-500 text-base mt-2">
+              Are you sure you want to delete <span className="font-bold text-gray-900">&quot;{deletingCourse?.title}&quot;</span>?
+              <br /><br />
+              This action cannot be undone. All course content, lectures, and materials will be permanently removed.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting} className="border-border text-foreground hover:bg-muted">Cancel</AlertDialogCancel>
+          <AlertDialogFooter className="mt-4">
+            <AlertDialogCancel disabled={isDeleting} className="rounded-xl border-gray-200 hover:bg-gray-50 text-gray-700">Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeleteConfirm}
               disabled={isDeleting}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              className="bg-red-600 text-white hover:bg-red-700 rounded-xl shadow-md hover:shadow-lg"
             >
               {isDeleting ? (
                 <>
