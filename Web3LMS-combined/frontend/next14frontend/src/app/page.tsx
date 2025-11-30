@@ -42,6 +42,7 @@ import {
 } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import trumpMeme from "@/assets/trump-meme.png";
 
 interface Course {
   id: number;
@@ -240,7 +241,7 @@ export default function Home() {
                   <Code2 className="h-8 w-8" />
                 </div>
                 <Image
-                  src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2832&auto=format&fit=crop"
+                  src={trumpMeme}
                   alt="Web3 Learning"
                   width={600}
                   height={400}
